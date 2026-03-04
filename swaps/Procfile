@@ -1,1 +1,1 @@
-web: gunicorn swapanalyser.wsgi
+web: gunicorn project-swaps.wsgi
