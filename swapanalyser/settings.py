@@ -91,8 +91,9 @@ WSGI_APPLICATION = 'swapanalyser.wsgi.application'
 #     }
 # }
 DATABASES = {
-   'default': dj_database_url.parse(os.environ.get("DATABASE_URL") or "")
+    'default': dj_database_url.parse(os.environ.get("DATABASE_URL") or "")
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
