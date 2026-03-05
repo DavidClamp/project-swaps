@@ -16,11 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from swaps.views import my_swaps
+from workspace.views import my_workspace
 
 urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path('admin/', admin.site.urls),
-    path('', my_swaps, name='home'), 
-    path('swaps/', my_swaps, name='swaps'),
+    path('', my_workspace, name='home'),
+    path('workspace/', my_workspace, name='workspace'),
 ]
