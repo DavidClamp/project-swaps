@@ -52,3 +52,8 @@ class Trade(models.Model):
 
     def __str__(self):
         return f"{self.strategy} | {self.ticker} | {self.user.username}"
+
+        # gating logic you can now use
+def can_access_butterfly_analytics(user):
+    """Checks if the user has an active Stripe subscription."""
+    return user.profile.is_subscriber or user.is_staff
