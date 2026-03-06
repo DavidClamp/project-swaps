@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator
 
 class HistoricalRate(models.Model):
     """Global Market Data Store: SOFR, SONIA, TONA, EURIBOR, etc."""
-    
+
     INDEX_CHOICES = [
         ('SOFR', 'USD SOFR'),
         ('SONIA', 'GBP SONIA'),
@@ -52,8 +52,15 @@ class Trade(models.Model):
 
     def __str__(self):
         return f"{self.strategy} | {self.ticker} | {self.user.username}"
+    
+class Profile(models.Model):
+    """
+    Extends User to track subscription status.
+    Required for the 'can_access_butterfly_analytics' gating in utils.py.
+    """
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    is_subscriber = models.BooleanField(default=False)
+    stripe_customer_id = models.CharField(max_length=100, blank=True, null=True)
 
-        # gating logic you can now use
-def can_access_butterfly_analytics(user):
-    """Checks if the user has an active Stripe subscription."""
-    return user.profile.is_subscriber or user.is_staff
+    def __str__(self):
+        return f"{self.user.username}'s Profile"
