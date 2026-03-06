@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Curve Analyser{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Main Chart Area -->
+        <div class="col-lg-9">
+            <div class="card shadow-sm border-0 p-4 mb-4">
+                <h5 class="text-muted border-bottom pb-2">USD SOFR Zero Curve</h5>
+                <canvas id="yieldCurve" style="max-height: 450px;"></canvas>
+            </div>
+        </div>
+
+        <!-- Sidebar / Metrics Area -->
+        <div class="col-lg-3">
+            <div class="card p-4 shadow-sm border-0 bg-dark text-white">
+                <h5>Curve Metrics</h5>
+                <hr class="border-secondary">
+                
+                <div class="d-flex justify-content-between mb-2">
+                    <span>2Y vs 10Y Slope:</span>
+                    <span class="text-warning">+42 bps</span>
+                </div>
+                
+                <!-- The Secure Refresh Form -->
+                <form action="{% url 'refresh_data' %}" method="POST" class="mt-3">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-warning w-100 shadow-sm">
+                        <i class="fa-solid fa-arrows-rotate me-2"></i>Refresh Market Data
+                    </button>
+                </form>
+                
+                <p class="text-muted small mt-2 mb-0">
+                    <i class="fa-solid fa-info-circle me-1"></i> 
+                    Updates from <strong>BlueGamma JSON</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

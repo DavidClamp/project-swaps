@@ -16,11 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from workspace.views import my_workspace
+from workspace import views
 
 urlpatterns = [
-    path("accounts/", include("allauth.urls")),
     path('admin/', admin.site.urls),
-    path('', my_workspace, name='home'),
-    path('workspace/', my_workspace, name='workspace'),
+    path('accounts/', include('allauth.urls')),
+    # Workspace Views
+    path('', views.dashboard, name='home'),
+    path('analyser/', views.curve_analyser, name='analyser'),
+    path('refresh-data/', views.refresh_market_data, name='refresh_data'),
 ]
