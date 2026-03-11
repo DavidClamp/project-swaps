@@ -40,7 +40,10 @@ def get_sofr_curve(target_date):
     
     # 4. Return the mathematical curve
     return ql.PiecewiseLogLinearDiscount(
-        0, ql.UnitedStates(), helpers, ql.Actual360()
+        0,
+        ql.UnitedStates(ql.UnitedStates.Settlement),
+        helpers, 
+        ql.Actual360()
     )
 
 def calculate_trade_npv(trade_id, curve):

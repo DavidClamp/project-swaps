@@ -34,6 +34,7 @@ class Trade(models.Model):
     STRATEGY_CHOICES = [('OUTRIGHT', 'Outright'), ('FLY', 'Butterfly')]
     SIDE_CHOICES = [('PAY', 'Pay Fixed'), ('REC', 'Rec Fixed')]
 
+    trade_id = models.CharField(max_length=20, unique=True, help_text="Custom Trade ID (e.g. TRD-001)")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="trades")
     strategy = models.CharField(max_length=10, choices=STRATEGY_CHOICES, default='OUTRIGHT')
     group_id = models.CharField(max_length=50, blank=True, null=True, help_text="Links Butterfly legs")
