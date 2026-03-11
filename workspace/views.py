@@ -11,14 +11,20 @@ from .utils import get_sofr_curve, calculate_trade_npv
 def dashboard(request):
     """The main workspace landing page showing Portfolio Summary"""
     trades = Trade.objects.filter(user=request.user)
+ # 1. Defensive Check for Market Data
+    try:
+        latest_date = HistoricalRate.objects.latest('date').date
+    except HistoricalRate.DoesNotExist:
+        latest_date = "No Data Available"
     
-    # Calculate Total Portfolio NPV across all trades
+    # 2. Calculate Total Portfolio NPV across all trades
     total_npv = sum(t.last_npv for t in trades if t.last_npv) or 0.0
     
     context = {
         'trades': trades,
         'total_npv': total_npv,
         'trade_count': trades.count(),
+        'latest_date': latest_date, 
     }
     return render(request, 'workspace/dashboard.html', context)
 
