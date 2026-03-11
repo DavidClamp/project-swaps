@@ -1,8 +1,100 @@
 {% extends 'base.html' %}
+
+{% block title %}Dashboard | IRSQuant{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-    <h1>Welcome to <span style="color: #C83C0D;">IRSQuant</span></h1>
-    <p class="lead">Interest Rate Swap Analytics Workspace.</p>
-    <a href="{% url 'analyser' %}" class="btn btn-primary">Go to Analyser</a>
+<div class="container-fluid px-4 py-4">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+        <div>
+            <h1 class="h3 mb-0 fw-bold text-dark">Workspace <span style="color: #C83C0D;">Dashboard</span></h1>
+            <p class="text-muted mb-0 small">Operational Overview for <strong>{{ latest_date|default:"Current" }}</strong></p>
+        </div>
+        <div>
+            <a href="{% url 'blotter' %}" class="btn btn-outline-dark btn-sm me-2">
+                <i class="fa-solid fa-list-ul me-1"></i> View Blotter
+            </a>
+            <a href="{% url 'analyser' %}" class="btn btn-primary btn-sm" style="background-color: #C83C0D; border-color: #C83C0D;">
+                <i class="fa-solid fa-bezier-curve me-1"></i> Open Analyser
+            </a>
+        </div>
+    </div>
+
+    <!-- Analytics Key Performance Indicators (KPIs) -->
+    <div class="row g-3 mb-4">
+        <!-- Portfolio NPV -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100 p-3">
+                <div class="d-flex align-items-center">
+                    <div class="bg-light p-3 rounded-circle me-3">
+                        <i class="fa-solid fa-dollar-sign text-success fa-xl"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted small mb-1 text-uppercase fw-bold">Portfolio NPV</h6>
+                        <h3 class="mb-0 fw-bold {% if total_npv < 0 %}text-danger{% else %}text-success{% endif %}">
+                            ${{ total_npv|floatformat:2 }}
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Trades Count -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100 p-3">
+                <div class="d-flex align-items-center">
+                    <div class="bg-light p-3 rounded-circle me-3">
+                        <i class="fa-solid fa-file-contract text-primary fa-xl"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted small mb-1 text-uppercase fw-bold">Active Trades</h6>
+                        <h3 class="mb-0 fw-bold">{{ trade_count|default:"0" }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Market Status -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100 p-3">
+                <div class="d-flex align-items-center">
+                    <div class="bg-light p-3 rounded-circle me-3">
+                        <i class="fa-solid fa-tower-broadcast text-warning fa-xl"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted small mb-1 text-uppercase fw-bold">Index Focus</h6>
+                        <h3 class="mb-0 fw-bold">USD SOFR</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Entry / Information Section -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 p-4 mb-4">
+                <h5 class="fw-bold mb-3 border-bottom pb-2">Portfolio <span style="color: #C83C0D;">Exposure</span></h5>
+                <p class="text-muted">This dashboard aggregates your total market sensitivity. Your current NPV is bootstrapped using <strong>QuantLib</strong> against the latest <strong>BlueGamma JSON</strong> curve feed.</p>
+                <div class="alert alert-info py-2 small border-0">
+                    <i class="fa-solid fa-circle-info me-2"></i> 
+                    For detailed Zero Curve visualisations, please use the <strong>Analyser</strong> tool.
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0 bg-dark text-white p-4">
+                <h5 class="fw-bold mb-3">SaaS Status</h5>
+                {% if user.profile.is_subscriber %}
+                    <span class="badge bg-warning text-dark mb-3 px-3 py-2 fs-6">PRO MEMBER</span>
+                    <p class="small mb-0">You have unlimited access to <strong>Butterfly Strategy Analytics</strong> and advanced pricing Greeks.</p>
+                {% else %}
+                    <span class="badge bg-secondary mb-3 px-3 py-2 fs-6">FREE TIER</span>
+                    <p class="small mb-2">Upgrade to access multi-leg strategy modeling and historical JSON exports.</p>
+                    <a href="{% url 'subscription' %}" class="btn btn-sm btn-outline-warning w-100">View Plans</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
