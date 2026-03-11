@@ -5,36 +5,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IRSQuant | Workspace</title>
-    <!-- Bootstrap 5 & Font Awesome -->
+    
+    <!-- Fixed Bootstrap 5 & Font Awesome Links -->
     <link href="https://cdn.jsdelivr.net" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
+    
+    <style>
+        .navbar-dark { background-color: #1a1a1a !important; border-bottom: 2px solid #C83C0D; }
+        .brand-orange { color: #C83C0D; }
+    </style>
 </head>
 <body class="d-flex flex-column h-100 bg-light">
 
-    <!-- Simple Workspace Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm py-3">
+    <!-- Workspace Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm py-3">
         <div class="container-fluid px-4">
-            <a class="navbar-brand fw-bold" href="{% url 'home' %}" style="color: #C83C0D;">
+            <a class="navbar-brand fw-bold brand-orange" href="{% url 'home' %}">
                 <i class="fa-solid fa-chart-line me-2"></i>IRS<span class="text-white">QUANT</span>
             </a>
-            <!-- Links for Blotter and Analyser go here -->
+            <div class="navbar-nav me-auto">
+                <a class="nav-link px-3" href="{% url 'blotter' %}"><i class="fa-solid fa-table-list me-1"></i> Blotter</a>
+                <a class="nav-link px-3" href="{% url 'analyser' %}"><i class="fa-solid fa-bezier-curve me-1"></i> Analyser</a>
+            </div>
+            <div class="navbar-nav">
+                {% if user.is_authenticated %}
+                    <span class="navbar-text me-3 small text-white-50">User: {{ user.username }}</span>
+                    <a class="btn btn-sm btn-outline-danger" href="{% url 'account_logout' %}">Logout</a>
+                {% else %}
+                    <a class="btn btn-sm btn-outline-light me-2" href="{% url 'account_login' %}">Login</a>
+                    <a class="btn btn-sm btn-primary" href="{% url 'account_signup' %}">Sign Up</a>
+                {% endif %}
+            </div>
         </div>
     </nav>
 
-    <!-- ALERT MESSAGES BLOCK (For BlueGamma Imports) -->
+    <!-- Message Alerts (Success/Error feedback) -->
     <div class="container-fluid mt-3 px-4">
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
-            <i class="fa-solid fa-circle-check me-2"></i> {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endfor %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm border-0" role="alert">
+                <i class="fa-solid fa-circle-check me-2"></i> {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
     </div>
 
-    <main class="flex-shrink-0 p-4">
+    <main class="flex-shrink-0">
         {% block content %}{% endblock %}
     </main>
 
+    <!-- Bootstrap Bundle (includes Popper) -->
     <script src="https://cdn.jsdelivr.net"></script>
+    
+    <!-- Doorway for Page-Specific JS (like Chart.js) -->
+    {% block extra_js %}{% endblock %}
 </body>
 </html>
+

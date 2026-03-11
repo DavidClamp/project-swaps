@@ -41,3 +41,57 @@
     </div>
 </div>
 {% endblock %}
+{% block extra_js %}
+<!-- Fixed Chart.js Link -->
+<script src="https://cdn.jsdelivr.net"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const canvas = document.getElementById('yieldCurve');
+        if (!canvas) return;
+
+        // Ensure Chart.js is loaded
+        if (typeof Chart === 'undefined') {
+            console.error('Chart.js failed to load');
+            return;
+        }
+
+        const labels = {{ tenors|safe }};
+        const dataPoints = {{ rates|safe }};
+
+        new Chart(canvas, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Zero Rate (%)',
+                    data: dataPoints,
+                    borderColor: '#C83C0D', 
+                    backgroundColor: 'rgba(200, 60, 13, 0.05)',
+                    borderWidth: 3,
+                    pointRadius: 5,
+                    pointBackgroundColor: '#C83C0D',
+                    tension: 0.3, 
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { 
+                        title: { display: true, text: 'Zero Rate (%)', font: { weight: 'bold' } },
+                        beginAtZero: false 
+                    },
+                    x: { 
+                        title: { display: true, text: 'Tenor (Years)', font: { weight: 'bold' } } 
+                    }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}
