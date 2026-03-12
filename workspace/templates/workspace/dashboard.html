@@ -72,29 +72,66 @@
 
     <!-- Quick Entry / Information Section -->
     <div class="row">
-        <div class="col-lg-8">
-            <div class="card shadow-sm border-0 p-4 mb-4">
-                <h5 class="fw-bold mb-3 border-bottom pb-2">Portfolio <span style="color: #C83C0D;">Exposure</span></h5>
-                <p class="text-muted">This dashboard aggregates your total market sensitivity. Your current NPV is bootstrapped using <strong>QuantLib</strong> against the latest <strong>BlueGamma JSON</strong> curve feed.</p>
-                <div class="alert alert-info py-2 small border-0">
-                    <i class="fa-solid fa-circle-info me-2"></i> 
-                    For detailed Zero Curve visualisations, please use the <strong>Analyser</strong> tool.
-                </div>
+      <div class="col-lg-8">
+        <div class="card shadow-sm border-0 mb-4 overflow-hidden">
+            <!-- Card Header with Branding -->
+            <div class="card-header bg-dark text-white py-3">
+                <h6 class="mb-0"><i class="fa-solid fa-layer-group me-2"></i>Active Strategies (Net NPV)</h6>
             </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="card shadow-sm border-0 bg-dark text-white p-4">
-                <h5 class="fw-bold mb-3">SaaS Status</h5>
-                {% if user.profile.is_subscriber %}
-                    <span class="badge bg-warning text-dark mb-3 px-3 py-2 fs-6">PRO MEMBER</span>
-                    <p class="small mb-0">You have unlimited access to <strong>Butterfly Strategy Analytics</strong> and advanced pricing Greeks.</p>
-                {% else %}
-                    <span class="badge bg-secondary mb-3 px-3 py-2 fs-6">FREE TIER</span>
-                    <p class="small mb-2">Upgrade to access multi-leg strategy modeling and historical JSON exports.</p>
-                    <a href="#" class="btn btn-sm btn-outline-warning w-100">View Plans</a>
-                {% endif %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr class="small text-uppercase">
+                            <th>Group ID</th>
+                            <th>Strategy</th>
+                            <th class="text-center">Legs</th>
+                            <th class="text-end">Net Strategy NPV (USD)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Iterate through the 'strategies' dictionary from views.py -->
+                        {% for gid, data in strategies.items %}
+                        <tr>
+                            <td><span class="badge bg-light text-dark border fw-bold">{{ gid }}</span></td>
+                            <td>{{ data.strategy }}</td>
+                            <td class="text-center">{{ data.count }}</td>
+                            <!-- Business Logic: Red/Green formatting for total Strategy P&L -->
+                            <td class="text-end fw-bold {% if data.npv < 0 %}text-danger{% else %}text-success{% endif %}">
+                                ${{ data.npv|floatformat:2 }}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <!-- Defensive Design: Handles the 'Empty State' -->
+                        <tr>
+                            <td colspan="4" class="text-center py-5 text-muted small fst-italic">
+                                No active strategies detected. Execute a trade to begin analysis.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+
+    <!-- Subscription Status Section -->
+    <div class="col-lg-4">
+        <div class="card shadow-sm border-0 bg-dark text-white p-4">
+            <h5 class="fw-bold mb-3 border-bottom border-secondary pb-2">Account <span style="color: #C83C0D;">Access</span></h5>
+            {% if user.profile.is_subscriber %}
+                <!-- Logic: Gated content for Stripe 'PRO' subscribers -->
+                <span class="badge bg-warning text-dark mb-3 px-3 py-2 fs-6">
+                    <i class="fa-solid fa-crown me-1"></i> Current Member
+                </span>
+                <p class="small mb-0">You have unlimited access to multi-leg **Butterfly Strategy** analytics and advanced Greeks.</p>
+            {% else %}
+                <!-- UX Logic: Clear 'Call to Action' for conversion -->
+                <span class="badge bg-secondary mb-3 px-3 py-2 fs-6">Currently free</span>
+                <p class="small mb-2">Upgrade option</p>
+                <a href="#" class="btn btn-sm btn-outline-warning w-100 mt-2">Upgrades</a>
+            {% endif %}
+        </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

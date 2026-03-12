@@ -116,3 +116,41 @@ def add_trade(request):
         form = TradeForm()
     return render(request, 'workspace/add_trade.html', {'form': form})
 
+@login_required
+def dashboard(request):
+    """
+    Aggregate trades into 'Strategies' or 'Groups'.
+    """
+    # Fetch the current user's trades
+    trades = Trade.objects.filter(user=request.user)
+    
+    # Strategy gouping 
+  
+    strategies = {}
+    for t in trades:
+        # Fallback: If no group_id exists, treat it as a standalone 'Outright'
+        gid = t.group_id if t.group_id else f"OUTRIGHT-{t.trade_id}"
+        
+        # Initialise entry for a new strategy group
+        if gid not in strategies:
+            strategies[gid] = {
+                'npv': 0.0, 
+                'count': 0, 
+                'strategy': t.strategy,
+                'ticker': t.ticker
+            }
+        
+        # Perform the Aggregation-Summing the last_npv for all legs within this group
+        strategies[gid]['npv'] += (t.last_npv or 0.0)
+        strategies[gid]['count'] += 1
+
+    #  Total Portfolio Metrics
+    total_npv = sum(t.last_npv for t in trades if t.last_npv) or 0.0
+    
+    context = {
+        'strategies': strategies,
+        'total_npv': total_npv,
+        'trade_count': trades.count(),
+        'latest_date': HistoricalRate.objects.filter(index_name='SOFR').order_by('-date').first().date
+    }
+    return render(request, 'workspace/dashboard.html', context)
