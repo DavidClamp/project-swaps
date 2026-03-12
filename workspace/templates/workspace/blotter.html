@@ -1,2 +1,74 @@
 {% extends 'base.html' %}
-{% block content %}<h1>Blotter Test - 200 OK</h1>{% endblock %}
+
+{% block title %}Trade Blotter | IRSQuant{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-4">
+    <!-- Header with Action Buttons -->
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+        <h1 class="h3 mb-0 fw-bold text-dark">Trade <span style="color: #C83C0D;">Blotter</span></h1>
+        <div class="d-flex gap-2">
+            <!-- Trigger for the Re-Price Logic in views.py -->
+            <form action="{% url 'refresh_data' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-warning btn-sm shadow-sm text-dark fw-bold">
+                    <i class="fa-solid fa-sync-alt me-1"></i> Re-Price Portfolio
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- The Blotter Table -->
+    <div class="card shadow-sm border-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Trade ID</th>
+                        <th>Strategy</th>
+                        <th>Ticker</th>
+                        <th>Notional (m)</th>
+                        <th>Tenor</th>
+                        <th>Rate (%)</th>
+                        <th>Side</th>
+                        <th class="text-end">NPV (USD)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for trade in trades %}
+                    <tr>
+                        <td class="fw-bold">{{ trade.trade_id }}</td>
+                        <td>
+                            <span class="badge {% if trade.strategy == 'FLY' %}bg-info text-dark{% else %}bg-secondary{% endif %}">
+                                {{ trade.strategy }}
+                            </span>
+                        </td>
+                        <td><code>{{ trade.ticker }}</code></td>
+                        <td>{{ trade.notional|floatformat:0 }}</td>
+                        <td>{{ trade.tenor_years }}Y</td>
+                        <td>{{ trade.fixed_rate }}%</td>
+                        <td>
+                            <span class="badge {% if trade.side == 'PAY' %}bg-danger{% else %}bg-success{% endif %}">
+                                {{ trade.side }}
+                            </span>
+                        </td>
+                        <!-- Color-coded NPV for P&L tracking -->
+                        <td class="fw-bold text-end {% if trade.last_npv < 0 %}text-danger{% else %}text-success{% endif %}">
+                            ${{ trade.last_npv|floatformat:2|default:"0.00" }}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center py-5 text-muted">
+                            <i class="fa-solid fa-inbox fa-2xl mb-3 d-block"></i>
+                            No trades found. Add a trade or refresh market data.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
