@@ -116,6 +116,49 @@ def add_trade(request):
         form = TradeForm()
     return render(request, 'workspace/add_trade.html', {'form': form})
 
+from django.shortcuts import get_object_or_404
+from .forms import TradeForm
+
+@login_required
+def edit_trade(request, pk):
+    """
+    Update an existing trade ticket. 
+    """
+    trade = get_object_or_404(Trade, pk=pk, user=request.user)
+    
+    if request.method == "POST":
+        form = TradeForm(request.POST, instance=trade)
+        if form.is_valid():
+            trade = form.save()
+            
+            # Re-price immediately so the dashboard stays accurate
+            latest_date = HistoricalRate.objects.latest('date').date
+            curve = get_sofr_curve(latest_date)
+            calculate_trade_npv(trade.id, curve)
+            
+            messages.success(request, f"Trade {trade.trade_id} updated and re-priced.")
+            return redirect('blotter')
+    else:
+        form = TradeForm(instance=trade)
+    
+    return render(request, 'workspace/edit_trade.html', {'form': form, 'trade': trade})
+
+@login_required
+def delete_trade(request, pk):
+    """
+    Remove a trade from the blotter.
+    """
+    trade = get_object_or_404(Trade, pk=pk, user=request.user)
+    
+    if request.method == "POST":
+        trade_id = trade.trade_id
+        trade.delete()
+        messages.warning(request, f"Trade {trade_id} successfully removed from blotter.")
+        return redirect('blotter')
+        
+    return render(request, 'workspace/delete_confirm.html', {'trade': trade})
+
+
 @login_required
 def dashboard(request):
     """
@@ -154,3 +197,5 @@ def dashboard(request):
         'latest_date': HistoricalRate.objects.filter(index_name='SOFR').order_by('-date').first().date
     }
     return render(request, 'workspace/dashboard.html', context)
+
+
