@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IRSQuant | Workspace</title>
     
-    <!-- Fixed Bootstrap 5 & Font Awesome Links -->
+    <!-- Links for Bootstrap & Font Awesome -->
     <link href="https://cdn.jsdelivr.net" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
     
     <style>
         .navbar-dark { background-color: #1a1a1a !important; border-bottom: 2px solid #C83C0D; }
         .brand-orange { color: #C83C0D; }
+        .nav-link:hover { color: #C83C0D !important; }
     </style>
 </head>
 <body class="d-flex flex-column h-100 bg-light">
@@ -26,6 +27,9 @@
             <div class="navbar-nav me-auto">
                 <a class="nav-link px-3" href="{% url 'blotter' %}"><i class="fa-solid fa-table-list me-1"></i> Blotter</a>
                 <a class="nav-link px-3" href="{% url 'analyser' %}"><i class="fa-solid fa-bezier-curve me-1"></i> Analyser</a>
+                <!-- Histogram Link -->
+                <a class="nav-link px-3" href="{% url 'histogram' %}"><i class="fa-solid fa-chart-column me-1"></i> 1Y Distribution</a>
+
                 <a class="nav-link px-3" href="{% url 'add_trade' %}"><i class="fa-solid fa-plus-circle me-1"></i> Add Trade</a>
             </div>
             <div class="navbar-nav">
@@ -40,7 +44,7 @@
         </div>
     </nav>
 
-    <!-- Message Alerts (Success/Error feedback) -->
+    <!-- Message Alerts -->
     <div class="container-fluid mt-3 px-4">
         {% if messages %}
             {% for message in messages %}
@@ -56,11 +60,10 @@
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Bootstrap Bundle (includes Popper) -->
+    <!-- Fixed Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net"></script>
     
-    <!-- Doorway for Page-Specific JS (like Chart.js) -->
+    <!-- Doorway for Page-Specific JS (Chart.js load here via block) -->
     {% block extra_js %}{% endblock %}
 </body>
 </html>
-
