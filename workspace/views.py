@@ -9,34 +9,6 @@ from .utils import get_sofr_curve, calculate_trade_npv
 from .forms import TradeForm
 
 @login_required
-def dashboard(request):
-    """The main workspace landing page showing Portfolio Summary"""
-   # If DB is empty, fill it automatically
-    if not HistoricalRate.objects.exists():
-        from .data_handler import import_bluegamma_data
-        import_bluegamma_data(source="local")
-        
-    # DEFENSIVE FETCH: .first() returns None instead of crashing if empty
-    latest_rate = HistoricalRate.objects.filter(index_name='SOFR').order_by('-date').first()
-    
-    if latest_rate:
-        latest_date = latest_rate.date
-    else:
-        latest_date = "No Market Data Found - Please Refresh"
-
-    # Calculate Total Portfolio NPV across all trades
-    trades = Trade.objects.filter(user=request.user)
-    total_npv = sum(t.last_npv for t in trades if t.last_npv) or 0.0
-    
-    context = {
-        'trades': trades,
-        'total_npv': total_npv,
-        'trade_count': trades.count(),
-        'latest_date': latest_date,
-    }
-    return render(request, 'workspace/dashboard.html', context)
-
-@login_required
 def curve_analyser(request):
     """Generates a mathematically bootstrapped Zero Curve for Chart.js"""
     try:
@@ -197,5 +169,3 @@ def dashboard(request):
         'latest_date': HistoricalRate.objects.filter(index_name='SOFR').order_by('-date').first().date
     }
     return render(request, 'workspace/dashboard.html', context)
-
-
