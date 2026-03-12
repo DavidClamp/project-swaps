@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4">
+    <div class="card shadow-sm border-0 p-4">
+        <h5 class="fw-bold mb-4">{{ title }}</h5>
+        <div style="height: 400px;">
+            <canvas id="histChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        new Chart(document.getElementById('histChart'), {
+            type: 'bar',
+            data: {
+                labels: {{ hist_labels|safe }},
+                datasets: [{
+                    label: 'Occurrences (Days)',
+                    data: {{ hist_counts|safe }},
+                    backgroundColor: 'rgba(200, 60, 13, 0.8)', // Brand Orange
+                    borderColor: '#C83C0D',
+                    borderWidth: 1,
+                    barPercentage: 1.0,  // Histogram look: no gaps
+                    categoryPercentage: 1.0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { title: { display: true, text: 'Frequency' } },
+                    x: { title: { display: true, text: 'Rate Level (%)' } }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

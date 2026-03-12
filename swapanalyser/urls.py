@@ -30,4 +30,5 @@ urlpatterns = [
     path('add-trade/', views.add_trade, name='add_trade'),
     path('edit-trade/<int:pk>/', views.edit_trade, name='edit_trade'),
     path('delete-trade/<int:pk>/', views.delete_trade, name='delete_trade'),
+    path('histogram/', views.forward_histogram, name='histogram'),
 ]

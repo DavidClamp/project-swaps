@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Trade, HistoricalRate
 from .data_handler import import_bluegamma_data
-from .utils import get_sofr_curve, calculate_trade_npv
+from .utils import get_sofr_curve, calculate_trade_npv, get_histogram_data
 from .forms import TradeForm
 
 @login_required
@@ -169,3 +169,18 @@ def dashboard(request):
         'latest_date': HistoricalRate.objects.filter(index_name='SOFR').order_by('-date').first().date
     }
     return render(request, 'workspace/dashboard.html', context)
+
+@login_required
+def forward_histogram(request):
+    """
+    Renders the 1Y Forward Frequency Distribution.
+    """
+    # Default to SOFR 1Y
+    labels, counts = get_histogram_data(index_name='SOFR', tenor='1Y')
+    
+    context = {
+        'hist_labels': json.dumps(labels),
+        'hist_counts': json.dumps(counts),
+        'title': 'USD SOFR 1Y Forward Distribution'
+    }
+    return render(request, 'workspace/histogram.html', context)
