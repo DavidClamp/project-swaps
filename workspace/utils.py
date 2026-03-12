@@ -1,5 +1,6 @@
 import QuantLib as ql
 import pandas as pd
+import numpy as np
 from .models import HistoricalRate, Trade
 
 def can_access_butterfly_analytics(user):
@@ -91,3 +92,28 @@ def calculate_trade_npv(trade_id, curve):
     trade.save()
 
     return npv
+
+def get_histogram_data(index_name='SOFR', tenor='1Y', bins=15):
+    """
+    Groups historical rates into frequency bins.
+    """
+    # 1. Pull historical rates for the specific index/tenor
+    rates = HistoricalRate.objects.filter(
+        index_name=index_name, 
+        tenor=tenor
+    ).values_list('rate', flat=True)
+    
+    if not rates or len(rates) < 2:
+        return [], []
+
+    # 2. Use Numpy to create the histogram (counts per bin and bin edges)
+    counts, bin_edges = np.histogram(rates, bins=bins)
+    
+    # 3. Create labels using the midpoint of each bin (formatted as %)
+    labels = []
+    for i in range(len(counts)):
+        midpoint = (bin_edges[i] + bin_edges[i+1]) / 2
+        labels.append(f"{midpoint*100:.2f}%")
+        
+    return labels, counts.tolist()
+
