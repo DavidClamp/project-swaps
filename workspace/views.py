@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Trade, HistoricalRate
 from .data_handler import import_bluegamma_data
 from .utils import get_sofr_curve, calculate_trade_npv
+from .forms import TradeForm
 
 @login_required
 def dashboard(request):
@@ -94,3 +95,24 @@ def trade_blotter(request):
         'trades': trades,
     }
     return render(request, 'workspace/blotter.html', context)
+
+@login_required
+def add_trade(request):
+    if request.method == "POST":
+        form = TradeForm(request.POST)
+        if form.is_valid():
+            trade = form.save(commit=False)
+            trade.user = request.user
+            trade.save()
+            
+            # Immediate Re-pricing
+            latest_date = HistoricalRate.objects.latest('date').date
+            curve = get_sofr_curve(latest_date)
+            calculate_trade_npv(trade.id, curve)
+            
+            messages.success(request, f"Trade {trade.trade_id} executed and priced.")
+            return redirect('blotter')
+    else:
+        form = TradeForm()
+    return render(request, 'workspace/add_trade.html', {'form': form})
+

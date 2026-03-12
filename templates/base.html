@@ -26,6 +26,7 @@
             <div class="navbar-nav me-auto">
                 <a class="nav-link px-3" href="{% url 'blotter' %}"><i class="fa-solid fa-table-list me-1"></i> Blotter</a>
                 <a class="nav-link px-3" href="{% url 'analyser' %}"><i class="fa-solid fa-bezier-curve me-1"></i> Analyser</a>
+                <a class="nav-link px-3" href="{% url 'add_trade' %}"><i class="fa-solid fa-plus-circle me-1"></i> Add Trade</a>
             </div>
             <div class="navbar-nav">
                 {% if user.is_authenticated %}
