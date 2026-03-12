@@ -10,21 +10,23 @@ from .utils import get_sofr_curve, calculate_trade_npv
 @login_required
 def dashboard(request):
     """The main workspace landing page showing Portfolio Summary"""
-    trades = Trade.objects.filter(user=request.user)
- # 1. Defensive Check for Market Data
-    try:
-        latest_date = HistoricalRate.objects.latest('date').date
-    except HistoricalRate.DoesNotExist:
-        latest_date = "No Data Available"
+     #DEFENSIVE FETCH: .first() returns None instead of crashing if empty
+    latest_rate = HistoricalRate.objects.filter(index_name='SOFR').order_by('-date').first()
     
-    # 2. Calculate Total Portfolio NPV across all trades
+    if latest_rate:
+        latest_date = latest_rate.date
+    else:
+        latest_date = "No Market Data Found - Please Refresh"
+
+    # Calculate Total Portfolio NPV across all trades
+    trades = Trade.objects.filter(user=request.user)
     total_npv = sum(t.last_npv for t in trades if t.last_npv) or 0.0
     
     context = {
         'trades': trades,
         'total_npv': total_npv,
         'trade_count': trades.count(),
-        'latest_date': latest_date, 
+        'latest_date': latest_date,
     }
     return render(request, 'workspace/dashboard.html', context)
 
