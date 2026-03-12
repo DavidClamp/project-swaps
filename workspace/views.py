@@ -162,12 +162,19 @@ def dashboard(request):
     #  Total Portfolio Metrics
     total_npv = sum(t.last_npv for t in trades if t.last_npv) or 0.0
     
+       # 1. Fetch latest rate safely (returns None if empty instead of crashing)
+    latest_rate = HistoricalRate.objects.filter(index_name='SOFR').order_by('-date').first()
+    
+    # 2. Define fallback string for the UI
+    latest_date = latest_rate.date if latest_rate else "Data Pending"
+
+    # 3. Clean Context Dictionary
     context = {
         'strategies': strategies,
         'total_npv': total_npv,
         'trade_count': trades.count(),
-        'latest_date': HistoricalRate.objects.filter(index_name='SOFR').order_by('-date').first().date
-    }
+        'latest_date': latest_date,
+    } 
     return render(request, 'workspace/dashboard.html', context)
 
 @login_required
