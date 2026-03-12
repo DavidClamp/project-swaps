@@ -10,7 +10,12 @@ from .utils import get_sofr_curve, calculate_trade_npv
 @login_required
 def dashboard(request):
     """The main workspace landing page showing Portfolio Summary"""
-     #DEFENSIVE FETCH: .first() returns None instead of crashing if empty
+   # If DB is empty, fill it automatically
+    if not HistoricalRate.objects.exists():
+        from .data_handler import import_bluegamma_data
+        import_bluegamma_data(source="local")
+        
+    # DEFENSIVE FETCH: .first() returns None instead of crashing if empty
     latest_rate = HistoricalRate.objects.filter(index_name='SOFR').order_by('-date').first()
     
     if latest_rate:
