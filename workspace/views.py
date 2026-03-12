@@ -77,9 +77,15 @@ def refresh_market_data(request):
         messages.success(request, f"{result} and all portfolio trades re-priced.")
     
     return redirect('analyser')
+
 @login_required
 def trade_blotter(request):
-    """Placeholder for the Trade Blotter"""
-    trades = Trade.objects.filter(user=request.user)
-    return render(request, 'workspace/blotter.html', {'trades': trades})
-
+    """
+    Displays the user's saved trades in a table.
+    """
+    trades = Trade.objects.filter(user=request.user).order_by('-created_at')
+    
+    context = {
+        'trades': trades,
+    }
+    return render(request, 'workspace/blotter.html', context)
