@@ -1,28 +1,45 @@
 {% extends 'base.html' %}
+
 {% block content %}
 <div class="container py-4">
     <div class="card shadow-sm border-0 p-4">
-        <h5 class="fw-bold mb-4">{{ title }}</h5>
-        <div style="height: 400px;">
+        <h5 class="fw-bold mb-4 border-bottom pb-2">{{ title }}</h5>
+        
+        <!-- Container must have an explicit height or chart is 0px -->
+        <div id="chartContainer" style="position: relative; height:450px; width:100%">
             <canvas id="termStructureChart"></canvas>
+            <!-- 2. Fallback if JS fails -->
+            <div id="noDataMessage" class="alert alert-warning d-none">
+                <i class="fa-solid fa-triangle-exclamation me-2"></i> 
+                No market data found for the X-axis (Labels are empty).
+            </div>
         </div>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net"></script>
+<!-- 3. CDN for Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        new Chart(document.getElementById('termStructureChart'), {
+        // 1. Map variables from Django (Note the new names: labels and rates)
+        const labels = {{ labels|safe }};
+        const rates = {{ rates|safe }};
+        
+        // 2. Debug check: Press F12 in your browser to see if this prints
+        console.log("Tenors:", labels);
+        console.log("Rates:", rates);
+
+        const ctx = document.getElementById('termStructureChart').getContext('2d');
+        
+        new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: {{ labels|safe }},
+                labels: labels,
                 datasets: [{
                     label: 'Rate (%)',
-                    data: {{ rates|safe }},
-                    backgroundColor: '#C83C0D',
-                    borderColor: '#1a1a1a',
-                    borderWidth: 1,
+                    data: rates,
+                    backgroundColor: '#C83C0D', // Brand Orange
                     borderRadius: 4
                 }]
             },
@@ -31,10 +48,12 @@
                 maintainAspectRatio: false,
                 scales: {
                     y: { 
-                        beginAtZero: false, // Better for seeing small rate moves
+                        beginAtZero: false, 
                         title: { display: true, text: 'Interest Rate (%)' } 
                     },
-                    x: { title: { display: true, text: 'Tenor (Years)' } }
+                    x: { 
+                        title: { display: true, text: 'Tenors' } 
+                    }
                 }
             }
         });

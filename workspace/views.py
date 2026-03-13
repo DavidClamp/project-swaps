@@ -219,7 +219,7 @@ def forward_histogram(request):
 @login_required
 def curve_bar_chart(request):
     """
-    Fetches the latest SOFR rates for each year (Tenor).
+    Fetch the latest SOFR rates for each year (Tenor).
     X-axis: Years (1Y, 2Y, 5Y, etc.)
     Y-axis: Interest Rate (%)
     """
@@ -230,7 +230,7 @@ def curve_bar_chart(request):
         messages.warning(request, "No market data found to plot.")
         return redirect('home')
 
-    # 2. Define the 'Years' we want on the X-axis
+    # 2. Define the 'Years' on the X-axis
     target_tenors = ['1Y', '2Y', '5Y', '10Y', '30Y']
     
     # 3. Fetch rates for those specific tenors on that date
@@ -252,8 +252,6 @@ def curve_bar_chart(request):
     context = {
         'labels': json.dumps(plot_labels),
         'rates': json.dumps(plot_rates),
-        'latest_date': latest_rate.date,
-        'title': f"USD SOFR Term Structure ({latest_rate.date})"
+        'title': "USD SOFR Term Structure"
     }
     return render(request, 'workspace/curve_bars.html', context)
-
