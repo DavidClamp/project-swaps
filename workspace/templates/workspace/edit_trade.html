@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm border-0 mx-auto" style="max-width: 600px;">
+        <div class="card-header bg-dark text-white py-3">
+            <h5 class="mb-0 fw-bold"><i class="fa-solid fa-pen-to-square me-2 brand-orange"></i> Edit Trade: {{ trade.trade_id }}</h5>
+        </div>
+        <div class="card-body p-4">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-warning fw-bold">Update & Re-price</button>
+                    <a href="{% url 'blotter' %}" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

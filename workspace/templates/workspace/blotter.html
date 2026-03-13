@@ -32,6 +32,7 @@
                         <th>Rate (%)</th>
                         <th>Side</th>
                         <th class="text-end">NPV (USD)</th>
+                        <th class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,6 +56,17 @@
                         <!-- Color-coded NPV for P&L tracking -->
                         <td class="fw-bold text-end {% if trade.last_npv < 0 %}text-danger{% else %}text-success{% endif %}">
                             ${{ trade.last_npv|floatformat:2|default:"0.00" }}
+                        </td>
+                        <!-- Edit/delete action buttons -->
+                        <td class="text-center">
+                            <div class="btn-group" role="group">
+                                <a href="{% url 'edit_trade' trade.pk %}" class="btn btn-sm btn-outline-dark" title="Edit Ticket">
+                                     <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                                <a href="{% url 'delete_trade' trade.pk %}" class="btn btn-sm btn-outline-danger ms-1" title="Delete Trade">
+                                     <i class="fa-solid fa-trash"></i>
+                                </a>
+                            </div>
                         </td>
                     </tr>
                     {% empty %}
