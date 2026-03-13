@@ -218,40 +218,37 @@ def forward_histogram(request):
 
 @login_required
 def curve_bar_chart(request):
-    """
-    Fetch the latest SOFR rates for each year (Tenor).
-    X-axis: Years (1Y, 2Y, 5Y, etc.)
-    Y-axis: Interest Rate (%)
-    """
-    # 1. Get the most recent market date in the DB
-    latest_rate = HistoricalRate.objects.filter(index_name='SOFR').order_by('-date').first()
+    """Term Structure Snapshot: Finds the latest available curve points."""
+    # 1. Get the absolute latest entry in the DB to find the 'Current' market date
+    latest_entry = HistoricalRate.objects.filter(index_name='SOFR').order_by('-date').first()
     
-    if not latest_rate:
-        messages.warning(request, "No market data found to plot.")
+    if not latest_entry:
         return redirect('home')
 
-    # 2. Define the 'Years' on the X-axis
-    target_tenors = ['1Y', '2Y', '5Y', '10Y', '30Y']
+    # 2. Define the exact Master Order for the X-axis
+    order = ['1Y', '2Y', '3Y', '4Y', '5Y', '6Y', '7Y', '8Y', '9Y', '10Y', '15Y', '30Y']
     
-    # 3. Fetch rates for those specific tenors on that date
-    plot_labels = []
-    plot_rates = []
+    # 3. Fetch ALL rates for THAT specific latest date
+    rates_qs = HistoricalRate.objects.filter(
+        index_name='SOFR', 
+        date=latest_entry.date
+    )
+    
+    # 4. Filter and Sort based on our Master Order
+    # This ensures only the tenors we want appear, in the right order
+    sorted_data = []
+    for tenor in order:
+        match = rates_qs.filter(tenor=tenor).first()
+        if match:
+            sorted_data.append(match)
 
-    for t in target_tenors:
-        rate_obj = HistoricalRate.objects.filter(
-            index_name='SOFR', 
-            date=latest_rate.date, 
-            tenor=t
-        ).first()
-        
-        if rate_obj:
-            plot_labels.append(t)
-            # Convert 0.0425 to 4.25% for the Y-axis
-            plot_rates.append(round(rate_obj.rate * 100, 4))
+    plot_labels = [r.tenor for r in sorted_data]
+    plot_rates = [round(float(r.rate) * 100, 4) for r in sorted_data]
 
     context = {
         'labels': json.dumps(plot_labels),
         'rates': json.dumps(plot_rates),
-        'title': "USD SOFR Term Structure"
+        'title': f"USD SOFR Term Structure ({latest_entry.date})",
+        'sample_size': len(plot_labels)
     }
     return render(request, 'workspace/curve_bars.html', context)
