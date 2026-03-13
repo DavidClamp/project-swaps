@@ -189,9 +189,12 @@ def dashboard(request):
     } 
     return render(request, 'workspace/dashboard.html', context)
 
-    @login_required
+
+@login_required
 def forward_histogram(request):
-    """Render the 1Y Forward Frequency Distribution with basic Market Stats."""
+    """
+    Render the 1Y Forward Frequency Distribution with basic Market Stats
+    """
     # 1. Fetch labels and counts from our NumPy utility
     labels, counts = get_histogram_data(index_name='SOFR', tenor='1Y')
     
