@@ -14,8 +14,9 @@ def curve_analyser(request):
     """Generates a mathematically bootstrapped Zero Curve for Chart.js"""
     try:
         latest_date = HistoricalRate.objects.latest('date').date
-        # 1. Get the Math Engine (QuantLib Curve)
+        # 1. Get the Math Engine
         curve = get_sofr_curve(latest_date)
+        curve.enableExtrapolation()
         
         # 2. Create smooth plot points (1Y, 2Y, 3Y, 5Y, 7Y, 10Y, 20Y, 30Y)
         plot_tenors = ["1Y", "2Y", "3Y", "5Y", "7Y", "10Y", "20Y", "30Y"]

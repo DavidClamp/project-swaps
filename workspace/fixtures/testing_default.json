@@ -1,0 +1,642 @@
+[
+{
+    "model": "workspace.historicalrate",
+    "pk": 1,
+    "fields": {
+        "date": "2026-03-06",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.0425
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 2,
+    "fields": {
+        "date": "2026-03-06",
+        "index_name": "SOFR",
+        "tenor": "2Y",
+        "rate": 0.041
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 3,
+    "fields": {
+        "date": "2026-03-06",
+        "index_name": "SOFR",
+        "tenor": "5Y",
+        "rate": 0.0395
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 4,
+    "fields": {
+        "date": "2026-03-06",
+        "index_name": "SOFR",
+        "tenor": "10Y",
+        "rate": 0.0385
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 5,
+    "fields": {
+        "date": "2026-03-06",
+        "index_name": "SOFR",
+        "tenor": "30Y",
+        "rate": 0.037
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 101,
+    "fields": {
+        "date": "2026-03-13",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04087142494570367
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 102,
+    "fields": {
+        "date": "2026-03-12",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04035879567528933
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 103,
+    "fields": {
+        "date": "2026-03-11",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.048661498824333196
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 104,
+    "fields": {
+        "date": "2026-03-10",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04501500274181339
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 105,
+    "fields": {
+        "date": "2026-03-09",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.047059776119821706
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 106,
+    "fields": {
+        "date": "2026-03-08",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.042654722401236286
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 107,
+    "fields": {
+        "date": "2026-03-07",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04061877471923043
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 108,
+    "fields": {
+        "date": "2026-03-05",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04690329974392842
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 109,
+    "fields": {
+        "date": "2026-03-04",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.040552453722529094
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 110,
+    "fields": {
+        "date": "2026-03-03",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04529747225344374
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 111,
+    "fields": {
+        "date": "2026-03-02",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.048250535934116705
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 112,
+    "fields": {
+        "date": "2026-03-01",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04099200325169329
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 113,
+    "fields": {
+        "date": "2026-02-28",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04552003979969707
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 114,
+    "fields": {
+        "date": "2026-02-27",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.044584663559896584
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 115,
+    "fields": {
+        "date": "2026-02-26",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04088691189164577
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 116,
+    "fields": {
+        "date": "2026-02-25",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.040147925391192045
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 117,
+    "fields": {
+        "date": "2026-02-24",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04229753426597726
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 118,
+    "fields": {
+        "date": "2026-02-23",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04527899845692119
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 119,
+    "fields": {
+        "date": "2026-02-22",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.047963009136996346
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 120,
+    "fields": {
+        "date": "2026-02-21",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.042611263729796296
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 121,
+    "fields": {
+        "date": "2026-02-20",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04571237934539263
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 122,
+    "fields": {
+        "date": "2026-02-19",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.043287293399008615
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 123,
+    "fields": {
+        "date": "2026-02-18",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04908054411604831
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 124,
+    "fields": {
+        "date": "2026-02-17",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04161702372471845
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 125,
+    "fields": {
+        "date": "2026-02-16",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04210697785286043
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 126,
+    "fields": {
+        "date": "2026-02-15",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04926399424396664
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 127,
+    "fields": {
+        "date": "2026-02-14",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04169045220311929
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 128,
+    "fields": {
+        "date": "2026-02-13",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.043339648502457716
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 129,
+    "fields": {
+        "date": "2026-02-12",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.0453533968460209
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 130,
+    "fields": {
+        "date": "2026-02-11",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04735411805614809
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 131,
+    "fields": {
+        "date": "2026-02-10",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04534266791701832
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 132,
+    "fields": {
+        "date": "2026-02-09",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04589640295681954
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 133,
+    "fields": {
+        "date": "2026-02-08",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.041694195938969926
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 134,
+    "fields": {
+        "date": "2026-02-07",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04075321921289442
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 135,
+    "fields": {
+        "date": "2026-02-06",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.043602700427960085
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 136,
+    "fields": {
+        "date": "2026-02-05",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04072479743850092
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 137,
+    "fields": {
+        "date": "2026-02-04",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.043502295997295146
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 138,
+    "fields": {
+        "date": "2026-02-03",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04652199348090091
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 139,
+    "fields": {
+        "date": "2026-02-02",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04655086797763895
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 140,
+    "fields": {
+        "date": "2026-02-01",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04488481037145857
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 141,
+    "fields": {
+        "date": "2026-01-31",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04539680180397194
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 142,
+    "fields": {
+        "date": "2026-01-30",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04218660718467721
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 143,
+    "fields": {
+        "date": "2026-01-29",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.043478073336711553
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 144,
+    "fields": {
+        "date": "2026-01-28",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04924243242451622
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 145,
+    "fields": {
+        "date": "2026-01-27",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.0444071281946592
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 146,
+    "fields": {
+        "date": "2026-01-26",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04778814062882612
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 147,
+    "fields": {
+        "date": "2026-01-25",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04013935869132289
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 148,
+    "fields": {
+        "date": "2026-01-24",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04219337648816013
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 149,
+    "fields": {
+        "date": "2026-01-23",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04931384082545446
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 150,
+    "fields": {
+        "date": "2026-01-22",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.048845878190368126
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 151,
+    "fields": {
+        "date": "2026-01-21",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.044486145051768934
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 152,
+    "fields": {
+        "date": "2026-01-20",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04359136653820357
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 153,
+    "fields": {
+        "date": "2026-01-19",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04935188227975647
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 154,
+    "fields": {
+        "date": "2026-01-18",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.048803091526919404
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 155,
+    "fields": {
+        "date": "2026-01-17",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.0494211153350814
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 156,
+    "fields": {
+        "date": "2026-01-16",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04442356014143892
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 157,
+    "fields": {
+        "date": "2026-01-15",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04832259006608371
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 158,
+    "fields": {
+        "date": "2026-01-14",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.049198182231913364
+    }
+},
+{
+    "model": "workspace.historicalrate",
+    "pk": 159,
+    "fields": {
+        "date": "2026-01-13",
+        "index_name": "SOFR",
+        "tenor": "1Y",
+        "rate": 0.04105197938392399
+    }
+}
+]
