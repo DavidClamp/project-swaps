@@ -3,6 +3,7 @@ import QuantLib as ql
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.management import call_command
 from .models import Trade, HistoricalRate
 from .data_handler import import_bluegamma_data
 from .utils import get_sofr_curve, calculate_trade_npv, get_histogram_data
@@ -40,21 +41,34 @@ def curve_analyser(request):
 
 @login_required
 def refresh_market_data(request):
-    """Triggers the BlueGamma data import and re-prices the blotter"""
+    """
+    Attempt Live API, falls back to local Fixture,
+    and then re-price all portfolio trades against the new curve.
+    """
     if request.method == "POST":
-        result = import_bluegamma_data(source="local")
-        
-        # Pro Move: Re-price all user trades against the new data
-        latest_date = HistoricalRate.objects.latest('date').date
-        curve = get_sofr_curve(latest_date)
-        trades = Trade.objects.filter(user=request.user)
-        
-        for trade in trades:
-            calculate_trade_npv(trade.id, curve)
-            
-        messages.success(request, f"{result} and all portfolio trades re-priced.")
-    
-    return redirect('analyser')
+        try:
+            # 1. Attempt Live API Fetch
+            result = import_bluegamma_data(source="api")
+            messages.success(request, f"Market Data Sync: {result}")
+        except Exception as e:
+            # 2. Fallback to default DB if API/JSON fails
+            call_command('loaddata', 'testing_default.json')
+            messages.warning(request, "API Offline. Reverted to Testing Default (Golden Source).")
+
+        # 3. Post-Sync Re-valuation 
+        try:
+            latest_rate = HistoricalRate.objects.filter(index_name='SOFR').order_by('-date').first()
+            if latest_rate:
+                curve = get_sofr_curve(latest_rate.date)
+                trades = Trade.objects.filter(user=request.user)
+                for trade in trades:
+                    calculate_trade_npv(trade.id, curve)
+                messages.info(request, "Portfolio NPVs re-calculated against new curve.")
+        except Exception as repricing_error:
+            messages.error(request, f"Data synced, but re-pricing failed: {repricing_error}")
+
+    return redirect('dashboard')
+
 
 @login_required
 def trade_blotter(request):
@@ -191,3 +205,5 @@ def forward_histogram(request):
         'title': 'USD SOFR 1Y Forward Distribution'
     }
     return render(request, 'workspace/histogram.html', context)
+
+
