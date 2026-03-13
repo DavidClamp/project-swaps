@@ -189,19 +189,26 @@ def dashboard(request):
     } 
     return render(request, 'workspace/dashboard.html', context)
 
-@login_required
+    @login_required
 def forward_histogram(request):
-    """
-    Renders the 1Y Forward Frequency Distribution.
-    """
-    # Default to SOFR 1Y
+    """Render the 1Y Forward Frequency Distribution with basic Market Stats."""
+    # 1. Fetch labels and counts from our NumPy utility
     labels, counts = get_histogram_data(index_name='SOFR', tenor='1Y')
     
+    # 2. Manual Mean Calculation
+    raw_rates = HistoricalRate.objects.filter(index_name='SOFR', tenor='1Y').values_list('rate', flat=True)
+    
+    if raw_rates:
+        # Average * 100 to show as a percentage
+        mean_val = (sum(raw_rates) / len(raw_rates)) * 100
+    else:
+        mean_val = 0
+
     context = {
-        'hist_labels': json.dumps(labels),
-        'hist_counts': json.dumps(counts),
+        'hist_labels': json.dumps(labels), # Convert to JS Array string
+        'hist_counts': json.dumps(counts), # Convert to JS Array string
+        'mean_val': round(mean_val, 2),
+        'sample_size': len(raw_rates),
         'title': 'USD SOFR 1Y Forward Distribution'
     }
     return render(request, 'workspace/histogram.html', context)
-
-
