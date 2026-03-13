@@ -31,4 +31,5 @@ urlpatterns = [
     path('edit-trade/<int:pk>/', views.edit_trade, name='edit_trade'),
     path('delete-trade/<int:pk>/', views.delete_trade, name='delete_trade'),
     path('histogram/', views.forward_histogram, name='histogram'),
+    path('term-structure/', views.curve_bar_chart, name='curve_bars'),
 ]
