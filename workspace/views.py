@@ -1,6 +1,6 @@
 import json
 import QuantLib as ql
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.management import call_command
@@ -102,13 +102,10 @@ def add_trade(request):
         form = TradeForm()
     return render(request, 'workspace/add_trade.html', {'form': form})
 
-from django.shortcuts import get_object_or_404
-from .forms import TradeForm
-
 @login_required
 def edit_trade(request, pk):
     """
-    Update an existing trade ticket. 
+    Update an existing trade ticket.
     """
     trade = get_object_or_404(Trade, pk=pk, user=request.user)
     
