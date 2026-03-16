@@ -1,104 +1,47 @@
-{% extends 'base.html' %} {% block title %}Dashboard | IRSQuant{% endblock %} {%
-block content %}
+{% extends 'base.html' %} 
+{% block title %}Dashboard | IRSQuant{% endblock %} 
+
+{% block content %}
 <div class="container-fluid px-4 py-4">
     <!-- Header Section -->
     <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
         <div>
-            <h1 class="h3 mb-0 fw-bold text-dark">
-                Workspace <span class="brand-orange">Dashboard</span>
-            </h1>
-            <p class="text-muted mb-0 small">
-                Operational Overview for
-                <strong>{{ latest_date|default:"Current" }}</strong>
-            </p>
+            <h1 class="h3 mb-0 fw-bold text-dark">Workspace <span class="brand-orange">Dashboard</span></h1>
+            <p class="text-muted mb-0 small">Operational Overview for <strong>{{ latest_date|default:"Current" }}</strong></p>
         </div>
         <div>
-            <a href="{% url 'blotter' %}" class="btn btn-outline-dark btn-sm me-2">
-                <i class="fa-solid fa-list-ul me-1"></i> View Blotter
-            </a>
-            <a href="{% url 'analyser' %}" class="btn btn-sm shadow-sm fw-bold" style="
-          background-color: var(--ua-gold);
-          color: var(--ua-navy);
-          border: none;
-        ">
-                <i class="fa-solid fa-bezier-curve me-1"></i> Open Analyser
-            </a>
+            <a href="{% url 'blotter' %}" class="btn btn-outline-dark btn-sm me-2"><i class="fa-solid fa-list-ul me-1"></i> View Blotter</a>
+            <a href="{% url 'analyser' %}" class="btn btn-sm btn-ua-gold shadow-sm"><i class="fa-solid fa-bezier-curve me-1"></i> Open Analyser</a>
         </div>
     </div>
 
-    <!-- Analytics Key Performance Indicators (KPIs) -->
+    <!-- KPI Row -->
     <div class="row g-3 mb-4">
-        <!-- Portfolio NPV -->
+        {% for label, icon, value, color_class in kpi_data %}
         <div class="col-md-4">
-            <!-- Example for Portfolio NPV card -->
-            <div class="card shadow-sm border-0 h-100 p-3 card-kpi-ua">
-                <div class="d-flex align-items-center">
-                    <!-- Blue Background Circle -->
-                    <div class="p-3 rounded-circle me-3" style="background-color: var(--ua-blue); opacity: 0.9">
-                        <i class="fa-solid fa-scale-balanced fa-xl" style="color: var(--ua-gold)"></i>
-                    </div>
-                    <div>
-                        <h6 class="text-muted small mb-1 text-uppercase fw-bold">
-                            Portfolio NPV
-                        </h6>
-                        <h3
-                            class="mb-0 fw-bold {% if total_npv < 0 %}text-pnl-negative{% else %}text-pnl-positive{% endif %}">
-                            ${{ total_npv|floatformat:2 }}
-                        </h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Active Trades Count -->
-        <div class="col-md-4">
-            <!-- Example for Portfolio NPV card -->
-            <div class="card shadow-sm border-0 h-100 p-3 card-kpi-ua">
-                <div class="d-flex align-items-center">
-                    <div class="p-3 rounded-circle me-3" style="background-color: var(--ua-navy)">
-                        <i class="fa-solid fa-file-invoice-dollar fa-xl" style="color: var(--ua-gold)"></i>
-                    </div>
-                    <div>
-                        <h6 class="text-muted small mb-1 text-uppercase fw-bold">
-                            Active Trades
-                        </h6>
-                        <h3 class="mb-0 fw-bold">{{ trade_count|default:"0" }}</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Market Status -->
-        <div class="col-md-4">
-            <!-- Example for Portfolio NPV card -->
             <div class="card shadow-sm border-0 h-100 p-3 card-kpi-ua">
                 <div class="d-flex align-items-center">
                     <div class="p-3 rounded-circle me-3" style="background-color: var(--ua-blue); opacity: 0.9">
-                        <i class="fa-solid fa-satellite-dish fa-xl" style="color: var(--ua-gold)"></i>
+                        <i class="fa-solid {{ icon }} fa-xl" style="color: var(--ua-gold)"></i>
                     </div>
                     <div>
-                        <h6 class="text-muted small mb-1 text-uppercase fw-bold">
-                            Index Focus
-                        </h6>
-                        <h3 class="mb-0 fw-bold">USD SOFR</h3>
+                        <h6 class="text-muted small mb-1 text-uppercase fw-bold">{{ label }}</h6>
+                        <h3 class="mb-0 fw-bold {{ color_class }}">{{ value }}</h3>
                     </div>
                 </div>
             </div>
         </div>
+        {% endfor %}
     </div>
 
-    <!-- Quick Entry / Information Section -->
+    <!-- Main Content Row -->
     <div class="row">
+        <!-- Strategy Table -->
         <div class="col-lg-8">
             <div class="card shadow-sm border-0 mb-4 overflow-hidden">
-                <!-- Card Header -->
                 <div class="card-header text-white py-3 card-access-dark">
-                    <h6 class="mb-0">
-                        <i class="fa-solid fa-layer-group me-2 brand-orange"></i>Active
-                        Strategies (Net NPV)
-                    </h6>
+                    <h6 class="mb-0"><i class="fa-solid fa-layer-group me-2 brand-orange"></i>Active Strategies</h6>
                 </div>
-
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-light">
@@ -106,32 +49,19 @@ block content %}
                                 <th>Group ID</th>
                                 <th>Strategy</th>
                                 <th class="text-center">Legs</th>
-                                <th class="text-end">Net Strategy NPV (USD)</th>
+                                <th class="text-end">Net NPV (USD)</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Iterate through the 'strategies' dictionary from views.py -->
                             {% for gid, data in strategies.items %}
                             <tr>
-                                <td>
-                                    <span class="badge bg-light text-dark border fw-bold">{{ gid }}</span>
-                                </td>
+                                <td><span class="badge bg-light text-dark border fw-bold">{{ gid }}</span></td>
                                 <td>{{ data.strategy }}</td>
                                 <td class="text-center">{{ data.count }}</td>
-                                <!-- Business Logic for total Strategy P&L -->
-                                <td
-                                    class="text-end fw-bold {% if data.npv < 0 %}text-pnl-negative{% else %}text-pnl-positive{% endif %}">
-                                    ${{ data.npv|floatformat:2 }}
-                                </td>
+                                <td class="text-end fw-bold {% if data.npv < 0 %}text-pnl-negative{% else %}text-pnl-positive{% endif %}">${{ data.npv|floatformat:2 }}</td>
                             </tr>
                             {% empty %}
-                            <!-- Defensive Design for 'Empty State' -->
-                            <tr>
-                                <td colspan="4" class="text-center py-5 text-muted small fst-italic">
-                                    No active strategies detected. Execute a trade to begin
-                                    analysis.
-                                </td>
-                            </tr>
+                            <tr><td colspan="4" class="text-center py-5 text-muted small fst-italic">No active strategies.</td></tr>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -139,25 +69,18 @@ block content %}
             </div>
         </div>
 
-        <!-- Subscription Status Section -->
+        <!-- Subscription Card -->
         <div class="col-lg-4">
             <div class="card shadow-sm border-0 card-access-dark p-4">
-                <h5 class="fw-bold mb-3 border-bottom border-secondary pb-2">
-                    Account <span class="brand-orange">Access</span>
-                </h5>
+                <h5 class="fw-bold mb-3 border-bottom border-secondary pb-2">Account <span class="brand-orange">Access</span></h5>
                 {% if user.profile.is_subscriber %}
-                <span class="badge badge-rec mb-3 px-3 py-2 fs-6">
-                    <i class="fa-solid fa-crown me-1"></i> Current Member
-                </span>
+                    <span class="badge badge-rec mb-3 px-3 py-2 fs-6"><i class="fa-solid fa-crown me-1"></i> Current Member</span>
                 {% else %}
-                <span class="badge badge-pay mb-3 px-3 py-2 fs-6">Currently free</span>
-                <p class="small mb-2">Upgrade option</p>
-                <a href="{% url 'subscription' %}" class="btn btn-sm btn-ua-gold w-100 mt-2">
-                    <i class="fa-solid fa-gem me-1"></i> Upgrade to Pro
-                </a>
+                    <span class="badge badge-pay mb-3 px-3 py-2 fs-6">Currently free</span>
+                    <a href="{% url 'subscription' %}" class="btn btn-sm btn-ua-gold w-100 mt-2"><i class="fa-solid fa-gem me-1"></i> Upgrade to Pro</a>
                 {% endif %}
             </div>
         </div>
-    </div>
-</div>
+    </div> <!-- Closes Main Content Row -->
+</div> <!-- Closes Container -->
 {% endblock %}

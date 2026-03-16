@@ -40,7 +40,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # Cleaner DEBUG check to prevent accidental True in production
 
 # DEBUG = os.environ.get('DEBUG', 'False') == 'True'
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '.herokuapp.com',
