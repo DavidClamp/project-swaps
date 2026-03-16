@@ -4,7 +4,7 @@
 <div class="container py-4">
     <div class="card shadow-sm border-0 p-4">
         <h5 class="fw-bold mb-4">{{ title }}</h5>
-        
+
         <!-- Chart.js needs an explicit height -->
         <div style="position: relative; height:400px; width:100%">
             <canvas id="histChart"></canvas>
@@ -28,12 +28,20 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         const ctx = document.getElementById('histChart').getContext('2d');
-        
+
         // Use |safe to prevent Django from escaping the JSON quotes
-        const labels = {{ hist_labels|safe }};
-        const counts = {{ hist_counts|safe }};
+        const labels = {
+            {
+                hist_labels | safe
+            }
+        };
+        const counts = {
+            {
+                hist_counts | safe
+            }
+        };
 
         new Chart(ctx, {
             type: 'bar',
@@ -42,25 +50,28 @@
                 datasets: [{
                     label: 'Frequency (Days)',
                     data: counts,
-                    // Blue bars with slight transparency
-                    backgroundColor: 'rgba(0, 87, 183, 0.8)', 
-                    // Gold borders for high-contrast
-                    borderColor: '#FFDD00', 
-                    borderWidth: 2,
-                    barPercentage: 1.0,  
-                    categoryPercentage: 1.0
+                    backgroundColor: 'rgba(0, 87, 183, 0.8)', // Azure Blue 
+                    borderColor: '#FFDD00', // Gold borders
+                    borderWidth: 2
                 }]
+
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    y: { beginAtZero: true },
-                    x: { title: { display: true, text: 'Rate Levels (%)' } }
+                    y: {
+                        beginAtZero: true
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Rate Levels (%)'
+                        }
+                    }
                 }
             }
         });
     });
 </script>
 {% endblock %}
-
