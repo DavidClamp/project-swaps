@@ -252,3 +252,10 @@ def curve_bar_chart(request):
         'sample_size': len(plot_labels)
     }
     return render(request, 'workspace/curve_bars.html', context)
+
+# Upgrade request
+
+@login_required
+def subscription_plans(request):
+    """Direct to window to upgrade to Pro."""
+    return render(request, 'workspace/plans.html')
