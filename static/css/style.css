@@ -1,11 +1,36 @@
 /* static/css/style.css */
-.navbar-dark { background-color: #1a1a1a !important; border-bottom: 2px solid #C83C0D; }
-.brand-orange { color: #C83C0D !important; }
-.nav-link:hover { color: #C83C0D !important; }
 
+:root {
+    --ua-blue: #0057B7;    /* Strong Azure */
+    --ua-gold: #FFDD00;    /* Vibrant Gold */
+    --ua-navy: #002d5e;    /* Dark Navy for better contrast */
+}
+
+/* Navbar Branding */
+.navbar-dark { 
+    background-color: var(--ua-navy) !important; 
+    border-bottom: 3px solid var(--ua-gold); 
+}
+
+.brand-orange { 
+    color: var(--ua-gold) !important; 
+}
+
+/* Action Buttons  */
+.btn-warning {
+    background-color: var(--ua-gold) !important;
+    border-color: var(--ua-gold) !important;
+    color: var(--ua-navy) !important;
+    font-weight: bold;
+}
+
+/* Chart Bars */
+.chart-bar-ua {
+    background-color: var(--ua-blue);
+}
 /* Mirror Navbar for the Footer */
 .footer { 
-    background-color: #1a1a1a !important; 
-    border-top: 2px solid #C83C0D !important; 
+    background-color: var(--ua-navy) !important; 
+    border-top: 3px solid var(--ua-gold) !important; 
     color: #ffffff !important; 
 }

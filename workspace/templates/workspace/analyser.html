@@ -15,7 +15,8 @@
 
         <!-- Sidebar / Metrics Area -->
         <div class="col-lg-3">
-            <div class="card p-4 shadow-sm border-0 bg-dark text-white">
+           <div class="card p-4 shadow-sm border-0 text-white" 
+                style="background-color: var(--ua-navy); border-left: 5px solid var(--ua-gold);">
                 <h5>Curve Metrics</h5>
                 <hr class="border-secondary">
                 
@@ -66,13 +67,15 @@
                 datasets: [{
                     label: 'Zero Rate (%)',
                     data: dataPoints,
-                    borderColor: '#C83C0D', 
-                    backgroundColor: 'rgba(200, 60, 13, 0.05)',
+                    borderColor: '#0057B7',            //  Blue Line
+                    backgroundColor: 'rgba(0, 87, 183, 0.2)', // Light Blue Fill
+                    fill: true,
                     borderWidth: 3,
-                    pointRadius: 5,
-                    pointBackgroundColor: '#C83C0D',
+                    pointRadius: 6,
+                    pointBackgroundColor: '#FFDD00',   // Gold Points
+                    pointBorderColor: '#002d5e',       // Navy border on points
+                    pointBorderWidth: 2,
                     tension: 0.3, 
-                    fill: true
                 }]
             },
             options: {

@@ -7,14 +7,15 @@
     <!-- Header Section -->
     <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
         <div>
-            <h1 class="h3 mb-0 fw-bold text-dark">Workspace <span style="color: #C83C0D;">Dashboard</span></h1>
+            <h1 class="h3 mb-0 fw-bold text-dark">Workspace <span class="brand-orange">Dashboard</span></h1>
             <p class="text-muted mb-0 small">Operational Overview for <strong>{{ latest_date|default:"Current" }}</strong></p>
         </div>
         <div>
             <a href="{% url 'blotter' %}" class="btn btn-outline-dark btn-sm me-2">
                 <i class="fa-solid fa-list-ul me-1"></i> View Blotter
             </a>
-            <a href="{% url 'analyser' %}" class="btn btn-primary btn-sm" style="background-color: #C83C0D; border-color: #C83C0D;">
+            <a href="{% url 'analyser' %}" class="btn btn-sm shadow-sm fw-bold" 
+                style="background-color: var(--ua-gold); color: var(--ua-navy); border: none;">
                 <i class="fa-solid fa-bezier-curve me-1"></i> Open Analyser
             </a>
         </div>
@@ -22,29 +23,30 @@
 
     <!-- Analytics Key Performance Indicators (KPIs) -->
     <div class="row g-3 mb-4">
-        <!-- Portfolio NPV -->
+    <!-- Portfolio NPV -->
         <div class="col-md-4">
             <div class="card shadow-sm border-0 h-100 p-3">
                 <div class="d-flex align-items-center">
-                    <div class="bg-light p-3 rounded-circle me-3">
-                        <i class="fa-solid fa-dollar-sign text-success fa-xl"></i>
+                    <!-- Blue Background Circle -->
+                    <div class="p-3 rounded-circle me-3" style="background-color: var(--ua-blue); opacity: 0.9;">
+                        <i class="fa-solid fa-scale-balanced fa-xl" style="color: var(--ua-gold);"></i>
                     </div>
                     <div>
                         <h6 class="text-muted small mb-1 text-uppercase fw-bold">Portfolio NPV</h6>
-                        <h3 class="mb-0 fw-bold {% if total_npv < 0 %}text-danger{% else %}text-success{% endif %}">
+                        <h3 class="mb-0 fw-bold" style="{% if total_npv < 0 %}color: var(--ua-blue);{% else %}color: #B8860B;{% endif %}">
                             ${{ total_npv|floatformat:2 }}
                         </h3>
                     </div>
                 </div>
-            </div>
+           </div>
         </div>
 
         <!-- Active Trades Count -->
         <div class="col-md-4">
             <div class="card shadow-sm border-0 h-100 p-3">
                 <div class="d-flex align-items-center">
-                    <div class="bg-light p-3 rounded-circle me-3">
-                        <i class="fa-solid fa-file-contract text-primary fa-xl"></i>
+                    <div class="p-3 rounded-circle me-3" style="background-color: var(--ua-navy);">
+                        <i class="fa-solid fa-file-invoice-dollar fa-xl" style="color: var(--ua-gold);"></i>
                     </div>
                     <div>
                         <h6 class="text-muted small mb-1 text-uppercase fw-bold">Active Trades</h6>
@@ -58,8 +60,8 @@
         <div class="col-md-4">
             <div class="card shadow-sm border-0 h-100 p-3">
                 <div class="d-flex align-items-center">
-                    <div class="bg-light p-3 rounded-circle me-3">
-                        <i class="fa-solid fa-tower-broadcast text-warning fa-xl"></i>
+                    <div class="p-3 rounded-circle me-3" style="background-color: var(--ua-blue); opacity: 0.9;">
+                        <i class="fa-solid fa-satellite-dish fa-xl" style="color: var(--ua-gold);"></i>
                     </div>
                     <div>
                         <h6 class="text-muted small mb-1 text-uppercase fw-bold">Index Focus</h6>
@@ -70,14 +72,20 @@
         </div>
     </div>
 
+
     <!-- Quick Entry / Information Section -->
     <div class="row">
+
       <div class="col-lg-8">
+
         <div class="card shadow-sm border-0 mb-4 overflow-hidden">
+
             <!-- Card Header with Branding -->
-            <div class="card-header bg-dark text-white py-3">
-                <h6 class="mb-0"><i class="fa-solid fa-layer-group me-2"></i>Active Strategies (Net NPV)</h6>
+            <!-- Line 84 Update -->
+            <div class="card-header text-white py-3" style="background-color: var(--ua-navy); border-bottom: 2px solid var(--ua-gold);">
+                <h6 class="mb-0"><i class="fa-solid fa-layer-group me-2" style="color: var(--ua-gold);"></i>Active Strategies (Net NPV)</h6>
             </div>
+
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
@@ -95,13 +103,13 @@
                             <td><span class="badge bg-light text-dark border fw-bold">{{ gid }}</span></td>
                             <td>{{ data.strategy }}</td>
                             <td class="text-center">{{ data.count }}</td>
-                            <!-- Business Logic: Red/Green formatting for total Strategy P&L -->
-                            <td class="text-end fw-bold {% if data.npv < 0 %}text-danger{% else %}text-success{% endif %}">
+                            <!-- Business Logic for total Strategy P&L -->
+                            <td class="text-end fw-bold" style="{% if data.npv < 0 %}color: var(--ua-blue);{% else %}color: #B8860B;{% endif %}">
                                 ${{ data.npv|floatformat:2 }}
                             </td>
                         </tr>
                         {% empty %}
-                        <!-- Defensive Design: Handles the 'Empty State' -->
+                        <!-- Defensive Design for 'Empty State' -->
                         <tr>
                             <td colspan="4" class="text-center py-5 text-muted small fst-italic">
                                 No active strategies detected. Execute a trade to begin analysis.
@@ -111,27 +119,35 @@
                     </tbody>
                 </table>
             </div>
+
         </div>
+
     </div>
 
     <!-- Subscription Status Section -->
     <div class="col-lg-4">
+
         <div class="card shadow-sm border-0 bg-dark text-white p-4">
-            <h5 class="fw-bold mb-3 border-bottom border-secondary pb-2">Account <span style="color: #C83C0D;">Access</span></h5>
+            <h5 class="fw-bold mb-3 border-bottom border-secondary pb-2">Account <span class="brand-orange">Access</span></h5>
             {% if user.profile.is_subscriber %}
-                <!-- Logic: Gated content for Stripe 'PRO' subscribers -->
+                <!-- Logic for Stripe 'PRO' subscribers -->
                 <span class="badge bg-warning text-dark mb-3 px-3 py-2 fs-6">
-                    <i class="fa-solid fa-crown me-1"></i> Current Member
-                </span>
+                    <i class="fa-solid fa-crown me-1"></i> Current Member</span>
                 <p class="small mb-0">You have unlimited access to multi-leg **Butterfly Strategy** analytics and advanced Greeks.</p>
             {% else %}
-                <!-- UX Logic: Clear 'Call to Action' for conversion -->
-                <span class="badge bg-secondary mb-3 px-3 py-2 fs-6">Currently free</span>
+                <!-- UX Logic to clear 'Call to Action' for conversion -->
+                <span class="badge mb-3 px-3 py-2 fs-6" style="background-color: var(--ua-blue);">Currently free</span>
                 <p class="small mb-2">Upgrade option</p>
-                <a href="#" class="btn btn-sm btn-outline-warning w-100 mt-2">Upgrades</a>
+                <a href="#"  class="btn btn-sm btn-outline-warning w-100 mt-2">
+                    <i class="fa-solid fa-gem me-1"></i> Upgrade to Pro
+                </a>
             {% endif %}
+      
         </div>
+
     </div>
+
   </div>
+
 </div>
 {% endblock %}

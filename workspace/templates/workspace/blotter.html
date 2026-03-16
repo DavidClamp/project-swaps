@@ -37,38 +37,46 @@
                 </thead>
                 <tbody>
                     {% for trade in trades %}
-                    <tr>
-                        <td class="fw-bold">{{ trade.trade_id }}</td>
-                        <td>
-                            <span class="badge {% if trade.strategy == 'FLY' %}bg-info text-dark{% else %}bg-secondary{% endif %}">
-                                {{ trade.strategy }}
-                            </span>
-                        </td>
-                        <td><code>{{ trade.ticker }}</code></td>
-                        <td>{{ trade.notional|floatformat:0 }}</td>
-                        <td>{{ trade.tenor_years }}Y</td>
-                        <td>{{ trade.fixed_rate }}%</td>
-                        <td>
-                            <span class="badge {% if trade.side == 'PAY' %}bg-danger{% else %}bg-success{% endif %}">
-                                {{ trade.side }}
-                            </span>
-                        </td>
-                        <!-- Color-coded NPV for P&L tracking -->
-                        <td class="fw-bold text-end {% if trade.last_npv < 0 %}text-danger{% else %}text-success{% endif %}">
-                            ${{ trade.last_npv|floatformat:2|default:"0.00" }}
-                        </td>
-                        <!-- Edit/delete action buttons -->
-                        <td class="text-center">
-                            <div class="btn-group" role="group">
-                                <a href="{% url 'edit_trade' trade.pk %}" class="btn btn-sm btn-outline-dark" title="Edit Ticket">
-                                     <i class="fa-solid fa-pen-to-square me-1"></i> Edit
-                                </a>
-                                <a href="{% url 'delete_trade' trade.pk %}" class="btn btn-sm btn-outline-danger ms-1" title="Delete Trade">
-                                     <i class="fa-solid fa-trash me-1"></i> Delete
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
+                    <!-- Inside your {% for trade in trades %} loop -->
+                <tr>
+                    <td class="fw-bold">{{ trade.trade_id }}</td>
+                    <td>
+                        <!-- Strategy Badge in Navy -->
+                        <span class="badge" style="background-color: var(--ua-navy); border: 1px solid var(--ua-gold); color: var(--ua-gold);">
+                            {{ trade.strategy }}
+                        </span>
+                    </td>
+                    <td><code>{{ trade.ticker }}</code></td>
+                    <td>{{ trade.notional|floatformat:0 }}</td>
+                    <td>{{ trade.tenor_years }}Y</td>
+                    <td>{{ trade.fixed_rate }}%</td>
+                    <td>
+                        <!-- Side Badge: Blue for PAY, Gold for REC -->
+                        <span class="badge" style="{% if trade.side == 'PAY' %}background-color: var(--ua-blue); color: white;
+                                                   {% else %}background-color: var(--ua-gold); color: var(--ua-navy);
+                                                   {% endif %}">
+                             {{ trade.side }}
+                        </span>
+                    </td>
+                    <!-- NPV: Highlighted with Bold Gold if positive -->
+                    <td class="fw-bold text-end" style="{% if trade.last_npv < 0 %}color: var(--ua-blue);
+                                                        {% else %}color: #B8860B;
+                                                        {% endif %}">
+                        ${{ trade.last_npv|floatformat:2|default:"0.00" }}
+                    </td>
+                    <td class="text-center">
+                        <div class="btn-group" role="group">
+                            <a href="{% url 'edit_trade' trade.pk %}" class="btn btn-sm btn-outline-primary"
+                               style="color: var(--ua-blue); border-color: var(--ua-blue);">
+                                <i class="fa-solid fa-pen-to-square me-1"></i> Edit
+                            </a>
+                            <a href="{% url 'delete_trade' trade.pk %}" class="btn btn-sm btn-outline-danger ms-1">
+                                 <i class="fa-solid fa-trash me-1"></i> Delete
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+
                     {% empty %}
                     <tr>
                         <td colspan="9" class="text-center py-5 text-muted">
