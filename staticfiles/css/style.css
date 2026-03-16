@@ -1,0 +1,11 @@
+/* static/css/style.css */
+.navbar-dark { background-color: #1a1a1a !important; border-bottom: 2px solid #C83C0D; }
+.brand-orange { color: #C83C0D !important; }
+.nav-link:hover { color: #C83C0D !important; }
+
+/* Mirror Navbar for the Footer */
+.footer { 
+    background-color: #1a1a1a !important; 
+    border-top: 2px solid #C83C0D !important; 
+    color: #ffffff !important; 
+}
