@@ -2,8 +2,8 @@
 
 {% block content %}
 <div class="container py-4">
-    <div class="card shadow-sm border-0 p-4">
-        <h5 class="fw-bold mb-4">{{ title }}</h5>
+    <div class="card shadow-sm border-0 p-4 card-kpi-ua">
+    <h5 class="fw-bold mb-4 border-bottom pb-2">USD SOFR <span class="brand-orange">1Y Distribution</span></h5>
 
         <!-- Chart.js needs an explicit height -->
         <div style="position: relative; height:400px; width:100%">
@@ -32,16 +32,10 @@
         const ctx = document.getElementById('histChart').getContext('2d');
 
         // Use |safe to prevent Django from escaping the JSON quotes
-        const labels = {
-            {
-                hist_labels | safe
-            }
-        };
-        const counts = {
-            {
-                hist_counts | safe
-            }
-        };
+        // Clean single-line mapping
+        const labels = {{ hist_labels|safe }};
+        const counts = {{ hist_counts|safe }};
+
 
         new Chart(ctx, {
             type: 'bar',
