@@ -1,26 +1,26 @@
 /* static/css/style.css */
 
 :root {
-    --ua-blue: #0057B7;    /* Strong Azure */
-    --ua-gold: #FFDD00;    /* Vibrant Gold */
-    --ua-navy: #002d5e;    /* Dark Navy for better contrast */
+    --ua-blue: #0057B7;    
+    --ua-gold: #FFDD00;    
+    --ua-navy: #002d5e;   
 }
 
 /* Navbar Branding */
 .navbar-dark { 
-    background-color: var(--ua-navy) !important; 
+    background-color: var(--ua-navy); 
     border-bottom: 3px solid var(--ua-gold); 
 }
 
 .brand-orange { 
-    color: var(--ua-gold) !important; 
+    color: var(--ua-gold); 
 }
 
 /* Action Buttons  */
 .btn-warning {
-    background-color: var(--ua-gold) !important;
-    border-color: var(--ua-gold) !important;
-    color: var(--ua-navy) !important;
+    background-color: var(--ua-gold);
+    border-color: var(--ua-gold);
+    color: var(--ua-navy);
     font-weight: bold;
 }
 
@@ -30,7 +30,55 @@
 }
 /* Mirror Navbar for the Footer */
 .footer { 
-    background-color: var(--ua-navy) !important; 
-    border-top: 3px solid var(--ua-gold) !important; 
-    color: #ffffff !important; 
+    background-color: var(--ua-navy); 
+    border-top: 3px solid var(--ua-gold); 
+    color: #ffffff; 
+}
+
+/* --- Trade Blotter & Dashboard UI --- */
+
+/* Side Badges: Blue for PAY, Gold for REC */
+.badge-pay { 
+    background-color: var(--ua-blue); 
+    color: white; 
+}
+
+.badge-rec { 
+    background-color: var(--ua-gold); 
+    color: var(--ua-navy); 
+}
+
+/* Strategy Badge: Navy with Gold outline */
+.badge-strategy {
+    background-color: var(--ua-navy);
+    border: 1px solid var(--ua-gold);
+    color: var(--ua-gold);
+}
+
+/* NPV P&L Coloring: Professional Blue/Gold contrast */
+.text-pnl-positive { color: #B8860B; font-weight: bold; }
+.text-pnl-negative { color: var(--ua-blue); font-weight: bold; }
+
+/* Dashboard Access Card Styling */
+.card-access-dark {
+    background-color: var(--ua-navy);
+    border-top: 4px solid var(--ua-gold);
+    color: white;
+}
+/* The Standard Gold Button */
+.btn-ua-gold {
+    background-color: var(--ua-gold) !important;
+    color: var(--ua-navy) !important;
+    border: none !important;
+    font-weight: bold;
+}
+/* Subtle shadow and hover for dashboard cards */
+.card-kpi-ua {
+    border-left: 5px solid var(--ua-gold);
+    transition: transform 0.2s ease-in-out;
+}
+
+.card-kpi-ua:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 45, 94, 0.1);
 }
