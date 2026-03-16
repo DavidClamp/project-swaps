@@ -9,7 +9,8 @@
             <form method="POST">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger px-4">Yes, Delete</button>
-                <a href="{% url 'blotter' %}" class="btn btn-outline-secondary px-4">Cancel</a>
+                    <a href="{% url 'blotter' %}" class="btn px-4" style="border: 1px solid var(--ua-navy); color: var(--ua-navy);">Cancel
+                    </a>
             </form>
         </div>
     </div>

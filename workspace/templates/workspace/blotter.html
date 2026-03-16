@@ -6,12 +6,14 @@
 <div class="container-fluid px-4 py-4">
     <!-- Header with Action Buttons -->
     <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
-        <h1 class="h3 mb-0 fw-bold text-dark">Trade <span style="color: #C83C0D;">Blotter</span></h1>
+        <h1 class="h3 mb-0 fw-bold text-dark">Trade <span class="brand-orange">Blotter</span></h1>
+
         <div class="d-flex gap-2">
             <!-- Trigger for the Re-Price Logic in views.py -->
             <form action="{% url 'refresh_data' %}" method="POST">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-warning btn-sm shadow-sm text-dark fw-bold">
+                <button type="submit" class="btn btn-sm shadow-sm fw-bold" 
+                        style="background-color: var(--ua-gold); color: var(--ua-navy); border: none;">
                     <i class="fa-solid fa-sync-alt me-1"></i> Re-Price Portfolio
                 </button>
             </form>
