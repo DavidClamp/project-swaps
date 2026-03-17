@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from workspace import views
+from workspace import checkout_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,9 +27,9 @@ urlpatterns = [
     path('blotter/', views.trade_blotter, name='blotter'), 
     path('analyser/', views.curve_analyser, name='analyser'),
     path('refresh-data/', views.refresh_market_data, name='refresh_data'),
-    path('subscription/', views.subscription_plans, name='subscription'),
-    path('checkout/', views.create_checkout_session, name='create_checkout_session'),
-    path('payment-success/', views.payment_success, name='payment_success'),
+    path('subscription/', checkout_views.subscription_plans, name='subscription'),
+    path('checkout/', checkout_views.create_checkout_session, name='create_checkout_session'),
+    path('payment-success/', checkout_views.payment_success, name='payment_success'),
     path('add-trade/', views.add_trade, name='add_trade'),
     path('edit-trade/<int:pk>/', views.edit_trade, name='edit_trade'),
     path('delete-trade/<int:pk>/', views.delete_trade, name='delete_trade'),
