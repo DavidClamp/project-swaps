@@ -1,5 +1,7 @@
 import json
 import QuantLib as ql
+import stripe
+from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -148,17 +150,11 @@ def dashboard(request):
     """
     Aggregate trades into 'Strategies' or 'Groups'.
     """
-    # Fetch the current user's trades
     trades = Trade.objects.filter(user=request.user)
     
-    # Strategy gouping 
-  
     strategies = {}
     for t in trades:
-        # Fallback: If no group_id exists, treat it as a standalone 'Outright'
         gid = t.group_id if t.group_id else f"OUTRIGHT-{t.trade_id}"
-        
-        # Initialise entry for a new strategy group
         if gid not in strategies:
             strategies[gid] = {
                 'npv': 0.0, 
@@ -166,29 +162,34 @@ def dashboard(request):
                 'strategy': t.strategy,
                 'ticker': t.ticker
             }
-        
-        # Perform the Aggregation-Summing the last_npv for all legs within this group
         strategies[gid]['npv'] += (t.last_npv or 0.0)
         strategies[gid]['count'] += 1
 
-    #  Total Portfolio Metrics
+        # 1. Calculate Totals
     total_npv = sum(t.last_npv for t in trades if t.last_npv) or 0.0
+    trade_count = trades.count()
     
-       # 1. Fetch latest rate safely (returns None if empty instead of crashing)
+    # 2. Get latest rate date safely
     latest_rate = HistoricalRate.objects.filter(index_name='SOFR').order_by('-date').first()
-    
-    # 2. Define fallback string for the UI
     latest_date = latest_rate.date if latest_rate else "Data Pending"
 
-    # 3. Clean Context Dictionary
+    # 3. Build KPI List
+    kpi_data = [
+        ('Portfolio NPV', 'fa-scale-balanced', f"${total_npv:,.2f}", 
+         'text-pnl-positive' if total_npv >= 0 else 'text-pnl-negative'),
+        ('Active Trades', 'fa-file-invoice-dollar', trade_count, ''),
+        ('Index Focus', 'fa-satellite-dish', 'USD SOFR', ''),
+    ]
+
+    # 4. Final Context
     context = {
         'strategies': strategies,
         'total_npv': total_npv,
-        'trade_count': trades.count(),
+        'trade_count': trade_count,
         'latest_date': latest_date,
+        'kpi_data': kpi_data,
     } 
     return render(request, 'workspace/dashboard.html', context)
-
 
 @login_required
 def forward_histogram(request):
@@ -259,3 +260,44 @@ def curve_bar_chart(request):
 def subscription_plans(request):
     """Direct to window to upgrade to Pro."""
     return render(request, 'workspace/plans.html')
+
+# Initialise Stripe API Key
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+@login_required
+def subscription_plans(request):
+    """Renders the Free vs Pro pricing table."""
+    return render(request, 'workspace/plans.html')
+
+@login_required
+def create_checkout_session(request):
+    """Sends the user to the Stripe hosted payment page."""
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            customer_email=request.user.email,
+            payment_method_types=['card'],
+            line_items=[{
+                'price': settings.STRIPE_PRICE_ID,
+                'quantity': 1,
+            }],
+            mode='subscription',
+            success_url=request.build_absolute_uri('/') + '?success=true',
+            cancel_url=request.build_absolute_uri('/subscription/') + '?cancelled=true',
+        )
+        return redirect(checkout_session.url, code=303)
+    except Exception as e:
+        messages.error(request, f"Stripe Connection Error: {str(e)}")
+        return redirect('subscription')
+    
+    @login_required
+def payment_success(request):
+    """
+    Finalises the commercial journey. 
+    Updates the user profile to 'Pro' status.
+    """
+    profile = request.user.profile
+    profile.is_subscriber = True
+    profile.save()
+    
+    messages.success(request, "Success! Your Pro Quant terminal is now active.")
+    return redirect('dashboard')

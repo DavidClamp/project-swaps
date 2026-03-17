@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Subscription Plans | IRSQuant{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold">Select Your <span class="brand-orange">Terminal Tier</span></h1>
+        <p class="text-muted fs-5">Access institutional-grade SOFR analytics and portfolio re-pricing.</p>
+    </div>
+
+    <div class="row justify-content-center g-4">
+        <!-- Basic Tier (Free) -->
+        <div class="col-md-5 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body p-5 text-center">
+                    <h4 class="fw-bold">Basic</h4>
+                    <div class="display-4 fw-bold my-3">£0<span class="fs-6 text-muted">/mo</span></div>
+                    <ul class="list-unstyled text-start my-4">
+                        <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i> Trade Blotter CRUD</li>
+                        <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i> Dashboard Overview</li>
+                        <li class="mb-2 text-muted"><i class="fa-solid fa-xmark me-2"></i> Advanced Analyser</li>
+                        <li class="mb-2 text-muted"><i class="fa-solid fa-xmark me-2"></i> Term Structure Charts</li>
+                    </ul>
+                    <a href="{% url 'dashboard' %}" class="btn btn-outline-dark w-100">Current Plan</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pro Tier (Gold/Navy) -->
+        <div class="col-md-5 col-lg-4">
+            <div class="card h-100 shadow-lg border-0 card-access-dark">
+                <div class="card-body p-5 text-center">
+                    <div class="badge badge-rec mb-2 px-3 py-2">MOST POPULAR</div>
+                    <h4 class="fw-bold">Pro Quant</h4>
+                    <div class="display-4 fw-bold my-3 text-ua-gold">£29<span class="fs-6 text-white-50">/mo</span></div>
+                    <ul class="list-unstyled text-start my-4">
+                        <li class="mb-2"><i class="fa-solid fa-check text-ua-gold me-2"></i> <strong>Full Analyser</strong> access</li>
+                        <li class="mb-2"><i class="fa-solid fa-check text-ua-gold me-2"></i> Interactive Term Structure</li>
+                        <li class="mb-2"><i class="fa-solid fa-check text-ua-gold me-2"></i> 1Y Forward Distribution</li>
+                        <li class="mb-2"><i class="fa-solid fa-check text-ua-gold me-2"></i> Unlimited Re-pricing</li>
+                    </ul>
+                    
+                    {# Trigger for Stripe Checkout View #}
+                    <form action="{% url 'create_checkout_session' %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-ua-gold btn-lg w-100 shadow">
+                            Upgrade to Pro
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
