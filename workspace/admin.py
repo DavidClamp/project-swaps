@@ -19,4 +19,3 @@ class TradeAdmin(admin.ModelAdmin):
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'is_subscriber', 'stripe_customer_id')
     list_editable = ('is_subscriber',) 
-    
