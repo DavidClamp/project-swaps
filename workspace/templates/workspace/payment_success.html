@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5 text-center">
+    <div class="card shadow-lg p-5 mx-auto" style="max-width: 600px; border-top: 5px solid var(--ua-gold);">
+        <i class="fa-solid fa-circle-check text-success fa-5x mb-4"></i>
+        <h1 class="fw-bold">Welcome to <span class="brand-orange">Pro Quant</span></h1>
+        <p class="text-muted fs-5">Your institutional-grade terminal is now fully active.</p>
+        <a href="{% url 'dashboard' %}" class="btn btn-ua-gold btn-lg px-5 mt-3">Return to Terminal</a>
+    </div>
+</div>
+{% endblock %}

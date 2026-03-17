@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.views.generic import TemplateView
 from django.contrib import admin
 from django.urls import path, include
 from workspace import views
@@ -30,6 +31,7 @@ urlpatterns = [
     path('subscription/', checkout_views.subscription_plans, name='subscription'),
     path('checkout/', checkout_views.create_checkout_session, name='create_checkout_session'),
     path('payment-success/', checkout_views.payment_success, name='payment_success'),
+    path('payment-cancelled/', TemplateView.as_view(template_name='workspace/payment_cancelled.html'), name='payment_cancelled'),
     path('add-trade/', views.add_trade, name='add_trade'),
     path('edit-trade/<int:pk>/', views.edit_trade, name='edit_trade'),
     path('delete-trade/<int:pk>/', views.delete_trade, name='delete_trade'),

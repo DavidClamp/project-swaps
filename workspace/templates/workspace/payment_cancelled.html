@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Payment Cancelled | IRSQuant{% endblock %}
+
+{% block content %}
+<div class="container py-5 text-center">
+    <div class="card shadow-lg p-5 mx-auto card-access-dark" style="max-width: 600px; border-top: 5px solid var(--ua-blue);">
+        <i class="fa-solid fa-circle-xmark text-warning fa-5x mb-4"></i>
+        <h1 class="fw-bold text-white">Checkout <span class="brand-orange">Postponed</span></h1>
+        <p class="text-white-50 fs-5 mb-4">
+            Your transaction was not completed. No charges were made to your account. 
+            The **Pro Quant** features remain locked.
+        </p>
+        
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a href="{% url 'subscription' %}" class="btn btn-ua-gold btn-lg px-4 shadow-sm">
+                <i class="fa-solid fa-rotate-left me-2"></i>Try Again
+            </a>
+            <a href="{% url 'dashboard' %}" class="btn btn-outline-light btn-lg px-4">
+                Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -19,7 +19,8 @@ def create_checkout_session(request):
             line_items=[{'price': settings.STRIPE_PRICE_ID, 'quantity': 1}],
             mode='subscription',
             success_url=request.build_absolute_uri('/payment-success/'),
-            cancel_url=request.build_absolute_uri('/subscription/'),
+            cancel_url=request.build_absolute_uri('/payment-cancelled/'),
+
         )
         return redirect(checkout_session.url, code=303)
     except Exception as e:
