@@ -12,9 +12,12 @@ def subscription_plans(request):
 
 @login_required
 def create_checkout_session(request):
+    #  If no email, use a placeholder or show error
+    user_email = request.user.email if request.user.email else f"{request.user.username}@example.com"
+    
     try:
         checkout_session = stripe.checkout.Session.create(
-            customer_email=request.user.email,
+            customer_email=user_email, # Now guaranteed to have a string
             payment_method_types=['card'],
             line_items=[{'price': settings.STRIPE_PRICE_ID, 'quantity': 1}],
             mode='subscription',
