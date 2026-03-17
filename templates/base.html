@@ -59,13 +59,21 @@
             </div>
             <div class="navbar-nav">
                 {% if user.is_authenticated %}
-                <span class="navbar-text me-3 small text-white-50">User: {{ user.username }}</span>
-                <a class="btn btn-sm btn-outline-danger" href="{% url 'account_logout' %}">Logout</a>
+                   <!-- 1. The Pro Badge: Shows up where Profile + is_subscriber -->
+                    {% if user.profile.is_subscriber %}
+                        <span class="badge badge-rec me-3 d-flex align-items-center shadow-sm">
+                          <i class="fa-solid fa-crown me-1"></i> PRO
+                        </span>
+                    {% endif %}
+
+                  <!-- 2. User Info & Logout -->
+                    <span class="navbar-text me-3 small text-white-50">User: {{ user.username }}</span>
+                    <a class="btn btn-sm btn-outline-danger" href="{% url 'account_logout' %}">Logout</a>
                 {% else %}
-                <a class="btn btn-sm btn-outline-light me-2" href="{% url 'account_login' %}">Login</a>
-                <a class="btn btn-sm btn-primary" href="{% url 'account_signup' %}">Sign Up</a>
+                   <a class="btn btn-sm btn-outline-light me-2" href="{% url 'account_login' %}">Login</a>
+                   <a class="btn btn-sm btn-primary" href="{% url 'account_signup' %}">Sign Up</a>
                 {% endif %}
-            </div>
+            </div>    
         </div>
     </nav>
 
