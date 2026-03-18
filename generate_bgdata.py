@@ -3,15 +3,17 @@ import random
 from datetime import datetime, timedelta
 
 def create_gold_source():
-    # 3,130 points: 8 tenors * ~390 trading days
+    # 6,130 points: 12 tenors * ~570 trading days
     start_date = datetime(2024, 1, 1)
     end_date = datetime(2026, 3, 17)
-    tenors = ['1Y', '2Y', '3Y', '5Y', '7Y', '10Y', '20Y', '30Y']
+    tenors = ['1Y', '2Y', '3Y', '4Y', '5Y', '6Y', '7Y', '8Y', '9Y', '10Y', '15Y', '30Y']
     
-    # Base SOFR rates around 4.5%
-    base_rates = {'1Y': 0.045, '2Y': 0.044, '3Y': 0.043, '5Y': 0.042, 
-                  '7Y': 0.041, '10Y': 0.041, '20Y': 0.042, '30Y': 0.043}
-    
+    base_rates = {
+        '1Y': 0.045, '2Y': 0.044, '3Y': 0.043, '4Y': 0.0425, 
+        '5Y': 0.042, '6Y': 0.0415, '7Y': 0.041, '8Y': 0.041, 
+        '9Y': 0.041, '10Y': 0.041, '15Y': 0.042, '30Y': 0.043
+    }
+
     fixture = []
     pk = 1
     current = start_date
