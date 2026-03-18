@@ -35,5 +35,4 @@ def payment_success(request):
     profile = request.user.profile
     profile.is_subscriber = True
     profile.save()
-    messages.success(request, "Success! Your Pro Quant terminal is active.")
-    return redirect('dashboard')
+    return render(request, 'workspace/payment_success.html')

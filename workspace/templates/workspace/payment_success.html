@@ -1,11 +1,46 @@
 {% extends 'base.html' %}
+
+{% block title %}Upgrade Successful | IRSQuant{% endblock %}
+
 {% block content %}
-<div class="container py-5 text-center">
-    <div class="card shadow-lg p-5 mx-auto" style="max-width: 600px; border-top: 5px solid var(--ua-gold);">
-        <i class="fa-solid fa-circle-check text-success fa-5x mb-4"></i>
-        <h1 class="fw-bold">Welcome to <span class="brand-orange">Pro Quant</span></h1>
-        <p class="text-muted fs-5">Your institutional-grade terminal is now fully active.</p>
-        <a href="{% url 'dashboard' %}" class="btn btn-ua-gold btn-lg px-5 mt-3">Return to Terminal</a>
+<div class="container py-5 mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-lg border-0 card-access-dark p-5 text-center">
+                <!-- Success Icon -->
+                <div class="mb-4">
+                    <div class="display-1 text-ua-gold">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                </div>
+
+                <h1 class="fw-bold mb-3">Upgrade <span class="brand-orange">Confirmed</span></h1>
+                <p class="text-white-50 fs-5 mb-4">
+                    Welcome to the **Pro Quant** tier. Your terminal has been upgraded with institutional-grade analytics.
+                </p>
+
+                <div class="row g-3 mb-5 text-start">
+                    <div class="col-sm-6">
+                        <div class="p-3 rounded bg-dark border border-secondary h-100">
+                            <i class="fa-solid fa-bezier-curve text-ua-gold me-2"></i>
+                            <span class="small">Full Zero Curve Analyser</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="p-3 rounded bg-dark border border-secondary h-100">
+                            <i class="fa-solid fa-chart-column text-ua-gold me-2"></i>
+                            <span class="small">1Y Forward Distribution</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <a href="{% url 'dashboard' %}" class="btn btn-ua-gold btn-lg fw-bold shadow">
+                        Enter Pro Terminal
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
