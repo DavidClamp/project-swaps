@@ -42,21 +42,29 @@
             <a class="navbar-brand fw-bold brand-orange" href="{% url 'dashboard' %}">
                 <i class="fa-solid fa-chart-line me-2"></i><span class="brand-orange">IRSQUANT</span>
             </a>
-            <div class="navbar-nav me-auto">
-                <a class="nav-link px-3" href="{% url 'blotter' %}"><i class="fa-solid fa-table-list me-1"></i>
-                    Blotter</a>
-                <a class="nav-link px-3" href="{% url 'analyser' %}"><i class="fa-solid fa-bezier-curve me-1"></i>
-                    Analyser</a>
-                <!-- Bar chart Link -->
-                <a class="nav-link px-3" href="{% url 'curve_bars' %}"><i class="fa-solid fa-chart-bar me-1"></i> Term
-                    Structure</a>
-                <!-- Histogram Link -->
-                <a class="nav-link px-3" href="{% url 'histogram' %}"><i class="fa-solid fa-chart-column me-1"></i> 1Y
-                    Distribution</a>
-
-                <a class="nav-link px-3" href="{% url 'add_trade' %}"><i class="fa-solid fa-plus-circle me-1"></i> Add
-                    Trade</a>
+                     <div class="navbar-nav me-auto">
+                <!-- Dashboard link  -->
+                <a class="nav-link px-3 {% if request.resolver_match.url_name == 'dashboard' %}active fw-bold text-ua-gold{% endif %}" href="{% url 'dashboard' %}">
+                    <i class="fa-solid fa-gauge-high me-1"></i> Dashboard
+                </a>                
+                <!-- Quant Tools -->
+                <a class="nav-link px-3 {% if request.resolver_match.url_name == 'blotter' %}active{% endif %}" href="{% url 'blotter' %}">
+                    <i class="fa-solid fa-table-list me-1"></i> Blotter
+                </a>
+                <a class="nav-link px-3 {% if request.resolver_match.url_name == 'analyser' %}active{% endif %}" href="{% url 'analyser' %}">
+                    <i class="fa-solid fa-bezier-curve me-1"></i> Analyser
+                </a>
+                <a class="nav-link px-3 {% if request.resolver_match.url_name == 'curve_bars' %}active{% endif %}" href="{% url 'curve_bars' %}">
+                    <i class="fa-solid fa-chart-bar me-1"></i> Term Structure
+                </a>
+                <a class="nav-link px-3 {% if request.resolver_match.url_name == 'histogram' %}active{% endif %}" href="{% url 'histogram' %}">
+                    <i class="fa-solid fa-chart-column me-1"></i> 1Y Distribution
+                </a>
+                <a class="nav-link px-3 {% if request.resolver_match.url_name == 'add_trade' %}active{% endif %}" href="{% url 'add_trade' %}">
+                    <i class="fa-solid fa-plus-circle me-1"></i> Add Trade
+                </a>
             </div>
+  
             <div class="navbar-nav">
                 {% if user.is_authenticated %}
                    <!-- 1. The Pro Badge: Shows up where Profile + is_subscriber -->
