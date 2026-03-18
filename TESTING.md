@@ -54,6 +54,21 @@ Unfortunately, pages that require a user to be "logged-in" and authenticated (CR
 
 I have used the recommended [HTML W3C Validator](https://validator.w3.org) to validate all of my HTML files.
 
+| Directory | File | URL | Screenshot | Notes |
+| --- | --- | --- | --- | --- |
+| templates | [404.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/404.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-404.png) | ⚠️ Notes (if applicable) |
+| templates | [500.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/500.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-500.png) | ⚠️ Notes (if applicable) |
+| workspace | [add_trade.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/add_trade.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-add_trade.png) | ⚠️ Notes (if applicable) |
+| workspace | [analyser.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/analyser.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-analyser.png) | ⚠️ Notes (if applicable) |
+| workspace | [blotter.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/blotter.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-blotter.png) | ⚠️ Notes (if applicable) |
+| workspace | [curve_bars.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/curve_bars.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-curve_bars.png) | ⚠️ Notes (if applicable) |
+| workspace | [dashboard.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/dashboard.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-dashboard.png) | ⚠️ Notes (if applicable) |
+| workspace | [delete_confirm.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/delete_confirm.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-delete_confirm.png) | ⚠️ Notes (if applicable) |
+| workspace | [edit_trade.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/edit_trade.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-edit_trade.png) | ⚠️ Notes (if applicable) |
+| workspace | [histogram.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/histogram.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-histogram.png) | ⚠️ Notes (if applicable) |
+| workspace | [payment_cancelled.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/payment_cancelled.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-payment_cancelled.png) | ⚠️ Notes (if applicable) |
+| workspace | [payment_success.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/payment_success.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-payment_success.png) | ⚠️ Notes (if applicable) |
+| workspace | [plans.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/plans.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-plans.png) | ⚠️ Notes (if applicable) |
 
 
 ### CSS
@@ -77,6 +92,9 @@ If you're using external libraries/frameworks (e.g: Bootstrap, Materialize, Font
 
 I have used the recommended [CSS Jigsaw Validator](https://jigsaw.w3.org/css-validator) to validate all of my CSS files.
 
+| Directory | File | URL | Screenshot | Notes |
+| --- | --- | --- | --- | --- |
+| static | [style.css](https://github.com/DavidClamp/project-swaps/blob/main/static/css/style.css) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/css-static-style.png) | ⚠️ Notes (if applicable) |
 
 
 ### JavaScript
@@ -162,12 +180,19 @@ I have used the recommended [PEP8 CI Python Linter](https://pep8ci.herokuapp.com
 
 | Directory | File | URL | Screenshot | Notes |
 | --- | --- | --- | --- | --- |
+|  | [generate_bgdata.py](https://github.com/DavidClamp/project-swaps/blob/main/generate_bgdata.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/generate_bgdata.py) | ![screenshot](documentation/validation/py--generate_bgdata.png) | ⚠️ Notes (if applicable) |
+|  | [import_bgdata.py](https://github.com/DavidClamp/project-swaps/blob/main/import_bgdata.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/import_bgdata.py) | ![screenshot](documentation/validation/py--import_bgdata.png) | ⚠️ Notes (if applicable) |
 |  | [manage.py](https://github.com/DavidClamp/project-swaps/blob/main/manage.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/manage.py) | ![screenshot](documentation/validation/py--manage.png) | ⚠️ Notes (if applicable) |
 | swapanalyser | [settings.py](https://github.com/DavidClamp/project-swaps/blob/main/swapanalyser/settings.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/swapanalyser/settings.py) | ![screenshot](documentation/validation/py-swapanalyser-settings.png) | ⚠️ Notes (if applicable) |
 | swapanalyser | [urls.py](https://github.com/DavidClamp/project-swaps/blob/main/swapanalyser/urls.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/swapanalyser/urls.py) | ![screenshot](documentation/validation/py-swapanalyser-urls.png) | ⚠️ Notes (if applicable) |
 | workspace | [admin.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/admin.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/admin.py) | ![screenshot](documentation/validation/py-workspace-admin.png) | ⚠️ Notes (if applicable) |
+| workspace | [checkout_views.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/checkout_views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/checkout_views.py) | ![screenshot](documentation/validation/py-workspace-checkout_views.png) | ⚠️ Notes (if applicable) |
+| workspace | [choices.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/choices.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/choices.py) | ![screenshot](documentation/validation/py-workspace-choices.png) | ⚠️ Notes (if applicable) |
+| workspace | [data_handler.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/data_handler.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/data_handler.py) | ![screenshot](documentation/validation/py-workspace-data_handler.png) | ⚠️ Notes (if applicable) |
+| workspace | [forms.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/forms.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/forms.py) | ![screenshot](documentation/validation/py-workspace-forms.png) | ⚠️ Notes (if applicable) |
 | workspace | [models.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/models.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/models.py) | ![screenshot](documentation/validation/py-workspace-models.png) | ⚠️ Notes (if applicable) |
 | workspace | [tests.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/tests.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/tests.py) | ![screenshot](documentation/validation/py-workspace-tests.png) | ⚠️ Notes (if applicable) |
+| workspace | [utils.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/utils.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/utils.py) | ![screenshot](documentation/validation/py-workspace-utils.png) | ⚠️ Notes (if applicable) |
 | workspace | [views.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/views.py) | ![screenshot](documentation/validation/py-workspace-views.png) | ⚠️ Notes (if applicable) |
 
 
