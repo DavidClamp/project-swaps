@@ -25,7 +25,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     # Workspace Views
     path('', views.dashboard, name='dashboard'),
-    path('blotter/', views.trade_blotter, name='blotter'), 
+    path('blotter/', views.trade_blotter, name='blotter'),
     path('analyser/', views.curve_analyser, name='analyser'),
     path('refresh-data/', views.refresh_market_data, name='refresh_data'),
     path('subscription/', checkout_views.subscription_plans, name='subscription'),

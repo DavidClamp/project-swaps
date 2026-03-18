@@ -5,6 +5,7 @@ import requests
 from django.conf import settings
 from .models import HistoricalRate
 
+
 def import_bluegamma_data(source="api"):
     """
     Hybrid Data Fetch: Attempts Live API first, falls back to Local JSON.
@@ -19,9 +20,9 @@ def import_bluegamma_data(source="api"):
             if not api_key:
                 raise ValueError("No API Key found")
                 
-            url = "https://www.bluegamma.io" # Example endpoint
+            url = "https://www.bluegamma.io"
             response = requests.get(url, headers={"X-API-Key": api_key}, timeout=5)
-            response.raise_for_status() # Check for 404/500 errors
+            response.raise_for_status()
             data = response.json()
             source_label = "Live API"
         except Exception as e:
@@ -32,8 +33,9 @@ def import_bluegamma_data(source="api"):
     if source == "local":
         try:
             # Assume file is in project root
-            with open('market_data_test.json') as f:
-                data = json.load(f)
+            file_path = os.path.join(settings.BASE_DIR, 'market_data_test.json')
+            with open(file_path) as f:
+                    data = json.load(f)
             source_label = "Local Seed File"
         except FileNotFoundError:
             return "Error: No market data file found for fallback."
@@ -56,9 +58,8 @@ def import_bluegamma_data(source="api"):
                 tenor=row['tenor'],
                 rate=row['rate']
             )
-        )
-    
+        )    
     # 5. Bulk Create to prevent duplicates
     HistoricalRate.objects.bulk_create(rates_to_create, ignore_conflicts=True)
-    
+
     return f"Successfully imported {len(rates_to_create)} rates for {index} from {source_label}."

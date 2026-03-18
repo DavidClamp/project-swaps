@@ -22,7 +22,7 @@ os.environ.setdefault(
     "DATABASE_URL",
     "postgresql://neondb_owner:npg_6pRtBAksj0dP@ep-long-rain-agwbsz0t.c-2.eu-central-1.aws.neon.tech/push_clip_flock_703818"
 )
-os.environ.setdefault("SECRET_KEY", "Fumble%123")    
+os.environ.setdefault("SECRET_KEY", "Fumble%123")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

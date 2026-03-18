@@ -4,6 +4,7 @@ from django.core.validators import MinValueValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+
 class HistoricalRate(models.Model):
     """Global Market Data Store: SOFR, SONIA, TONA, EURIBOR, etc."""
 
@@ -21,8 +22,9 @@ class HistoricalRate(models.Model):
 
     date = models.DateField(db_index=True)
     index_name = models.CharField(max_length=10, choices=INDEX_CHOICES)
-    tenor = models.CharField(max_length=10) # e.g. '1Y', '5Y', '30Y'
-    rate = models.FloatField() # e.g. 0.0015 for JPY TONA (often near zero)
+    tenor = models.CharField(max_length=10)
+    rate = models.FloatField()
+
 
     class Meta:
         unique_together = ('date', 'index_name', 'tenor')
@@ -30,6 +32,7 @@ class HistoricalRate(models.Model):
 
     def __str__(self):
         return f"{self.date} | {self.index_name} | {self.tenor}: {self.rate}"
+
 
 class Trade(models.Model):
     """IRS Trade Blotter: Supports Outrights and Butterflies """
@@ -46,7 +49,7 @@ class Trade(models.Model):
     tenor_years = models.PositiveIntegerField()
     fixed_rate = models.FloatField()
     side = models.CharField(max_length=3, choices=SIDE_CHOICES)
-    weight = models.FloatField(default=1.0) # +1 for Wings, -2 for Belly (FLY logic)
+    weight = models.FloatField(default=1.0)
 
     # QuantLib/Pandas Outputs
     last_npv = models.FloatField(null=True, blank=True)
