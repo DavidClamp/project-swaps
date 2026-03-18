@@ -25,7 +25,6 @@ class HistoricalRate(models.Model):
     tenor = models.CharField(max_length=10)
     rate = models.FloatField()
 
-
     class Meta:
         unique_together = ('date', 'index_name', 'tenor')
         ordering = ['-date', 'index_name']
@@ -43,8 +42,8 @@ class Trade(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="trades")
     strategy = models.CharField(max_length=10, choices=STRATEGY_CHOICES, default='OUTRIGHT')
     group_id = models.CharField(max_length=50, blank=True, null=True, help_text="Links Butterfly legs")
-    
-    ticker = models.CharField(max_length=20) # e.g. USOSFR5Y
+
+    ticker = models.CharField(max_length=20)
     notional = models.DecimalField(max_digits=20, decimal_places=2, validators=[MinValueValidator(0)])
     tenor_years = models.PositiveIntegerField()
     fixed_rate = models.FloatField()
@@ -58,7 +57,8 @@ class Trade(models.Model):
 
     def __str__(self):
         return f"{self.strategy} | {self.ticker} | {self.user.username}"
-    
+
+
 class Profile(models.Model):
     """
     Extends User to track subscription status.
@@ -70,7 +70,8 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s Profile"
-     
+
+
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     """Automatically creates a Profile whenever a new User is registered."""
