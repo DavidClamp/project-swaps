@@ -1,0 +1,3130 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "BlueGamma API",
+    "description": "\nIntegrate real-time forward curve and swap rate data directly into your spreadsheets, treasury software, or pricing portfolios. Our API is developer-friendly, offering fast and reliable data access.\n\n**Why BlueGamma?**\n- **Specialized Data**: Access forward curves and swap rates for multiple currencies and tenors to make timely, data-driven decisions.\n- **Easy Integration**: Designed for easy integration into existing systems.\n- **Expert Support**: Our experts are available to assist with your integration needs.\n\n<br>\n\n💡 **Looking for more?**  \n[Visit our website](https://www.bluegamma.io) to explore use cases and solutions.\n\n<br>\n\n🔗 **Ready to get started?**\n\n<br>\n\n[Book a demo →](https://app.lemcal.com/@alivohra/website-demo?back=1)  \n\n<br>\n",
+    "version": "1.0.0",
+    "contact": {
+      "name": "BlueGamma",
+      "url": "https://www.bluegamma.io",
+      "email": "support@bluegamma.io"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.bluegamma.io/v1",
+      "description": "Production server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Swap Rates",
+      "description": "Live and historical swap rate calculations, available tenors, and swap curve construction"
+    },
+    {
+      "name": "Forward & Discount Curves",
+      "description": "Forward curves, discount curves, and single-point calculations"
+    },
+    {
+      "name": "FX",
+      "description": "FX spot and forward rates, and real-time market data"
+    },
+    {
+      "name": "Central Bank and Benchmark Rates",
+      "description": "Interest rate fixings, central bank rates, and benchmark rate data for financial calculations"
+    },
+    {
+      "name": "Government Bonds",
+      "description": "Government bond yields and treasury rate calculations"
+    },
+    {
+      "name": "Swaptions",
+      "description": "European swaption pricing with live yield curves and normal volatility surface. Pricing, delta, DV01, and vega for payer and receiver swaptions."
+    }
+  ],
+  "paths": {
+    "/swap_rate": {
+      "get": {
+        "summary": "Get Swap Rate",
+        "operationId": "getSwapRate",
+        "tags": [
+          "Swap Rates"
+        ],
+        "description": "This endpoint calculates the swap rate based on the specified parameters.\n",
+        "parameters": [
+          {
+            "name": "index",
+            "in": "query",
+            "description": "The specific index (e.g., SOFR, 1M EURIBOR, 6M EURIBOR OR SONIA) on which the swap rate is based.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Index"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "description": "The start date for the swap. Provide either a specific date (e.g., '2025-12-31') or a tenor (e.g., '6M', '1Y'), but not both.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/DateOrTenor"
+            }
+          },
+          {
+            "name": "maturity_date",
+            "in": "query",
+            "description": "The maturity date for the swap. Provide either a specific date (e.g., '2030-12-31') or a tenor (e.g., '1Y', '5Y'), but not both.\n**Validation Requirements:** - Maturity date must be in the future - Maturity date must be later than start date - If using a tenor, it represents the period from start date to maturity",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/LaterDateOrTenor"
+            },
+            "examples": {
+              "one_year": {
+                "summary": "1 year maturity",
+                "value": "1Y"
+              },
+              "five_year": {
+                "summary": "5 year maturity",
+                "value": "5Y"
+              },
+              "ten_year": {
+                "summary": "10 year maturity",
+                "value": "10Y"
+              },
+              "specific_maturity": {
+                "summary": "Specific maturity date",
+                "value": "2030-06-15"
+              }
+            }
+          },
+          {
+            "name": "fixed_leg_frequency",
+            "in": "query",
+            "description": "The payment frequency for the fixed leg of the swap. Common values are '1M', '3M', '6M', '1Y'.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Frequency"
+            }
+          },
+          {
+            "name": "floating_leg_frequency",
+            "in": "query",
+            "description": "The payment frequency for the floating leg of the swap. Common values are '1M', '3M', '6M', '1Y'. If not provided, the frequency defaults to match the fixed leg.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/Frequency"
+            }
+          },
+          {
+            "name": "fixed_leg_day_count",
+            "in": "query",
+            "description": "The day count convention used for the fixed leg of the swap. By default, we use the currency-specific day count convention.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/DayCountConvention"
+            }
+          },
+          {
+            "name": "floating_leg_day_count",
+            "in": "query",
+            "description": "The day count convention used for the floating leg of the swap. By default, we use the currency-specific day count convention.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/DayCountConvention"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/valuation_time"
+          }
+        ],
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of calculated swap rate data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "index": {
+                      "type": "string",
+                      "example": "3M EURIBOR"
+                    },
+                    "start_date": {
+                      "$ref": "#/components/schemas/Date"
+                    },
+                    "maturity_date": {
+                      "$ref": "#/components/schemas/Date"
+                    },
+                    "fixed_leg_first_payment_date": {
+                      "$ref": "#/components/schemas/Date"
+                    },
+                    "floating_leg_first_payment_date": {
+                      "$ref": "#/components/schemas/Date"
+                    },
+                    "floating_leg_frequency": {
+                      "type": "string",
+                      "example": "3M"
+                    },
+                    "floating_leg_day_count": {
+                      "$ref": "#/components/schemas/DayCountConvention"
+                    },
+                    "fixed_leg_frequency": {
+                      "type": "string",
+                      "example": "6M"
+                    },
+                    "fixed_leg_day_count": {
+                      "$ref": "#/components/schemas/DayCountConvention"
+                    },
+                    "valuation_time": {
+                      "$ref": "#/components/schemas/DateTime"
+                    },
+                    "swap_rate": {
+                      "type": "number",
+                      "example": 3.34567803
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred while processing the request."
+          }
+        }
+      }
+    },
+    "/get_swap_curve": {
+      "get": {
+        "summary": "Get Swap Curve",
+        "operationId": "getSwapRateCurve",
+        "tags": [
+          "Swap Rates"
+        ],
+        "description": "This endpoint returns a complete swap curve for a given index, calculating swap rates \nfor all available tenors. It uses the predefined index configuration to automatically \ndetermine the appropriate day count conventions and frequencies, then fetches all \navailable tenors from the database.\n",
+        "parameters": [
+          {
+            "name": "index",
+            "in": "query",
+            "description": "The name of the index for which to retrieve the swap curve.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Index"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/valuation_time"
+          }
+        ],
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of complete swap curve data for all available tenors.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "index_name": {
+                      "type": "string",
+                      "example": "SOFR"
+                    },
+                    "start_date": {
+                      "$ref": "#/components/schemas/Date"
+                    },
+                    "floating_leg_frequency": {
+                      "type": "string",
+                      "example": "12M"
+                    },
+                    "floating_leg_day_count": {
+                      "$ref": "#/components/schemas/DayCountConvention"
+                    },
+                    "fixed_leg_frequency": {
+                      "type": "string",
+                      "example": "12M"
+                    },
+                    "fixed_leg_day_count": {
+                      "$ref": "#/components/schemas/DayCountConvention"
+                    },
+                    "valuation_time": {
+                      "$ref": "#/components/schemas/DateTime"
+                    },
+                    "swap_rates": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "tenor": {
+                            "type": "string",
+                            "example": "5Y"
+                          },
+                          "swap_rate": {
+                            "type": "number",
+                            "example": 3.34567803
+                          },
+                          "error": {
+                            "type": "string",
+                            "description": "Error message if the calculation failed for this tenor"
+                          }
+                        }
+                      },
+                      "example": [
+                        {
+                          "tenor": "1Y",
+                          "swap_rate": 2.45678901
+                        },
+                        {
+                          "tenor": "5Y",
+                          "swap_rate": 3.34567803
+                        },
+                        {
+                          "tenor": "10Y",
+                          "swap_rate": 3.87654321
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "description": "Not Found - No tenors available for the specified index or currency."
+          },
+          "422": {
+            "description": "Unprocessable Entity - The provided index name is not found in the configuration."
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred while processing the request."
+          }
+        }
+      }
+    },
+    "/forward_rate": {
+      "get": {
+        "summary": "Get Forward Rate",
+        "operationId": "getForwardRate",
+        "tags": [
+          "Forward & Discount Curves"
+        ],
+        "description": "Fetches the forward rate based on the specified parameters, including reference rate, start date, end date and optional valuation time.",
+        "parameters": [
+          {
+            "name": "index",
+            "in": "query",
+            "description": "The specific rate the user wants to base the forecast on (e.g., SOFR, 1M EURIBOR, 6M EURIBOR, SONIA, 3M NIBOR etc.).",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Index"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "description": "The start date for the forward rate calculation. Provide either a specific date (e.g., '2025-12-31') or a tenor (e.g., '1Y', '5Y'), but not both.\n**Validation Requirements:** - Start date must be later than valuation time - If using a tenor, it represents the period from valuation time to start date\n",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/DateOrTenor"
+            },
+            "examples": {
+              "one_year_forward": {
+                "summary": "1 year forward start",
+                "value": "1Y"
+              },
+              "two_year_forward": {
+                "summary": "2 year forward start",
+                "value": "2Y"
+              },
+              "specific_forward_date": {
+                "summary": "Specific forward start date",
+                "value": "2026-03-15"
+              }
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "description": "The end date for the forward period. Provide either a specific date (e.g., '2026-03-31') or a tenor (e.g., '1M', '3M'), but not both.\n",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/DateOrTenor"
+            },
+            "examples": {
+              "three_month_period": {
+                "summary": "3 month forward period",
+                "value": "3M"
+              },
+              "six_month_period": {
+                "summary": "6 month forward period",
+                "value": "6M"
+              },
+              "one_year_period": {
+                "summary": "1 year forward period",
+                "value": "1Y"
+              },
+              "specific_end_date": {
+                "summary": "Specific end date",
+                "value": "2026-09-15"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/parameters/valuation_time"
+          }
+        ],
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of forward curve data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "index": {
+                      "type": "string",
+                      "example": "SOFR"
+                    },
+                    "start_date": {
+                      "$ref": "#/components/schemas/Date"
+                    },
+                    "end_date": {
+                      "$ref": "#/components/schemas/Date"
+                    },
+                    "valuation_time": {
+                      "$ref": "#/components/schemas/DateTime"
+                    },
+                    "forward_rate": {
+                      "type": "number",
+                      "example": 2.986345445
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred while processing the request."
+          }
+        }
+      }
+    },
+    "/discount_factor": {
+      "get": {
+        "summary": "Get Discount Factor",
+        "operationId": "getDiscountFactor",
+        "tags": [
+          "Forward & Discount Curves"
+        ],
+        "description": "Fetches the discount factor based on the specified parameters, including reference rate, date and optional valuation time.",
+        "parameters": [
+          {
+            "name": "index",
+            "in": "query",
+            "description": "The specific rate the user wants to base the forecast on (e.g., SOFR, 1M EURIBOR, 6M EURIBOR, SONIA, 3M NIBOR etc.).",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Index"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "description": "The date for the discount factor calculation. Provide either a specific date (e.g., '2025-12-31') or a tenor (e.g., '1Y', '5Y'), but not both.\n",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/DateOrTenor"
+            },
+            "examples": {
+              "one_year_df": {
+                "summary": "1 year discount factor",
+                "value": "1Y"
+              },
+              "five_year_df": {
+                "summary": "5 year discount factor",
+                "value": "5Y"
+              },
+              "ten_year_df": {
+                "summary": "10 year discount factor",
+                "value": "10Y"
+              },
+              "specific_date_df": {
+                "summary": "Specific date discount factor",
+                "value": "2027-06-15"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/parameters/valuation_time"
+          }
+        ],
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of discount rate data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "index": {
+                      "type": "string",
+                      "example": "SOFR"
+                    },
+                    "date": {
+                      "$ref": "#/components/schemas/Date"
+                    },
+                    "valuation_time": {
+                      "$ref": "#/components/schemas/DateTime"
+                    },
+                    "discount_factor": {
+                      "type": "number",
+                      "example": 0.7863454
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred while processing the request."
+          }
+        }
+      }
+    },
+    "/zero_rate": {
+      "get": {
+        "summary": "Get Zero Rate",
+        "operationId": "getZeroRate",
+        "tags": [
+          "Forward & Discount Curves"
+        ],
+        "description": "Fetches the zero rate (spot rate) based on the specified parameters, including reference rate, date and optional valuation time. Returns the zero rate as a percentage with configurable compounding and day count conventions.",
+        "parameters": [
+          {
+            "name": "index",
+            "in": "query",
+            "description": "The specific rate the user wants to base the forecast on (e.g., SOFR, 1M EURIBOR, 6M EURIBOR, SONIA, 3M NIBOR etc.).",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Index"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "description": "The date for the zero rate calculation. Provide either a specific date (e.g., '2025-12-31') or a tenor (e.g., '1Y', '5Y'), but not both.\n",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/DateOrTenor"
+            },
+            "examples": {
+              "one_year_zr": {
+                "summary": "1 year zero rate",
+                "value": "1Y"
+              },
+              "five_year_zr": {
+                "summary": "5 year zero rate",
+                "value": "5Y"
+              },
+              "ten_year_zr": {
+                "summary": "10 year zero rate",
+                "value": "10Y"
+              },
+              "specific_date_zr": {
+                "summary": "Specific date zero rate",
+                "value": "2027-06-15"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/parameters/valuation_time"
+          },
+          {
+            "name": "day_count",
+            "in": "query",
+            "description": "Day count convention for the zero rate calculation. If not provided, uses the curve's default day count.\n",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/DayCountConvention"
+            },
+            "examples": {
+              "actual_360": {
+                "summary": "Actual/360",
+                "value": "Actual360"
+              },
+              "actual_365": {
+                "summary": "Actual/365 Fixed",
+                "value": "Actual365Fixed"
+              }
+            }
+          },
+          {
+            "name": "compounding",
+            "in": "query",
+            "description": "Compounding type for the zero rate. Default is Simple.\n",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "Simple",
+                "Compounded",
+                "Continuous"
+              ],
+              "default": "Simple"
+            },
+            "examples": {
+              "simple": {
+                "summary": "Simple (no compounding)",
+                "value": "Simple"
+              },
+              "compounded": {
+                "summary": "Discrete compounding",
+                "value": "Compounded"
+              },
+              "continuous": {
+                "summary": "Continuous compounding",
+                "value": "Continuous"
+              }
+            }
+          },
+          {
+            "name": "compounding_frequency",
+            "in": "query",
+            "description": "Compounding frequency. Only applicable when compounding is set to 'Compounded'. Default is 12M (Annual).\n",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1M",
+                "3M",
+                "6M",
+                "12M"
+              ],
+              "default": "12M"
+            },
+            "examples": {
+              "annual": {
+                "summary": "Annual compounding",
+                "value": "12M"
+              },
+              "semiannual": {
+                "summary": "Semiannual compounding",
+                "value": "6M"
+              },
+              "quarterly": {
+                "summary": "Quarterly compounding",
+                "value": "3M"
+              },
+              "monthly": {
+                "summary": "Monthly compounding",
+                "value": "1M"
+              }
+            }
+          }
+        ],
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of zero rate data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "index": {
+                      "type": "string",
+                      "example": "SOFR"
+                    },
+                    "date": {
+                      "$ref": "#/components/schemas/Date"
+                    },
+                    "valuation_time": {
+                      "$ref": "#/components/schemas/DateTime"
+                    },
+                    "zero_rate": {
+                      "type": "number",
+                      "example": 4.25
+                    },
+                    "day_count": {
+                      "$ref": "#/components/schemas/DayCountConvention"
+                    },
+                    "compounding": {
+                      "type": "string",
+                      "example": "Simple"
+                    },
+                    "compounding_frequency": {
+                      "type": "string",
+                      "example": "12M",
+                      "description": "Only present when compounding is 'Compounded'"
+                    },
+                    "timestamp": {
+                      "$ref": "#/components/schemas/DateTime"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred while processing the request."
+          }
+        }
+      }
+    },
+    "/fx": {
+      "get": {
+        "summary": "Get FX Spot Rate",
+        "operationId": "getFxSpotRate",
+        "tags": [
+          "FX"
+        ],
+        "description": "Fetches the foreign exchange spot rate for the specified currency pair.",
+        "parameters": [
+          {
+            "name": "currency_pair",
+            "in": "query",
+            "description": "Currency pair for which to retrieve the FX spot rate (e.g., EURUSD, GBPJPY).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "major_eur_usd": {
+                "summary": "EUR/USD (Euro to US Dollar)",
+                "value": "EURUSD"
+              },
+              "major_gbp_usd": {
+                "summary": "GBP/USD (British Pound to US Dollar)",
+                "value": "GBPUSD"
+              },
+              "major_usd_jpy": {
+                "summary": "USD/JPY (US Dollar to Japanese Yen)",
+                "value": "USDJPY"
+              },
+              "cross_eur_gbp": {
+                "summary": "EUR/GBP (Euro to British Pound)",
+                "value": "EURGBP"
+              },
+              "emerging_usd_mxn": {
+                "summary": "USD/MXN (US Dollar to Mexican Peso)",
+                "value": "USDMXN"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/parameters/valuation_time"
+          }
+        ],
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of FX spot rate data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "currency_pair": {
+                      "type": "string",
+                      "example": "EURUSD"
+                    },
+                    "valuation_time": {
+                      "$ref": "#/components/schemas/DateTime"
+                    },
+                    "rate": {
+                      "type": "number",
+                      "example": 1.1234
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred while processing the request."
+          }
+        }
+      }
+    },
+    "/fx_forward": {
+      "get": {
+        "summary": "Get FX Forward Rate",
+        "operationId": "getFxForwardRate",
+        "tags": [
+          "FX"
+        ],
+        "description": "Fetches the forward exchange rate for a given currency pair. The forward rate is determined based on the specified date or defaults to the current date.",
+        "parameters": [
+          {
+            "name": "currency_pair",
+            "in": "query",
+            "description": "The currency pair in ISO format (e.g., \"EURUSD\" for Euro to US Dollar).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "EURUSD"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "description": "The date for which the forward rate is requested. Defaults to the current date if not specified.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "example": "2024-12-31"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of FX forward rate data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "currency_pair": {
+                      "type": "string",
+                      "example": "EURUSD"
+                    },
+                    "date": {
+                      "$ref": "#/components/schemas/Date"
+                    },
+                    "rate": {
+                      "type": "number",
+                      "example": 1.2345
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred while processing the request."
+          }
+        }
+      }
+    },
+    "/fx_stream": {
+      "get": {
+        "summary": "Real-Time FX Streaming (WebSocket)",
+        "operationId": "fxStreamWebSocketInfo",
+        "tags": [
+          "FX"
+        ],
+        "description": "Access live foreign exchange market data with real-time mid-prices derived from institutional market feeds.\n\nThis HTTP endpoint has been replaced by a dedicated WebSocket service and is kept here for documentation purposes for prospective users.\n\nConnect directly via WebSocket at: `wss://streaming.bluegamma.io/fx_stream`\n\nExample connection URL: `wss://streaming.bluegamma.io/fx_stream?s=EURUSD&token=YOUR_TOKEN`\n\nIf you previously relied on an HTTP redirect, please update your client to open a WebSocket connection directly.\n\nThe stream provides continuous market data via the WebSocket protocol for low-latency, bidirectional communication.\n\nQuery parameters:\n- `s`: one or more symbols (repeatable), e.g. `?s=EURUSD&s=GBPUSD`\n- `token`: your JWT token\n\nServer Messages (from server to client):\n\nQuote updates:\n```json\n{\n  \"type\": \"quote\",\n  \"symbol\": \"EURUSD\",\n  \"mid\": 1.0845,\n  \"timestamp\": \"2025-01-15T14:30:25.123Z\"\n}\n```\n\nConnection status:\n```json\n{\"type\": \"connected\"}\n{\"type\": \"reconnecting\", \"timestamp\": 1234567890}\n```\n\nSubscription confirmations:\n```json\n{\"type\": \"subscribed\", \"symbols\": [\"GBPUSD\"]}\n{\"type\": \"unsubscribed\", \"symbols\": [\"EURUSD\"]}\n```\n\nHeartbeat:\n```json\n{\"type\": \"ping\"}\n{\"type\": \"pong\"}\n```\n\nClient Commands (send from client to server):\n\nSubscribe to additional symbols:\n```json\n{\"action\": \"subscribe\", \"symbols\": [\"GBPUSD\", \"USDJPY\"]}\n```\n\nUnsubscribe from symbols:\n```json\n{\"action\": \"unsubscribe\", \"symbols\": [\"EURUSD\"]}\n```\n\nPing (optional - server sends automatic pings):\n```json\n{\"action\": \"ping\"}\n```\n\nExample Usage (JavaScript):\n```javascript\nconst url = 'wss://streaming.bluegamma.io/fx_stream?s=EURUSD&token=YOUR_TOKEN';\nconst ws = new WebSocket(url);\n\nws.onmessage = (event) => {\n  const data = JSON.parse(event.data);\n  if (data.type === 'quote') {\n    console.log(`${data.symbol}: ${data.mid}`);\n  }\n};\n\n// Subscribe to more symbols dynamically\nws.addEventListener('open', () => {\n  ws.send(JSON.stringify({action: 'subscribe', symbols: ['GBPUSD']}));\n});\n```\n\nExample Usage (Python - websockets):\n```python\nimport asyncio, json, websockets\n\nasync def run():\n    url = 'wss://streaming.bluegamma.io/fx_stream?s=EURUSD&token=YOUR_TOKEN'\n    async with websockets.connect(url) as ws:\n        await ws.send(json.dumps({\"action\": \"subscribe\", \"symbols\": [\"GBPUSD\"]}))\n        async for msg in ws:\n            data = json.loads(msg)\n            if data.get(\"type\") == \"quote\":\n                print(data)\n\nasyncio.run(run())\n```\n",
+        "parameters": [
+          {
+            "name": "s",
+            "in": "query",
+            "description": "Select which currency symbols to include in your real-time data stream.\nRepeat the `s` parameter to include multiple symbols (e.g., `?s=EURUSD&s=GBPUSD`).\nSupports major pairs (EUR/USD, GBP/USD), crosses (EUR/GBP, AUD/JPY), and emerging market currencies.\n\n**Supported symbols include:**\n- **Major pairs**: EURUSD, GBPUSD, USDJPY, USDCHF, AUDUSD, USDCAD, NZDUSD\n- **Euro crosses**: EURGBP, EURJPY, EURCHF, EURAUD, EURCAD\n- **Other crosses**: GBPJPY, CHFJPY, AUDJPY, CADJPY\n- **Emerging markets**: USDMXN, USDBRL, USDZAR, USDTRY, USDCNY\n\nComma-separated values are not accepted.\n",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "style": "form",
+              "explode": true,
+              "default": [
+                "EURUSD"
+              ]
+            },
+            "examples": {
+              "major_pair": {
+                "summary": "EUR/USD (most liquid pair)",
+                "value": [
+                  "EURUSD"
+                ]
+              },
+              "trading_basket": {
+                "summary": "Popular trading pairs",
+                "value": [
+                  "EURUSD",
+                  "GBPUSD",
+                  "USDJPY"
+                ]
+              },
+              "portfolio_monitoring": {
+                "summary": "Diversified currency exposure",
+                "value": [
+                  "EURUSD",
+                  "GBPUSD",
+                  "USDJPY",
+                  "USDCHF",
+                  "AUDUSD",
+                  "USDCAD"
+                ]
+              },
+              "emerging_markets": {
+                "summary": "Emerging market currencies",
+                "value": [
+                  "USDMXN",
+                  "USDBRL",
+                  "USDZAR"
+                ]
+              }
+            }
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "description": "JWT token used to authenticate the WebSocket connection. Obtain your token from BlueGamma. This token must be provided as a query parameter when opening the WebSocket connection.\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "sample": {
+                "summary": "Example token",
+                "value": "eyJhbGciOi..."
+              }
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "This endpoint provides documentation for the FX WebSocket streaming service. Connect directly using the WebSocket URL.\n",
+            "headers": {
+              "Location": {
+                "description": "WebSocket streaming endpoint URL with authentication token and selected symbols",
+                "schema": {
+                  "type": "string"
+                },
+                "example": "wss://streaming.bluegamma.io/fx_stream?s=EURUSD&s=GBPUSD&token=..."
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "description": "**Authentication Required**\n\nYour API key is missing, invalid, or has insufficient permissions for real-time data access.\nPlease verify your API key and ensure your subscription includes streaming data access.\n"
+          },
+          "500": {
+            "description": "**Service Temporarily Unavailable**\n\nThe streaming service is experiencing high demand or temporary maintenance.\nPlease retry your connection in a few moments.\n"
+          }
+        }
+      }
+    },
+    "/gov_yield": {
+      "get": {
+        "summary": "Get Government Bond Yield",
+        "operationId": "getGovernmentBondYield",
+        "tags": [
+          "Government Bonds"
+        ],
+        "description": "Calculates the yield for a government bond yield based on country and tenor. Yields are zero coupon yields, assuming S/A compounding.",
+        "parameters": [
+          {
+            "name": "country_code",
+            "in": "query",
+            "description": "The ISO country code for which to retrieve the government bond yield (e.g., US, UK, DE).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "us_treasury": {
+                "summary": "US Treasury bonds",
+                "value": "US"
+              },
+              "uk_gilts": {
+                "summary": "UK Government bonds (Gilts)",
+                "value": "UK"
+              },
+              "german_bunds": {
+                "summary": "German Government bonds (Bunds)",
+                "value": "DE"
+              },
+              "japanese_bonds": {
+                "summary": "Japanese Government bonds",
+                "value": "JP"
+              },
+              "canadian_bonds": {
+                "summary": "Canadian Government bonds",
+                "value": "CA"
+              }
+            }
+          },
+          {
+            "name": "maturity",
+            "in": "query",
+            "description": "The tenor or specific date for the government bond yield (e.g., '1Y', '5Y', '10Y' or '2030-12-31').",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/LaterDateOrTenor"
+            },
+            "examples": {
+              "short_term": {
+                "summary": "2-year government bond",
+                "value": "2Y"
+              },
+              "medium_term": {
+                "summary": "5-year government bond",
+                "value": "5Y"
+              },
+              "benchmark": {
+                "summary": "10-year government bond (benchmark)",
+                "value": "10Y"
+              },
+              "long_term": {
+                "summary": "30-year government bond",
+                "value": "30Y"
+              },
+              "specific_maturity": {
+                "summary": "Specific maturity date",
+                "value": "2035-06-15"
+              }
+            }
+          },
+          {
+            "name": "forward_start",
+            "in": "query",
+            "description": "The forward start date or tenor for the government bond yield (e.g., '1Y', '5Y', '10Y' or '2030-12-31').",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/LaterDateOrTenor"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/valuation_time"
+          }
+        ],
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of government bond yield data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "country_code": {
+                      "type": "string",
+                      "example": "US"
+                    },
+                    "tenor": {
+                      "type": "string",
+                      "example": "10Y"
+                    },
+                    "valuation_time": {
+                      "$ref": "#/components/schemas/DateTime"
+                    },
+                    "yield": {
+                      "type": "number",
+                      "example": 3.245
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred while processing the request."
+          }
+        }
+      }
+    },
+    "/forward_curve": {
+      "get": {
+        "summary": "Get Forward Curve",
+        "operationId": "getForwardCurve",
+        "tags": [
+          "Forward & Discount Curves"
+        ],
+        "description": "Returns a forward curve constructed over a schedule of periods between start_date and end_date.",
+        "parameters": [
+          {
+            "name": "index",
+            "in": "query",
+            "description": "The specific rate the user wants to base the forecast on (e.g., SOFR, 1M EURIBOR, 6M EURIBOR, SONIA, 3M NIBOR etc.).",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Index"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "description": "The start date for the forward curve calculation. Provide either a specific date (e.g., '2025-12-31') or a tenor (e.g., '1Y', '5Y'), but not both.\n**Validation Requirements:** - Start date must be later than valuation time - If using a tenor, it represents the period from valuation time to start date\n",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/DateOrTenor"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "description": "The end date for the forward curve. Provide either a specific date (e.g., '2050-12-31') or a tenor (e.g., '10Y', '20Y'), but not both.\n",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/LaterDateOrTenor"
+            },
+            "examples": {
+              "medium_term": {
+                "summary": "5 year curve",
+                "value": "5Y"
+              },
+              "long_term": {
+                "summary": "10 year curve",
+                "value": "10Y"
+              },
+              "very_long_term": {
+                "summary": "30 year curve",
+                "value": "30Y"
+              },
+              "specific_end": {
+                "summary": "Specific end date",
+                "value": "2050-06-01"
+              }
+            }
+          },
+          {
+            "name": "tenor",
+            "in": "query",
+            "description": "The tenor (time period) for each forward rate in the curve (e.g., '1M', '3M', '6M'). This represents the length of each forward-looking period in the curve.\n**Optional**: If not provided, a default tenor will be used based on the specified index.\n",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/Tenor"
+            },
+            "examples": {
+              "monthly_forwards": {
+                "summary": "1 month forward rates",
+                "value": "1M"
+              },
+              "quarterly_forwards": {
+                "summary": "3 month forward rates",
+                "value": "3M"
+              },
+              "semi_annual_forwards": {
+                "summary": "6 month forward rates",
+                "value": "6M"
+              }
+            }
+          },
+          {
+            "name": "frequency",
+            "in": "query",
+            "description": "The frequency at which to generate curve points (e.g., '1M', '3M', '6M', '1Y').",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Frequency"
+            },
+            "examples": {
+              "monthly_points": {
+                "summary": "Monthly curve points",
+                "value": "1M"
+              },
+              "quarterly_points": {
+                "summary": "Quarterly curve points",
+                "value": "3M"
+              },
+              "semi_annual_points": {
+                "summary": "Semi-annual curve points",
+                "value": "6M"
+              },
+              "annual_points": {
+                "summary": "Annual curve points",
+                "value": "1Y"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/parameters/valuation_time"
+          },
+          {
+            "name": "is_end_of_month",
+            "in": "query",
+            "description": "Whether to align periods to the end of each month.",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of forward curve data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "start_date": {
+                      "$ref": "#/components/schemas/Date"
+                    },
+                    "end_date": {
+                      "$ref": "#/components/schemas/Date"
+                    },
+                    "index": {
+                      "$ref": "#/components/schemas/Index"
+                    },
+                    "tenor": {
+                      "$ref": "#/components/schemas/Tenor"
+                    },
+                    "valuation_time": {
+                      "$ref": "#/components/schemas/DateTime"
+                    },
+                    "is_end_of_month": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "frequency": {
+                      "$ref": "#/components/schemas/Frequency"
+                    },
+                    "curve": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "start_date": {
+                            "$ref": "#/components/schemas/Date"
+                          },
+                          "end_date": {
+                            "$ref": "#/components/schemas/Date"
+                          },
+                          "forward_rate": {
+                            "type": "number",
+                            "example": 3.245
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred while processing the request."
+          }
+        }
+      }
+    },
+    "/discount_curve": {
+      "get": {
+        "summary": "Get Discount Curve",
+        "operationId": "getDiscountCurve",
+        "tags": [
+          "Forward & Discount Curves"
+        ],
+        "description": "Returns discount factors for a schedule between start_date and end_date using a given index.",
+        "parameters": [
+          {
+            "name": "index",
+            "in": "query",
+            "description": "The specific rate the user wants to base the discount factors on (e.g., SOFR, 1M EURIBOR, 6M EURIBOR, SONIA, 3M NIBOR etc.).",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Index"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "description": "The start date for the discount curve calculation. Provide either a specific date (e.g., '2025-12-31') or a tenor (e.g., '1Y', '5Y'), but not both.\n",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/DateOrTenor"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "description": "The end date for the discount curve. Provide either a specific date (e.g., '2030-12-31') or a tenor (e.g., '10Y', '50Y'), but not both.\n",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/LaterDateOrTenor"
+            },
+            "examples": {
+              "short_discount": {
+                "summary": "2 year discount curve",
+                "value": "2Y"
+              },
+              "medium_discount": {
+                "summary": "10 year discount curve",
+                "value": "10Y"
+              },
+              "long_discount": {
+                "summary": "30 year discount curve",
+                "value": "30Y"
+              },
+              "specific_end": {
+                "summary": "Specific end date",
+                "value": "2050-03-01"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/parameters/valuation_time"
+          },
+          {
+            "name": "is_end_of_month",
+            "in": "query",
+            "description": "Whether to align periods to the end of each month.",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "frequency",
+            "in": "query",
+            "description": "The frequency at which to generate curve points (e.g., '1M', '3M', '6M', '1Y').",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Frequency"
+            },
+            "examples": {
+              "monthly_discounts": {
+                "summary": "Monthly discount factors",
+                "value": "1M"
+              },
+              "quarterly_discounts": {
+                "summary": "Quarterly discount factors",
+                "value": "3M"
+              },
+              "semi_annual_discounts": {
+                "summary": "Semi-annual discount factors",
+                "value": "6M"
+              },
+              "annual_discounts": {
+                "summary": "Annual discount factors",
+                "value": "1Y"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of discount curve data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "start_date": {
+                      "$ref": "#/components/schemas/Date"
+                    },
+                    "end_date": {
+                      "$ref": "#/components/schemas/Date"
+                    },
+                    "index": {
+                      "$ref": "#/components/schemas/Index"
+                    },
+                    "valuation_time": {
+                      "$ref": "#/components/schemas/DateTime"
+                    },
+                    "is_end_of_month": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "frequency": {
+                      "$ref": "#/components/schemas/Frequency"
+                    },
+                    "curve": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "date": {
+                            "$ref": "#/components/schemas/Date"
+                          },
+                          "discount_factor": {
+                            "type": "number",
+                            "example": 0.9823
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred while processing the request."
+          }
+        }
+      }
+    },
+    "/fixing": {
+      "get": {
+        "summary": "Get Fixing Rate",
+        "operationId": "getFixingRate",
+        "tags": [
+          "Central Bank and Benchmark Rates"
+        ],
+        "description": "Fetches the fixing rate for a given index at a specific valuation time.",
+        "parameters": [
+          {
+            "name": "index",
+            "in": "query",
+            "description": "The specific rate or benchmark for which to retrieve a daily published value. This includes traditional fixings (e.g., SOFR, 3M EURIBOR), as well as central bank policy rates (e.g., Fed Funds Target Rate, ECB Main Refinancing Rate, BOE Bank Rate).",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/FixingIndex"
+            }
+          },
+          {
+            "name": "valuation_date",
+            "in": "query",
+            "description": "The specific date for the market data used in the calculation. If not provided, live data is used by default.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/Date"
+            }
+          }
+        ],
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of fixing rate data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "index": {
+                      "type": "string",
+                      "example": "SOFR"
+                    },
+                    "valuation_date": {
+                      "$ref": "#/components/schemas/Date"
+                    },
+                    "fixing_rate": {
+                      "type": "number",
+                      "example": 0.9876
+                    },
+                    "fixing_date": {
+                      "$ref": "#/components/schemas/Date"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "description": "Fixing not found."
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred while processing the request."
+          }
+        }
+      }
+    },
+    "/historical_swap_rates": {
+      "get": {
+        "summary": "Get Historical Swap Rates",
+        "operationId": "getHistoricalSwapRates",
+        "tags": [
+          "Swap Rates"
+        ],
+        "description": "Returns historical swap rates for a given index and tenor over a date range (start_date to end_date).\n",
+        "parameters": [
+          {
+            "name": "index",
+            "in": "query",
+            "description": "The specific index (e.g., SOFR, 1M EURIBOR, 6M EURIBOR, SONIA) for the swap rates.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Index"
+            }
+          },
+          {
+            "name": "tenor",
+            "in": "query",
+            "description": "The tenor for each swap rate (e.g., '1Y', '5Y').",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Tenor"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "description": "The start date for the swap rates (inclusive). Provide a specific date (e.g., '2025-12-31').",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Date"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "description": "The end date for the swap rates (inclusive). Provide a specific date (e.g., '2025-12-31').",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Date"
+            }
+          }
+        ],
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of historical swap rates.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "index_name": {
+                      "type": "string",
+                      "example": "3M EURIBOR"
+                    },
+                    "currency": {
+                      "type": "string",
+                      "example": "EUR"
+                    },
+                    "fixed_leg_day_count": {
+                      "$ref": "#/components/schemas/DayCountConvention"
+                    },
+                    "floating_leg_day_count": {
+                      "$ref": "#/components/schemas/DayCountConvention"
+                    },
+                    "fixed_leg_frequency": {
+                      "type": "string",
+                      "example": "6M"
+                    },
+                    "floating_leg_frequency": {
+                      "type": "string",
+                      "example": "3M"
+                    },
+                    "swap_rates": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "rate": {
+                            "type": "number",
+                            "example": 3.34567803
+                          },
+                          "date": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2024-06-01"
+                          },
+                          "tenor": {
+                            "type": "string",
+                            "example": "1Y"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred while processing the request."
+          }
+        }
+      }
+    },
+    "/swap_pricer": {
+      "post": {
+        "summary": "Swap Pricer",
+        "operationId": "swapPricer",
+        "tags": [
+          "Swap Rates"
+        ],
+        "description": "Calculate the mark-to-market (MTM) value, fair rate, PV01, and detailed cashflows\nfor an interest rate swap. Supports amortizing swaps with variable notional amounts.\n\nWhen fixed_rate is omitted, the swap is valued at the fair (par) rate and\nmark-to-market is zero.\n\nThis endpoint provides comprehensive swap valuation including:\n- Fair swap rate calculation\n- Mark-to-market valuation\n- PV01 (dollar value of a basis point)\n- Detailed cashflow schedules for both fixed and floating legs\n",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SwapPricerRequest"
+              },
+              "examples": {
+                "vanilla_swap": {
+                  "summary": "Vanilla Interest Rate Swap",
+                  "value": {
+                    "index": "SOFR",
+                    "start_date": "2025-01-15",
+                    "maturity_date": "2030-03-31",
+                    "fixed_leg_frequency": "6M",
+                    "fixed_rate": 4.25,
+                    "fixed_notionals": [
+                      100000000
+                    ]
+                  }
+                },
+                "amortizing_swap": {
+                  "summary": "Amortizing Swap",
+                  "value": {
+                    "index": "SOFR",
+                    "start_date": "0D",
+                    "maturity_date": "5Y",
+                    "fixed_leg_first_payment_date": "2025-07-15",
+                    "fixed_leg_frequency": "6M",
+                    "fixed_rate": 4.25,
+                    "fixed_notionals": [
+                      100000000,
+                      95000000,
+                      90000000,
+                      85000000,
+                      80000000
+                    ],
+                    "valuation_time": "2026-01-28T15:00:00Z"
+                  }
+                },
+                "with_day_counts": {
+                  "summary": "Swap with Custom Day Count Conventions",
+                  "value": {
+                    "index": "3M EURIBOR",
+                    "start_date": "2025-01-15",
+                    "maturity_date": "10Y",
+                    "fixed_leg_frequency": "6M",
+                    "fixed_leg_day_count": "Actual365Fixed",
+                    "fixed_rate": 3.5,
+                    "fixed_notionals": [
+                      50000000
+                    ]
+                  }
+                },
+                "at_fair_rate": {
+                  "summary": "Swap at fair rate (no fixed rate; MTM zero)",
+                  "value": {
+                    "index": "SOFR",
+                    "start_date": "2025-01-15",
+                    "maturity_date": "2030-03-31",
+                    "fixed_leg_frequency": "6M",
+                    "fixed_notionals": [
+                      100000000
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful swap pricer calculation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SwapPricerResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred while processing the request."
+          }
+        }
+      }
+    },
+    "/swap_rate_tenors": {
+      "get": {
+        "summary": "Get Available Swap Rate Tenors",
+        "operationId": "getSwapRateTenors",
+        "tags": [
+          "Swap Rates"
+        ],
+        "description": "Returns the list of available tenors for swap rates for a given index.\n",
+        "parameters": [
+          {
+            "name": "index",
+            "in": "query",
+            "description": "The specific index (e.g., SOFR, 1M EURIBOR, 6M EURIBOR, SONIA) for which to retrieve available swap rate tenors.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Index"
+            },
+            "examples": {
+              "sofr_tenors": {
+                "summary": "Available SOFR swap tenors",
+                "value": "SOFR"
+              },
+              "euribor_tenors": {
+                "summary": "Available EURIBOR swap tenors",
+                "value": "3M EURIBOR"
+              },
+              "sonia_tenors": {
+                "summary": "Available SONIA swap tenors",
+                "value": "SONIA"
+              },
+              "emerging_tenors": {
+                "summary": "Available emerging market tenors",
+                "value": "3M JIBAR"
+              }
+            }
+          }
+        ],
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of available swap rate tenors.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "index": {
+                      "type": "string",
+                      "example": "3M EURIBOR"
+                    },
+                    "tenors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": [
+                        "1Y",
+                        "2Y",
+                        "5Y",
+                        "10Y"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred while processing the request."
+          }
+        }
+      }
+    },
+    "/compounded_rate": {
+      "get": {
+        "summary": "Calculate Compounded Overnight Rate / Realised Rate",
+        "operationId": "getCompoundedRate",
+        "tags": [
+          "Central Bank and Benchmark Rates"
+        ],
+        "description": "Calculate compounded overnight rates (realised rates) for risk-free rate (RFR) indices over a specified period.\n\nThis endpoint computes the realised compounded rate using actual market fixings for overnight reference rates. \nThe calculation follows market conventions for each index, including day count conventions, lookback periods, \nlockout days, and observation shifts.\n\n**Supported Overnight Indices:**\n- SOFR (Secured Overnight Financing Rate)\n- SONIA (Sterling Overnight Index Average)\n- ESTR (Euro Short-Term Rate)\n- SORA (Singapore Overnight Rate Average)\n- TONAR (Tokyo Overnight Average Rate)\n- CORRA (Canadian Overnight Repo Rate Average)\n- SARON (Swiss Average Rate Overnight)\n\n**Use Cases:**\n- Calculate historical realised rates for loan settlements\n- Compute interest payments based on overnight index compounding\n- Validate RFR-based calculations\n- Generate audit trails for compounded rate calculations\n",
+        "parameters": [
+          {
+            "name": "start_date",
+            "in": "query",
+            "description": "Period start date. Provide a specific date (e.g., '2024-01-01').\n",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Date"
+            },
+            "examples": {
+              "specific_date": {
+                "summary": "Specific start date",
+                "value": "2024-01-01"
+              }
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "description": "Period end date. Provide a specific date (e.g., '2024-01-31').\n**Validation Requirements:** - End date must be later than start date\n",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/LaterDate"
+            },
+            "examples": {
+              "specific_end": {
+                "summary": "Specific end date",
+                "value": "2024-01-31"
+              }
+            }
+          },
+          {
+            "name": "index",
+            "in": "query",
+            "description": "Overnight index name. Supported indices include SOFR, SONIA, ESTR, SORA, TONAR, CORRA, SARON, CDI, and Fed Funds.\n",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "SOFR",
+                "SONIA",
+                "ESTR",
+                "SORA",
+                "TONAR",
+                "CORRA",
+                "SARON"
+              ]
+            },
+            "examples": {
+              "sofr": {
+                "summary": "SOFR index",
+                "value": "SOFR"
+              },
+              "sonia": {
+                "summary": "SONIA index",
+                "value": "SONIA"
+              },
+              "estr": {
+                "summary": "ESTR index",
+                "value": "ESTR"
+              }
+            }
+          },
+          {
+            "name": "nominal",
+            "in": "query",
+            "description": "Notional amount for calculation. If not provided, defaults to 1,000,000.\n",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "float",
+              "default": 1000000
+            },
+            "examples": {
+              "one_million": {
+                "summary": "1 million notional",
+                "value": 1000000
+              },
+              "ten_million": {
+                "summary": "10 million notional",
+                "value": 10000000
+              }
+            }
+          },
+          {
+            "name": "spread",
+            "in": "query",
+            "description": "Additional spread in percentage (e.g. 5 = 5%). If not provided, defaults to 0.\n",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "float",
+              "default": 0
+            },
+            "examples": {
+              "no_spread": {
+                "summary": "No spread",
+                "value": 0
+              }
+            }
+          },
+          {
+            "name": "day_counter",
+            "in": "query",
+            "description": "Day count convention for the calculation. If not provided, uses the index-specific default convention.\n",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "act_360": {
+                "summary": "Actual/360",
+                "value": "Actual/360"
+              },
+              "act_365": {
+                "summary": "Actual/365",
+                "value": "Actual/365"
+              }
+            }
+          },
+          {
+            "name": "lookback_days",
+            "in": "query",
+            "description": "Number of days to lag the reference rate. If not provided, defaults to 0.\n",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0
+            },
+            "examples": {
+              "no_lag": {
+                "summary": "No lookback",
+                "value": 0
+              },
+              "two_day_lag": {
+                "summary": "2-day lookback",
+                "value": 2
+              }
+            }
+          },
+          {
+            "name": "lockout_days",
+            "in": "query",
+            "description": "Number of days at the end of the period without rate resets. If not provided, defaults to 0.\n",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0
+            },
+            "examples": {
+              "no_lockout": {
+                "summary": "No lockout",
+                "value": 0
+              },
+              "five_day_lockout": {
+                "summary": "5-day lockout",
+                "value": 5
+              }
+            }
+          },
+          {
+            "name": "apply_observation_shift",
+            "in": "query",
+            "description": "Whether to apply observation shift to the rate calculation. If not provided, defaults to false.\n",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "examples": {
+              "no_shift": {
+                "summary": "No observation shift",
+                "value": false
+              },
+              "with_shift": {
+                "summary": "With observation shift",
+                "value": true
+              }
+            }
+          }
+        ],
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful calculation of compounded overnight rate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "start_date": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "Actual start date used in calculation",
+                      "example": "2024-01-01"
+                    },
+                    "end_date": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "Actual end date used in calculation",
+                      "example": "2024-01-31"
+                    },
+                    "index": {
+                      "type": "string",
+                      "description": "Overnight index used",
+                      "example": "SOFR"
+                    },
+                    "nominal": {
+                      "type": "number",
+                      "format": "float",
+                      "description": "Notional amount used",
+                      "example": 1000000
+                    },
+                    "spread": {
+                      "type": "number",
+                      "format": "float",
+                      "description": "Spread applied in percentage",
+                      "example": 0
+                    },
+                    "day_counter": {
+                      "type": "string",
+                      "description": "Day count convention used",
+                      "example": "Actual/360"
+                    },
+                    "calendar": {
+                      "type": "string",
+                      "description": "Calendar used for business day adjustments",
+                      "example": "United States"
+                    },
+                    "lookback_days": {
+                      "type": "integer",
+                      "description": "Lookback days applied",
+                      "example": 0
+                    },
+                    "lockout_days": {
+                      "type": "integer",
+                      "description": "Lockout days applied",
+                      "example": 0
+                    },
+                    "apply_observation_shift": {
+                      "type": "boolean",
+                      "description": "Whether observation shift was applied",
+                      "example": false
+                    },
+                    "rate": {
+                      "type": "number",
+                      "format": "float",
+                      "description": "Compounded rate as percentage",
+                      "example": 5.25
+                    },
+                    "amount": {
+                      "type": "number",
+                      "format": "float",
+                      "description": "Interest amount for the notional",
+                      "example": 43750
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "422": {
+            "description": "Unprocessable Entity - Invalid parameters provided (e.g., end date before start date, unsupported index)."
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred while processing the request."
+          }
+        }
+      }
+    },
+    "/fras": {
+      "get": {
+        "summary": "Get FRAs",
+        "operationId": "getFras",
+        "tags": [
+          "Central Bank and Benchmark Rates"
+        ],
+        "description": "Retrieves Forward Rate Agreement (FRA) rates for a given index.\nReturns all available tenors and their corresponding rates.\nSupported indices are denominated in EUR, SEK, NOK, and DKK.\n",
+        "parameters": [
+          {
+            "name": "index",
+            "in": "query",
+            "description": "The index name for which to retrieve FRA rates (e.g., 3M EURIBOR, 3M STIBOR, 3M NIBOR, 3M CIBOR).",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/FRAIndex"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/valuation_time"
+          }
+        ],
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of FRA rates.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "index": {
+                      "type": "string",
+                      "description": "The index name",
+                      "example": "3M EURIBOR"
+                    },
+                    "currency": {
+                      "type": "string",
+                      "description": "The currency derived from the index",
+                      "example": "EUR"
+                    },
+                    "valuation_time": {
+                      "$ref": "#/components/schemas/DateTime"
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "The actual data timestamp",
+                      "example": "2026-01-28T18:00:00"
+                    },
+                    "fras": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "tenor": {
+                            "type": "string",
+                            "description": "FRA tenor",
+                            "example": "3X6"
+                          },
+                          "type": {
+                            "type": "string",
+                            "description": "Instrument type",
+                            "example": "FRA"
+                          },
+                          "value": {
+                            "type": "number",
+                            "format": "float",
+                            "description": "FRA rate value",
+                            "example": 2.045
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "description": "No FRA rates found for the given index and valuation time."
+          },
+          "422": {
+            "description": "Unprocessable Entity - FRA rates not available for the given index."
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred while processing the request."
+          }
+        }
+      }
+    },
+    "/swaption_price": {
+      "get": {
+        "summary": "Price a European Swaption",
+        "operationId": "priceSwaption",
+        "tags": [
+          "Swaptions"
+        ],
+        "description": "Price a European swaption (payer or receiver) with live yield curves and\nnormal volatility surface.\n\nReturns NPV, delta, DV01, and vega. The exercise date equals the swap start date\n(mid-curve swaptions are not supported).\n\n**Supported indices:** SOFR, SONIA, 3M EURIBOR, 6M EURIBOR, 1M EURIBOR, SARON, AONIA,\n3M CDOR, NOWA, SWESTR, STINA, DESTR, CITA, 3M JIBAR, ZARONIA, 3M HIBOR, HONIA,\n3M KLIBOR, OCR, NZONIA.\n\n**Example request:**\n```\nGET /swaption_price?index=SOFR&start_date=2Y&maturity_date=5Y&swaption_type=payer\n```\n",
+        "parameters": [
+          {
+            "name": "index",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The reference rate index (e.g., SOFR, SONIA, 3M EURIBOR). Must be a supported post-LIBOR transition index.",
+            "example": "SOFR"
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The start date for the underlying swap (= exercise date). Provide either a specific date (e.g., '2028-02-21') or a tenor (e.g., '2Y').",
+            "example": "2Y"
+          },
+          {
+            "name": "maturity_date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The maturity date for the underlying swap. Provide either a specific date (e.g., '2033-02-21') or a tenor (e.g., '5Y'). If using a tenor, it represents the period from start date to maturity.",
+            "example": "5Y"
+          },
+          {
+            "name": "strike_rate",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "nullable": true
+            },
+            "description": "Strike rate as a percentage (e.g., 3.5 for 3.5%). If omitted, the swaption is priced at ATM (forward swap rate).",
+            "example": 3.5
+          },
+          {
+            "name": "notional",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "default": 10000000
+            },
+            "description": "Notional amount. Defaults to 10,000,000.",
+            "example": 10000000
+          },
+          {
+            "name": "swaption_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "payer",
+                "receiver"
+              ],
+              "default": "payer"
+            },
+            "description": "Swaption type. Defaults to 'payer'.",
+            "example": "payer"
+          },
+          {
+            "name": "valuation_time",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "description": "Valuation time in ISO 8601 format. Defaults to current time."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful swaption pricing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "index": {
+                      "type": "string",
+                      "example": "SOFR"
+                    },
+                    "currency": {
+                      "type": "string",
+                      "example": "USD"
+                    },
+                    "swaption_type": {
+                      "type": "string",
+                      "example": "payer"
+                    },
+                    "start_date": {
+                      "type": "string",
+                      "format": "date",
+                      "example": "2028-02-21"
+                    },
+                    "maturity_date": {
+                      "type": "string",
+                      "format": "date",
+                      "example": "2033-02-21"
+                    },
+                    "exercise_date": {
+                      "type": "string",
+                      "format": "date",
+                      "example": "2028-02-21"
+                    },
+                    "valuation_time": {
+                      "$ref": "#/components/schemas/DateTime"
+                    },
+                    "notional": {
+                      "type": "number",
+                      "example": 10000000
+                    },
+                    "forward_rate": {
+                      "type": "number",
+                      "description": "ATM forward swap rate as a percentage",
+                      "example": 3.57
+                    },
+                    "strike_rate": {
+                      "type": "number",
+                      "description": "Strike rate as a percentage",
+                      "example": 3.57
+                    },
+                    "normal_volatility_bps": {
+                      "type": "number",
+                      "description": "Normal (Bachelier) volatility in basis points (e.g., 60.7 for 60.7 bps). Sourced directly from Xignite.",
+                      "example": 60.7
+                    },
+                    "npv": {
+                      "type": "number",
+                      "description": "Net present value in currency units",
+                      "example": 75661.51
+                    },
+                    "delta": {
+                      "type": "number",
+                      "description": "Bachelier delta: Φ(d) for payer (0 to 1), Φ(d)−1 for receiver (−1 to 0). ATM = 0.5 for payer.",
+                      "example": 0.5
+                    },
+                    "dv01": {
+                      "type": "number",
+                      "description": "Rate sensitivity: delta × PVBP (pricing currency units per bp). Comparable to PV01 on the swap endpoint.",
+                      "example": 2240.84
+                    },
+                    "vega": {
+                      "type": "number",
+                      "description": "NPV sensitivity to a 1bp shift in normal volatility (pricing currency units per bp)",
+                      "example": 1247.4
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Most recent market data timestamp (max of curve and vol surface data timestamps).",
+                      "example": "2026-02-25T10:50:28"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error - Invalid input parameters."
+          },
+          "500": {
+            "description": "Internal Server Error - An error occurred while processing the request."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "valuation_time": {
+        "name": "valuation_time",
+        "in": "query",
+        "description": "The specific time (or date) for the market data used in the calculation. If valuation_time is not provided, the endpoint will use the most recent market data available. For major currencies (e.g. USD, EUR, GBP), data is updated every minute. This timestamp should be in ISO 8601 format and is interpreted as UTC.",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/DateTime"
+        }
+      }
+    },
+    "schemas": {
+      "DateOrTenor": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/Date"
+          },
+          {
+            "$ref": "#/components/schemas/Tenor"
+          }
+        ],
+        "examples": [
+          "2D",
+          "1Y",
+          "2025-06-01"
+        ]
+      },
+      "LaterDateOrTenor": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/LaterDate"
+          },
+          {
+            "$ref": "#/components/schemas/Tenor"
+          }
+        ],
+        "examples": [
+          "2D",
+          "1Y",
+          "2030-12-31"
+        ]
+      },
+      "Date": {
+        "type": "string",
+        "format": "date",
+        "description": "A date in ISO 8601 only date format (YYYY-MM-DD)",
+        "example": "2025-12-31"
+      },
+      "LaterDate": {
+        "type": "string",
+        "format": "date",
+        "description": "A date in ISO 8601 only date format (YYYY-MM-DD)",
+        "example": "2030-12-31"
+      },
+      "DateTime": {
+        "type": "string",
+        "format": "date-time",
+        "description": "A date and time in ISO 8601 format (YYYY-MM-DDThh:mm:ssZ). All times are interpreted as UTC.",
+        "example": "2024-01-01T15:00:00Z"
+      },
+      "Tenor": {
+        "type": "string",
+        "description": "A time period represented as a number followed by a period indicator (D=days, W=weeks, M=months, Y=years)",
+        "examples": [
+          "1Y",
+          "5Y",
+          "10Y",
+          "20Y",
+          "30Y"
+        ],
+        "pattern": "^[0-9]+[DWMY]$"
+      },
+      "Index": {
+        "type": "string",
+        "description": "Common interest rate benchmarks and indices used in financial markets",
+        "examples": [
+          "SOFR",
+          "3M EURIBOR",
+          "SONIA"
+        ],
+        "enum": [
+          "SOFR",
+          "Fed Funds",
+          "1M USD-LIBOR",
+          "3M USD-LIBOR",
+          "6M USD-LIBOR",
+          "6M EURIBOR",
+          "3M EURIBOR",
+          "1M EURIBOR",
+          "SONIA",
+          "1M GBP-LIBOR",
+          "3M GBP-LIBOR",
+          "6M GBP-LIBOR",
+          "12M EIBOR",
+          "6M EIBOR",
+          "3M EIBOR",
+          "1M EIBOR",
+          "CDI",
+          "CORRA",
+          "3M CDOR",
+          "SARON",
+          "1M CHF-LIBOR",
+          "6M CHF-LIBOR",
+          "6M PRIBOR",
+          "3M HIBOR",
+          "6M BUBOR",
+          "3M TELBOR",
+          "12M CIBOR",
+          "6M CIBOR",
+          "3M CIBOR",
+          "1M CIBOR",
+          "Overnight MIBOR",
+          "6M MIFOR",
+          "TONAR",
+          "91D CD",
+          "3M KLIBOR",
+          "3M NIBOR",
+          "6M NIBOR",
+          "3M BKBM",
+          "6M WIBOR",
+          "3M SAIBOR",
+          "3M STIBOR",
+          "SORA",
+          "3M TRYIBOR",
+          "3M TAIBOR",
+          "3M JIBAR",
+          "6M BBSW",
+          "3M BBSW",
+          "28 Day TIIE"
+        ]
+      },
+      "FixingIndex": {
+        "type": "string",
+        "description": "Interest rate benchmarks and indices available for fixing rate retrieval (excludes SAIBOR)",
+        "examples": [
+          "SOFR",
+          "3M EURIBOR",
+          "SONIA",
+          "FED Federal Funds Target Rate",
+          "BOE Bank Rate",
+          "ECB Main Refinancing Rate"
+        ],
+        "enum": [
+          "SOFR",
+          "Fed Funds",
+          "1M USD-LIBOR",
+          "3M USD-LIBOR",
+          "6M USD-LIBOR",
+          "6M EURIBOR",
+          "3M EURIBOR",
+          "1M EURIBOR",
+          "SONIA",
+          "1M GBP-LIBOR",
+          "3M GBP-LIBOR",
+          "6M GBP-LIBOR",
+          "12M EIBOR",
+          "6M EIBOR",
+          "3M EIBOR",
+          "1M EIBOR",
+          "CDI",
+          "CORRA",
+          "3M CDOR",
+          "SARON",
+          "1M CHF-LIBOR",
+          "6M CHF-LIBOR",
+          "3M HIBOR",
+          "6M BUBOR",
+          "3M TELBOR",
+          "12M CIBOR",
+          "Overnight MIBOR",
+          "6M MIFOR",
+          "TONAR",
+          "SWESTR",
+          "91D CD",
+          "3M KLIBOR",
+          "3M BKBM",
+          "6M WIBOR",
+          "SORA",
+          "3M TRYIBOR",
+          "3M TAIBOR",
+          "3M JIBAR",
+          "6M BBSW",
+          "3M BBSW",
+          "28 Day TIIE",
+          "FED Federal Funds Target Rate",
+          "BOE Bank Rate",
+          "ECB Main Refinancing Rate",
+          "RBA Cash Rate Target",
+          "BOC Target for the Overnight Rate",
+          "CBB SELIC Rate",
+          "PBOC Loan Prime Rate",
+          "CBC Monetary Policy Rate",
+          "CNB 2-Week Repo Rate",
+          "DNB Lending Rate",
+          "MNB Base Rate",
+          "RBI Policy Repo Rate",
+          "BOI Key Interest Rate",
+          "BOJ Overnight Call Rate",
+          "BANXICO Overnight Target Rate",
+          "RBNZ Official Cash Rate",
+          "Norges Bank Key Policy Rate",
+          "NBP Reference Rate",
+          "CBR Key Rate",
+          "SAMA Repo Rate",
+          "SARB Repo Rate",
+          "BOK Base Rate",
+          "Riksbank Policy Rate",
+          "SNB Policy Rate",
+          "CBRT Repo Rate"
+        ]
+      },
+      "FRAIndex": {
+        "type": "string",
+        "description": "Indices supported for FRA rate retrieval. These are IBOR-type indices denominated in EUR, SEK, NOK, and DKK.",
+        "examples": [
+          "3M EURIBOR",
+          "6M EURIBOR",
+          "3M STIBOR"
+        ],
+        "enum": [
+          "3M EURIBOR",
+          "3M STIBOR",
+          "3M NIBOR",
+          "3M CIBOR"
+        ]
+      },
+      "Frequency": {
+        "type": "string",
+        "description": "Payment frequency for financial instruments",
+        "examples": [
+          "1Y",
+          "6M",
+          "3M",
+          "1M"
+        ]
+      },
+      "DayCountConvention": {
+        "type": "string",
+        "description": "Day count convention for interest rate and swap calculations",
+        "enum": [
+          "Actual360",
+          "Actual365",
+          "Actual365Fixed",
+          "Thirty360BondBasis",
+          "Thirty360EuroBondBasis",
+          "Business252"
+        ],
+        "examples": [
+          "Actual360",
+          "Actual365Fixed"
+        ]
+      },
+      "SwapPricerRequest": {
+        "type": "object",
+        "required": [
+          "index",
+          "start_date",
+          "maturity_date",
+          "fixed_leg_frequency",
+          "fixed_notionals"
+        ],
+        "properties": {
+          "index": {
+            "type": "string",
+            "description": "The reference rate index (e.g., SOFR, 3M EURIBOR, SONIA)",
+            "example": "SOFR"
+          },
+          "start_date": {
+            "$ref": "#/components/schemas/DateOrTenor"
+          },
+          "maturity_date": {
+            "$ref": "#/components/schemas/LaterDateOrTenor"
+          },
+          "fixed_leg_frequency": {
+            "$ref": "#/components/schemas/Frequency"
+          },
+          "fixed_leg_day_count": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DayCountConvention"
+              },
+              {
+                "description": "The day count convention used for the fixed leg. By default, uses the currency-specific convention"
+              }
+            ]
+          },
+          "fixed_rate": {
+            "type": "number",
+            "format": "double",
+            "description": "The fixed rate as a percentage (e.g., 4.25 for 4.25%). Optional; when omitted, the swap is valued at the fair rate and mark-to-market is zero.\n",
+            "example": 4.25
+          },
+          "fixed_leg_first_payment_date": {
+            "type": "string",
+            "format": "date",
+            "description": "The first payment date (e.g., '2026-08-02'). If not provided, defaults to start_date + fixed_leg_frequency adjusted for business days.",
+            "example": "2026-08-02"
+          },
+          "fixed_notionals": {
+            "oneOf": [
+              {
+                "type": "number",
+                "format": "double"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            ],
+            "description": "Notional amount(s). Provide a single number for vanilla swaps or a list for amortizing swaps.",
+            "example": 100000000
+          },
+          "valuation_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Valuation time in ISO 8601 format. Defaults to current time if not provided.",
+            "example": "2026-01-28T15:00:00Z"
+          }
+        }
+      },
+      "SwapPricerResponse": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "type": "string",
+            "description": "The reference rate index used",
+            "example": "SOFR"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency of the swap derived from the index",
+            "example": "USD"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date",
+            "description": "The effective start date of the swap",
+            "example": "2025-01-15"
+          },
+          "maturity_date": {
+            "type": "string",
+            "format": "date",
+            "description": "The maturity date of the swap",
+            "example": "2030-03-31"
+          },
+          "fixed_leg_first_payment_date": {
+            "type": "string",
+            "format": "date",
+            "description": "First payment date for the fixed leg",
+            "example": "2025-07-15"
+          },
+          "floating_leg_first_payment_date": {
+            "type": "string",
+            "format": "date",
+            "description": "First payment date for the floating leg",
+            "example": "2025-07-15"
+          },
+          "valuation_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The valuation time used for pricing",
+            "example": "2026-01-28T15:00:00Z"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of the market data used",
+            "example": "2026-01-28T15:00:00Z"
+          },
+          "fixed_leg_frequency": {
+            "type": "string",
+            "description": "Payment frequency of the fixed leg",
+            "example": "6M"
+          },
+          "floating_leg_frequency": {
+            "type": "string",
+            "description": "Payment frequency of the floating leg",
+            "example": "6M"
+          },
+          "fixed_leg_day_count": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DayCountConvention"
+              },
+              {
+                "description": "Day count convention for the fixed leg",
+                "example": "Actual360"
+              }
+            ]
+          },
+          "floating_leg_day_count": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DayCountConvention"
+              },
+              {
+                "description": "Day count convention for the floating leg",
+                "example": "Actual360"
+              }
+            ]
+          },
+          "fixed_rate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "description": "The fixed rate of the swap as a percentage (input parameter). Null when not supplied in the request (swap valued at fair rate, MTM zero).\n",
+            "example": 4.25
+          },
+          "fair_rate": {
+            "type": "number",
+            "format": "double",
+            "description": "The fair (par) swap rate as a percentage",
+            "example": 3.87654
+          },
+          "mtm": {
+            "type": "number",
+            "format": "double",
+            "description": "Mark-to-market value of the swap (positive = asset, negative = liability)",
+            "example": -125430.5
+          },
+          "pv01": {
+            "type": "number",
+            "format": "double",
+            "description": "Dollar value of a 1 basis point move in rates (PV01)",
+            "example": 42850.25
+          },
+          "fixed_cashflows": {
+            "type": "array",
+            "description": "Detailed cashflows for the fixed leg",
+            "items": {
+              "$ref": "#/components/schemas/CashflowDetail"
+            }
+          },
+          "floating_cashflows": {
+            "type": "array",
+            "description": "Detailed cashflows for the floating leg",
+            "items": {
+              "$ref": "#/components/schemas/CashflowDetail"
+            }
+          }
+        }
+      },
+      "CashflowDetail": {
+        "type": "object",
+        "description": "Detailed information for a single cashflow period",
+        "properties": {
+          "period_start": {
+            "type": "string",
+            "format": "date",
+            "description": "Start date of the accrual period",
+            "example": "2025-01-15"
+          },
+          "period_end": {
+            "type": "string",
+            "format": "date",
+            "description": "End date of the accrual period",
+            "example": "2025-03-31"
+          },
+          "notional": {
+            "type": "number",
+            "format": "double",
+            "description": "Notional amount for this period",
+            "example": 100000000
+          },
+          "day_count_fraction": {
+            "type": "number",
+            "format": "double",
+            "description": "Year fraction based on day count convention",
+            "example": 0.2083
+          },
+          "rate": {
+            "type": "number",
+            "format": "double",
+            "description": "Interest rate for this period (fixed rate for fixed leg, forward rate for floating leg)",
+            "example": 4.25
+          },
+          "cashflow": {
+            "type": "number",
+            "format": "double",
+            "description": "Undiscounted cashflow amount",
+            "example": 212500
+          },
+          "discount_factor": {
+            "type": "number",
+            "format": "double",
+            "description": "Discount factor to payment date",
+            "example": 0.9912
+          },
+          "present_value": {
+            "type": "number",
+            "format": "double",
+            "description": "Present value of the cashflow",
+            "example": 210630
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "response": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "detail": {
+                        "oneOf": [
+                          {
+                            "type": "string",
+                            "example": "Invalid input format."
+                          },
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "missing"
+                                },
+                                "loc": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  },
+                                  "example": [
+                                    "query",
+                                    "parameterName"
+                                  ]
+                                },
+                                "msg": {
+                                  "type": "string",
+                                  "example": "Field required"
+                                },
+                                "input": {
+                                  "nullable": true,
+                                  "type": "string",
+                                  "example": null
+                                }
+                              }
+                            },
+                            "example": [
+                              {
+                                "type": "missing",
+                                "loc": [
+                                  "query",
+                                  "parameterName"
+                                ],
+                                "msg": "Field required",
+                                "input": null
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key",
+        "description": "API token required for authentication"
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Bad Request – check `error.response.data.detail` which contains a descriptive error message or a list of parameter validation errors.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "UnprocessableEntity": {
+        "description": "Unprocessable Entity - The request was well-formed but contains semantic errors.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string"
+                }
+              }
+            },
+            "examples": {
+              "invalid_index": {
+                "summary": "Invalid index provided",
+                "value": {
+                  "detail": "Invalid index provided. Supported indices: SOFR, 3M EURIBOR, SONIA, etc."
+                }
+              },
+              "invalid_tenor": {
+                "summary": "Invalid tenor format",
+                "value": {
+                  "detail": "Invalid tenor format. Must match pattern: [0-9]+[DWMY] (e.g., 1Y, 3M, 2W, 5D)"
+                }
+              },
+              "invalid_date_range": {
+                "summary": "Invalid date range",
+                "value": {
+                  "detail": "Start date must be earlier than end date"
+                }
+              },
+              "future_date_required": {
+                "summary": "Future date required",
+                "value": {
+                  "detail": "Date must be in the future"
+                }
+              },
+              "start_date_before_valuation_time": {
+                "summary": "Start date validation",
+                "value": {
+                  "detail": "Start date must be later than valuation time"
+                }
+              },
+              "maturity_date_in_past": {
+                "summary": "Maturity date in past",
+                "value": {
+                  "detail": "Maturity date must be in the future"
+                }
+              },
+              "maturity_date_before_start_date": {
+                "summary": "Maturity date validation",
+                "value": {
+                  "detail": "Maturity date must be later than start date"
+                }
+              },
+              "invalid_index_parsing": {
+                "summary": "Index parsing error",
+                "value": {
+                  "detail": "Invalid index provided."
+                }
+              },
+              "invalid_date_format": {
+                "summary": "Date format error",
+                "value": {
+                  "detail": "Invalid date format. Must be YYYY-MM-DD or a tenor string matching pattern: [0-9]+[DWMY] (e.g., 1Y, 3M, 2W, 5D)"
+                }
+              }
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Not Found - The requested resource or data could not be found.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string"
+                }
+              }
+            },
+            "examples": {
+              "no_data_available": {
+                "summary": "No data available",
+                "value": {
+                  "detail": "No data available for the specified date range"
+                }
+              },
+              "no_tenors_available": {
+                "summary": "No tenors available",
+                "value": {
+                  "detail": "No tenors available for the specified index"
+                }
+              },
+              "fixing_not_found": {
+                "summary": "Fixing not found",
+                "value": {
+                  "detail": "Fixing not found for the specified date"
+                }
+              },
+              "no_curve_data": {
+                "summary": "No curve data",
+                "value": {
+                  "detail": "No curve data available for the specified parameters"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "api_key": []
+    }
+  ]
+}

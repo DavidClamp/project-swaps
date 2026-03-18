@@ -14,16 +14,22 @@ def can_access_butterfly_analytics(user):
 
 def get_sofr_curve(target_date):
     """
-    Bootstrap a Piecewise Log-Linear Discount Curve.
-    Convert raw BlueGamma market rates into a zero-coupon yield curve.
+    Bootstrap a Piecewise Log-Linear Discount Curve using ONLY 
+    the rates for the specific target_date.
     """
-    # 1. Fetch historical market rates from Postgres into a Pandas DataFrame
-    rates_qs = HistoricalRate.objects.filter(date=target_date, index_name='SOFR')
+    # 1. Fetch ONLY the rates for the specific date and index
+    rates_qs = HistoricalRate.objects.filter(
+        date=target_date, 
+        index_name='SOFR'
+    )
+    
     if not rates_qs.exists():
         return None
         
+    # Convert to DataFrame for easier QuantLib iteration
     df = pd.DataFrame(list(rates_qs.values('tenor', 'rate')))
     
+       
     # 2. Global QuantLib Settings: Define the evaluation date for bootstrapping
     ql_date = ql.Date(target_date.day, target_date.month, target_date.year)
     ql.Settings.instance().evaluationDate = ql_date
