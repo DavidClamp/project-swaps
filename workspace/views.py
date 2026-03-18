@@ -44,20 +44,24 @@ def curve_analyser(request):
 @login_required
 def refresh_market_data(request):
     """
-    Attempt Live API, falls back to local Fixture,
-    and then re-price all portfolio trades against the new curve.
+    1. Attempt Live API Fetch
+    2. Fallback to 3,130-line Back-up Data if API fails
+    3. Re-price all portfolio trades
     """
     if request.method == "POST":
         try:
-            # 1. Attempt Live API Fetch
+            # --- ATTEMPT LIVE API ---
+            # This uses your new API Key from env.py
             result = import_bluegamma_data(source="api")
-            messages.success(request, f"Market Data Sync: {result}")
+            messages.success(request, f"Live Sync Success: {result}")
+            
         except Exception as e:
-            # 2. Fallback to default DB if API/JSON fails
+            # --- EMERGENCY FALLBACK ---
+            # If trial ended or API is down, load the Big Data
             call_command('loaddata', 'testing_default.json')
-            messages.warning(request, "API Offline. Reverted to Testing Default (Golden Source).")
+            messages.warning(request, "API Offline/Expired. Reverted to 3,130-point Back-up Data.")
 
-        # 3. Post-Sync Re-valuation 
+        # --- RE-VALUE PORTFOLIO ---
         try:
             latest_rate = HistoricalRate.objects.filter(index_name='SOFR').order_by('-date').first()
             if latest_rate:
@@ -65,12 +69,11 @@ def refresh_market_data(request):
                 trades = Trade.objects.filter(user=request.user)
                 for trade in trades:
                     calculate_trade_npv(trade.id, curve)
-                messages.info(request, "Portfolio NPVs re-calculated against new curve.")
-        except Exception as repricing_error:
-            messages.error(request, f"Data synced, but re-pricing failed: {repricing_error}")
+                messages.info(request, "Portfolio NPVs re-calculated against latest curve.")
+        except Exception as err:
+            messages.error(request, f"Market Sync OK, but re-pricing failed: {err}")
 
     return redirect('dashboard')
-
 
 @login_required
 def trade_blotter(request):
