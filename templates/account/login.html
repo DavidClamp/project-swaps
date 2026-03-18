@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow-lg border-0 card-access-dark p-4">
+                <div class="text-center mb-4">
+                    <h1 class="brand-orange fw-bold h3"><i class="fa-solid fa-chart-line me-2"></i>IRSQUANT</h1>
+                    <p class="text-white-50 small">Enter your credentials to access the terminal.</p>
+                </div>
+
+                <form class="login" method="POST" action="{% url 'account_login' %}">
+                    {% csrf_token %}
+                    
+                    {# Using crispy ensures Bootstrap 5 styling and clean HTML #}
+                    {{ form|crispy }}
+
+                    {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button class="btn btn-ua-gold fw-bold shadow-sm py-2" type="submit">
+                            {% trans "Sign In" %}
+                        </button>
+                    </div>
+                </form>
+
+                <div class="mt-4 text-center border-top border-secondary pt-3">
+                    <p class="small text-white-50 mb-1">
+                        {% blocktranslate %}New to the terminal?{% endblocktranslate %}
+                    </p>
+                    <a href="{% url 'account_signup' %}" class="text-ua-gold fw-bold text-decoration-none">
+                        {% trans "Create a Free Account" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 card shadow-sm p-4 card-access-dark border-0">
+            <h1 class="brand-orange fw-bold mb-3">{% trans "Sign Up" %}</h1>
+            
+            <p class="text-white-50 small mb-4">
+                {% blocktranslate %}Already have an account? Then please <a href="{{ login_url }}" class="text-ua-gold">sign in</a>.{% endblocktranslate %}
+            </p>
+
+            <form method="post" action="{% url 'account_signup' %}">
+                {% csrf_token %}
+                
+                {# This single line fixes the UL/SPAN/P validation errors #}
+                {{ form|crispy }}
+                
+                {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                {% endif %}
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-ua-gold w-100 fw-bold">
+                        {% trans "Create Terminal Account" %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
