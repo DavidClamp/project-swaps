@@ -16,10 +16,9 @@ def subscription_plans(request):
 def create_checkout_session(request):
     #  If no email, use a placeholder or show error
     if request.user.email:
-       user_email = request.user.email
+        user_email = request.user.email
     else:
-       user_email = f"{request.user.username}@example.com"
-       
+        user_email = f"{request.user.username}@example.com"
     try:
         checkout_session = stripe.checkout.Session.create(
             customer_email=user_email,

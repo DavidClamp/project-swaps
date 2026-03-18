@@ -11,7 +11,6 @@ def import_bluegamma_data(source="api"):
     Hybrid Data Fetch: Attempts Live API first, falls back to Local JSON.
     """
     data = None
-    
     # 1. Attempt LIVE API CALL
     if source == "api":
         try:
@@ -19,7 +18,6 @@ def import_bluegamma_data(source="api"):
             # If no key is found, trigger the fallback immediately
             if not api_key:
                 raise ValueError("No API Key found")
-                
             url = "https://www.bluegamma.io"
             response = requests.get(url, headers={"X-API-Key": api_key}, timeout=5)
             response.raise_for_status()
@@ -35,7 +33,7 @@ def import_bluegamma_data(source="api"):
             # Assume file is in project root
             file_path = os.path.join(settings.BASE_DIR, 'market_data_test.json')
             with open(file_path) as f:
-                    data = json.load(f)
+                data = json.load(f)
             source_label = "Local Seed File"
         except FileNotFoundError:
             return "Error: No market data file found for fallback."
@@ -58,7 +56,7 @@ def import_bluegamma_data(source="api"):
                 tenor=row['tenor'],
                 rate=row['rate']
             )
-        )    
+        )
     # 5. Bulk Create to prevent duplicates
     HistoricalRate.objects.bulk_create(rates_to_create, ignore_conflicts=True)
 
