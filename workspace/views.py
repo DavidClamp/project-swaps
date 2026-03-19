@@ -10,6 +10,7 @@ from .data_handler import import_bluegamma_data
 from .utils import get_sofr_curve, calculate_trade_npv, get_histogram_data
 from .forms import TradeForm
 
+
 @login_required
 def curve_analyser(request):
     """Generates a mathematically bootstrapped Zero Curve for Chart.js"""
@@ -18,11 +19,10 @@ def curve_analyser(request):
         # 1. Get the Math Engine
         curve = get_sofr_curve(latest_date)
         curve.enableExtrapolation()
-        
+
         # 2. Create smooth plot points (1Y, 2Y, 3Y, 5Y, 7Y, 10Y, 20Y, 30Y)
         plot_tenors = ["1Y", "2Y", "3Y", "5Y", "7Y", "10Y", "20Y", "30Y"]
         plot_rates = []
-        
         for t in plot_tenors:
             # Convert '5Y' string to numeric years for QuantLib
             years = float(t.replace('Y', ''))
@@ -41,6 +41,7 @@ def curve_analyser(request):
 
     return render(request, 'workspace/analyser.html', context)
 
+
 @login_required
 def refresh_market_data(request):
     """
@@ -54,7 +55,6 @@ def refresh_market_data(request):
             # This uses your new API Key from env.py
             result = import_bluegamma_data(source="api")
             messages.success(request, f"Live Sync Success: {result}")
-            
         except Exception as e:
             # --- EMERGENCY FALLBACK ---
             # If trial ended or API is down, load the Big Data
@@ -75,17 +75,19 @@ def refresh_market_data(request):
 
     return redirect('dashboard')
 
+
 @login_required
 def trade_blotter(request):
     """
     Displays the user's saved trades in a table.
     """
     trades = Trade.objects.filter(user=request.user).order_by('-created_at')
-    
+
     context = {
         'trades': trades,
     }
     return render(request, 'workspace/blotter.html', context)
+
 
 @login_required
 def add_trade(request):
@@ -95,17 +97,17 @@ def add_trade(request):
             trade = form.save(commit=False)
             trade.user = request.user
             trade.save()
-            
+
             # Immediate Re-pricing
             latest_date = HistoricalRate.objects.latest('date').date
             curve = get_sofr_curve(latest_date)
             calculate_trade_npv(trade.id, curve)
-            
             messages.success(request, f"Trade {trade.trade_id} executed and priced.")
             return redirect('blotter')
     else:
         form = TradeForm()
     return render(request, 'workspace/add_trade.html', {'form': form})
+
 
 @login_required
 def edit_trade(request, pk):
@@ -113,23 +115,20 @@ def edit_trade(request, pk):
     Update an existing trade ticket.
     """
     trade = get_object_or_404(Trade, pk=pk, user=request.user)
-    
     if request.method == "POST":
         form = TradeForm(request.POST, instance=trade)
         if form.is_valid():
             trade = form.save()
-            
             # Re-price immediately so the dashboard stays accurate
             latest_date = HistoricalRate.objects.latest('date').date
             curve = get_sofr_curve(latest_date)
             calculate_trade_npv(trade.id, curve)
-            
             messages.success(request, f"Trade {trade.trade_id} updated and re-priced.")
             return redirect('blotter')
     else:
         form = TradeForm(instance=trade)
-    
     return render(request, 'workspace/edit_trade.html', {'form': form, 'trade': trade})
+
 
 @login_required
 def delete_trade(request, pk):
@@ -137,13 +136,11 @@ def delete_trade(request, pk):
     Remove a trade from the blotter.
     """
     trade = get_object_or_404(Trade, pk=pk, user=request.user)
-    
     if request.method == "POST":
         trade_id = trade.trade_id
         trade.delete()
         messages.warning(request, f"Trade {trade_id} successfully removed from blotter.")
         return redirect('blotter')
-        
     return render(request, 'workspace/delete_confirm.html', {'trade': trade})
 
 
@@ -153,14 +150,13 @@ def dashboard(request):
     Aggregate trades into 'Strategies' or 'Groups'.
     """
     trades = Trade.objects.filter(user=request.user)
-    
     strategies = {}
     for t in trades:
         gid = t.group_id if t.group_id else f"OUTRIGHT-{t.trade_id}"
         if gid not in strategies:
             strategies[gid] = {
-                'npv': 0.0, 
-                'count': 0, 
+                'npv': 0.0,
+                'count': 0,
                 'strategy': t.strategy,
                 'ticker': t.ticker
             }
@@ -170,19 +166,17 @@ def dashboard(request):
         # 1. Calculate Totals
     total_npv = sum(t.last_npv for t in trades if t.last_npv) or 0.0
     trade_count = trades.count()
-    
     # 2. Get latest rate date safely
     latest_rate = HistoricalRate.objects.filter(index_name='SOFR').order_by('-date').first()
     latest_date = latest_rate.date if latest_rate else "Data Pending"
 
     # 3. Build KPI List
     kpi_data = [
-        ('Portfolio NPV', 'fa-scale-balanced', f"${total_npv:,.2f}", 
+        ('Portfolio NPV', 'fa-scale-balanced', f"${total_npv:,.2f}",
          'text-pnl-positive' if total_npv >= 0 else 'text-pnl-negative'),
         ('Active Trades', 'fa-file-invoice-dollar', trade_count, ''),
         ('Index Focus', 'fa-satellite-dish', 'USD SOFR', ''),
     ]
-
     # 4. Final Context
     context = {
         'strategies': strategies,
@@ -190,8 +184,9 @@ def dashboard(request):
         'trade_count': trade_count,
         'latest_date': latest_date,
         'kpi_data': kpi_data,
-    } 
+    }
     return render(request, 'workspace/dashboard.html', context)
+
 
 @login_required
 def forward_histogram(request):
@@ -200,10 +195,9 @@ def forward_histogram(request):
     """
     # 1. Fetch labels and counts from our NumPy utility
     labels, counts = get_histogram_data(index_name='SOFR', tenor='1Y')
-    
     # 2. Manual Mean Calculation
     raw_rates = HistoricalRate.objects.filter(index_name='SOFR', tenor='1Y').values_list('rate', flat=True)
-    
+
     if raw_rates:
         # Average * 100 to show as a percentage
         mean_val = (sum(raw_rates) / len(raw_rates)) * 100
@@ -211,32 +205,32 @@ def forward_histogram(request):
         mean_val = 0
 
     context = {
-        'hist_labels': json.dumps(labels), # Convert to JS Array string
-        'hist_counts': json.dumps(counts), # Convert to JS Array string
+        'hist_labels': json.dumps(labels),
+        'hist_counts': json.dumps(counts),
         'mean_val': round(mean_val, 2),
         'sample_size': len(raw_rates),
         'title': 'USD SOFR 1Y Forward Distribution'
     }
     return render(request, 'workspace/histogram.html', context)
 
+
 @login_required
 def curve_bar_chart(request):
     """Term Structure Snapshot: Finds the latest available curve points."""
     # 1. Get the absolute latest entry in the DB to find the 'Current' market date
     latest_entry = HistoricalRate.objects.filter(index_name='SOFR').order_by('-date').first()
-    
     if not latest_entry:
         return redirect('home')
 
     # 2. Define the exact Master Order for the X-axis
     order = ['1Y', '2Y', '3Y', '4Y', '5Y', '6Y', '7Y', '8Y', '9Y', '10Y', '15Y', '30Y']
-    
+ 
     # 3. Fetch ALL rates for THAT specific latest date
     rates_qs = HistoricalRate.objects.filter(
-        index_name='SOFR', 
+        index_name='SOFR',
         date=latest_entry.date
     )
-    
+
     # 4. Filter and Sort based on our Master Order
     # This ensures only the tenors we want appear, in the right order
     sorted_data = []
@@ -257,6 +251,7 @@ def curve_bar_chart(request):
     return render(request, 'workspace/curve_bars.html', context)
 
 # Upgrade request
+
 
 @login_required
 def subscription_plans(request):
