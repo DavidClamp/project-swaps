@@ -224,7 +224,7 @@ def curve_bar_chart(request):
 
     # 2. Define the exact Master Order for the X-axis
     order = ['1Y', '2Y', '3Y', '4Y', '5Y', '6Y', '7Y', '8Y', '9Y', '10Y', '15Y', '30Y']
- 
+
     # 3. Fetch ALL rates for THAT specific latest date
     rates_qs = HistoricalRate.objects.filter(
         index_name='SOFR',
