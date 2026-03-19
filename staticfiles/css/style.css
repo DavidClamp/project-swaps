@@ -146,9 +146,10 @@ footer.footer span.brand-orange {
 
 /* 2. Fix Logout Button (Lighthouse Failing Element #3) */
 .btn-outline-danger {
-    color: #ff5c5c !important; /* A much brighter red for contrast on Navy */
+    color: #ff5c5c !important; /* Brighter red for Navy background */
     border-color: #ff5c5c !important;
-    background-color: rgba(255, 92, 92, 0.1); /* Subtle fill to help visibility */
+    background-color: rgba(255, 92, 92, 0.05); /* Very subtle fill */
+    border-width: 2px !important;
 }
 
 .btn-outline-danger:hover {

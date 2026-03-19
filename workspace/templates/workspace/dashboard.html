@@ -41,9 +41,9 @@
             ></i>
           </div>
           <div>
-            <h6 class="text-muted small mb-1 text-uppercase fw-bold">
+            <p class="text-muted small mb-1 text-uppercase fw-bold">
               {{ label }}
-            </h6>
+            </p>
             <h3 class="mb-0 fw-bold {{ color_class }}">{{ value }}</h3>
           </div>
         </div>
@@ -58,10 +58,10 @@
     <div class="col-lg-8">
       <div class="card shadow-sm border-0 mb-4 overflow-hidden">
         <div class="card-header text-white py-3 card-access-dark">
-          <h6 class="mb-0">
+          <p class="mb-0">
             <i class="fa-solid fa-layer-group me-2 brand-orange"></i>Active
             Strategies
-          </h6>
+          </p>
         </div>
         <div class="table-responsive">
           <table class="table table-hover align-middle mb-0">
@@ -123,7 +123,7 @@
         </div>
 
         {% if user.profile.is_subscriber %}
-        <p class="small text-white-50 mb-0">
+        <p class="small text-white mb-0">
           Current Member: Unlimited **QuantLib** access enabled.
         </p>
         {% else %}
