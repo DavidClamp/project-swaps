@@ -105,3 +105,35 @@
     border-width: 2px;
     font-weight: 600;
 }
+
+/* 1. Deepen Brand Orange (Passes on both Light and Dark backgrounds) */
+.brand-orange, .text-ua-gold {
+    color: #e65100 !important; /* A deep, vivid orange-gold */
+}
+
+/* 2. Fix Navbar 'User: dclamp' (Boost from 50% to 95% opacity) */
+.navbar-text.text-white-50 {
+    color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* 3. Fix Logout Button (Deep Red for contrast on Navy) */
+.btn-outline-danger {
+    color: #ff4d4d !important;
+    border-color: #ff4d4d !important;
+}
+
+/* 4. Fix Muted/Small Text on Light Backgrounds (Darken grey) */
+.text-muted.small, p.text-muted {
+    color: #545454 !important;
+}
+
+/* 5. Fix Bold/Strong text on Light Backgrounds */
+strong {
+    color: #212529 !important;
+}
+
+/* 6. Footer Contrast Fix */
+footer.footer span.brand-orange {
+    color: #ff8c00 !important; /* Slightly brighter for the dark footer only */
+}
+
