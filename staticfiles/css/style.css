@@ -1,83 +1,92 @@
-/* static/css/style.css */
-
+/* --- 1. THEME VARIABLES & ACCESSIBILITY DEFAULTS --- */
 :root {
     --ua-blue: #0057B7;    
     --ua-gold: #FFDD00;    
     --ua-navy: #002d5e;   
 
-   /* 🟢 Lighthouse Contrast Overrides */
-    --bs-body-color: #1a1a1a;        /* Deepen body text from #212529 */
-    --bs-secondary-color: #555555;   /* Darken muted text from #6c757d */
-    --bs-warning: #cc4400;           /* Deepen orange-gold for 4.5:1 ratio */
+    /* Lighthouse Contrast Overrides */
+    --bs-body-color: #1a1a1a;        
+    --bs-secondary-color: #545454;   
+    --bs-warning: #e65100;
 }
 
-/* Navbar Branding */
+/* --- 2. GLOBAL OVERRIDES & UTILITIES --- */
+body {
+    background-color: #f8f9fa;
+}
+
+strong, .fw-bold {
+    color: #212529 !important;
+}
+
+.text-muted {
+    color: var(--bs-secondary-color) !important;
+}
+
+.brand-orange { 
+    color: var(--bs-warning) !important; 
+}
+
+/* --- 3. NAVBAR & FOOTER (THE KYIV THEME) --- */
 .navbar-dark { 
     background-color: var(--ua-navy); 
     border-bottom: 3px solid var(--ua-gold); 
 }
 
-.brand-orange { 
-    color:  #cc4400; 
+/* Navbar Links & Active States */
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
-/* Action Buttons  */
-.btn-warning {
-    background-color: var(--ua-gold);
-    border-color: var(--ua-gold);
-    color: var(--ua-navy);
-    font-weight: bold;
+.nav-link.active.text-ua-gold {
+    color: #ffffff !important;
+    border-bottom: 2px solid var(--ua-gold);
 }
 
-/* Chart Bars */
-.chart-bar-ua {
-    background-color: var(--ua-blue);
+.navbar-text.text-white-50 {
+    color: rgba(255, 255, 255, 0.95) !important;
 }
-/* Mirror Navbar for the Footer */
+
+/* Footer Styling */
 .footer { 
     background-color: var(--ua-navy); 
     border-top: 3px solid var(--ua-gold); 
     color: #ffffff; 
 }
 
-/* --- Trade Blotter & Dashboard UI --- */
-
-/* Side Badges: Blue for PAY, Gold for REC */
-.badge-pay { 
-    background-color: var(--ua-blue); 
-    color: white; 
+.footer span.brand-orange {
+    color: #ff8c00 !important;
 }
 
-.badge-rec { 
-    background-color: var(--ua-gold); 
-    color: var(--ua-navy); 
-}
-
-/* Strategy Badge: Navy with Gold outline */
-.badge-strategy {
-    background-color: var(--ua-navy);
-    border: 1px solid var(--ua-gold);
-    color: var(--ua-gold);
-}
-
-/* NPV P&L Coloring: Professional Blue/Gold contrast */
-.text-pnl-positive { color: #B8860B; font-weight: bold; }
-.text-pnl-negative { color: var(--ua-blue); font-weight: bold; }
-
-/* Dashboard Access Card Styling */
-.card-access-dark {
-    background-color: var(--ua-navy);
-    border-top: 4px solid var(--ua-gold);
-    color: white;
-}
-/* The Standard Gold Button */
+/* --- 4. BUTTONS & ACTIONS --- */
 .btn-ua-gold {
     background-color: var(--ua-gold) !important;
     color: var(--ua-navy) !important;
     border: none !important;
     font-weight: bold;
 }
-/* Subtle shadow and hover for dashboard cards */
+
+.btn-outline-danger {
+    color: #ff6b6b !important;
+    border-color: #ff6b6b !important;
+    border-width: 2px !important;
+    font-weight: 700 !important;
+}
+
+.btn-outline-danger:hover {
+    background-color: #ff6b6b !important;
+    color: #ffffff !important;
+}
+
+/* --- 5. DASHBOARD & DATA COMPONENTS --- */
+.card-access-dark {
+    background-color: var(--ua-navy);
+    border-top: 4px solid var(--ua-gold);
+    color: white;
+}
+
 .card-kpi-ua {
     border-left: 5px solid var(--ua-gold);
     transition: transform 0.2s ease-in-out;
@@ -88,76 +97,16 @@
     box-shadow: 0 10px 20px rgba(0, 45, 94, 0.1);
 }
 
-/* Fix Faint User Info (Boost white from 50% to 90% opacity) */
-.navbar-text.text-white-50 {
-    color: rgba(255, 255, 255, 0.9);
+/* Trade Blotter & P&L Colors */
+.badge-pay { background-color: var(--ua-blue); color: white; }
+.badge-rec { background-color: var(--ua-gold); color: var(--ua-navy); }
+
+.badge-strategy {
+    background-color: var(--ua-navy);
+    border: 1px solid var(--ua-gold);
+    color: var(--ua-gold);
 }
 
-/* Fix Muted/Small Text on Light Backgrounds */
-.text-muted.small, .text-muted {
-    color: #555555;
-}
+.text-pnl-positive { color: #8B6508; font-weight: bold; } 
+.text-pnl-negative { color: #004a99; font-weight: bold; } 
 
-/* Strengthen Logout Button (Deep Red for contrast) */
-.btn-outline-danger {
-    color: #dc3545;
-    border-color: #dc3545;
-    border-width: 2px;
-    font-weight: 600;
-}
-
-/* 1. Deepen Brand Orange (Passes on both Light and Dark backgrounds) */
-.brand-orange, .text-ua-gold {
-    color: #e65100 !important; /* A deep, vivid orange-gold */
-}
-
-/* 2. Fix Navbar 'User: dclamp' (Boost from 50% to 95% opacity) */
-.navbar-text.text-white-50 {
-    color: rgba(255, 255, 255, 0.95) !important;
-}
-
-/* 3. Fix Logout Button (Deep Red for contrast on Navy) */
-.btn-outline-danger {
-    color: #ff4d4d !important;
-    border-color: #ff4d4d !important;
-}
-
-/* 4. Fix Muted/Small Text on Light Backgrounds (Darken grey) */
-.text-muted.small, p.text-muted {
-    color: #545454 !important;
-}
-
-/* 5. Fix Bold/Strong text on Light Backgrounds */
-strong {
-    color: #212529 !important;
-}
-
-/* 6. Footer Contrast Fix */
-footer.footer span.brand-orange {
-    color: #ff8c00 !important; /* Slightly brighter for the dark footer only */
-}
-
-/* 1. Fix Active Nav Link (Lighthouse Failing Element #1) */
-.nav-link.active.text-ua-gold {
-    color: #ffffff !important; /* Switch to pure white for the active link */
-    border-bottom: 2px solid var(--ua-gold); /* Keep the gold as an underline instead */
-    padding-bottom: 2px;
-}
-
-/* 2. Fix Logout Button (Lighthouse Failing Element #3) */
-.btn-outline-danger {
-    color: #ff6b6b !important; /* Brighter red for Navy background */
-    border-color: #ff6b6b !important;
-    border-width: 2px !important;
-    font-weight: 700 !important;
-}
-
-.btn-outline-danger:hover {
-    background-color:  #ff6b6b !important;
-    color: #ffffff !important;
-}
-
-/* 3. Global Navbar Text Opacity Boost */
-.navbar-dark .navbar-nav .nav-link {
-    color: rgba(255, 255, 255, 0.9) !important; /* Increase from default 50% to 90% */
-}
