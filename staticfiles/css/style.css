@@ -13,7 +13,7 @@
 }
 
 .brand-orange { 
-    color: var(--ua-gold); 
+    color:  #cc4400; 
 }
 
 /* Action Buttons  */
@@ -81,4 +81,22 @@
 .card-kpi-ua:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(0, 45, 94, 0.1);
+}
+
+/* Fix Faint User Info (Boost white from 50% to 90% opacity) */
+.navbar-text.text-white-50 {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Fix Muted/Small Text on Light Backgrounds */
+.text-muted.small, .text-muted {
+    color: #555555;
+}
+
+/* Strengthen Logout Button (Deep Red for contrast) */
+.btn-outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+    border-width: 2px;
+    font-weight: 600;
 }
