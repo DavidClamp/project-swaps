@@ -38,3 +38,6 @@ urlpatterns = [
     path('histogram/', views.forward_histogram, name='histogram'),
     path('term-structure/', views.curve_bar_chart, name='curve_bars'),
 ]
+# Custom Error Handlers
+handler404 = 'workspace.views.custom_404'
+handler500 = 'workspace.views.custom_500'
