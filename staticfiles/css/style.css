@@ -4,6 +4,11 @@
     --ua-blue: #0057B7;    
     --ua-gold: #FFDD00;    
     --ua-navy: #002d5e;   
+
+   /* 🟢 Lighthouse Contrast Overrides */
+    --bs-body-color: #1a1a1a;        /* Deepen body text from #212529 */
+    --bs-secondary-color: #555555;   /* Darken muted text from #6c757d */
+    --bs-warning: #cc4400;           /* Deepen orange-gold for 4.5:1 ratio */
 }
 
 /* Navbar Branding */
