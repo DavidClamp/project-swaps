@@ -137,3 +137,26 @@ footer.footer span.brand-orange {
     color: #ff8c00 !important; /* Slightly brighter for the dark footer only */
 }
 
+/* 1. Fix Active Nav Link (Lighthouse Failing Element #1) */
+.nav-link.active.text-ua-gold {
+    color: #ffffff !important; /* Switch to pure white for the active link */
+    border-bottom: 2px solid var(--ua-gold); /* Keep the gold as an underline instead */
+    padding-bottom: 2px;
+}
+
+/* 2. Fix Logout Button (Lighthouse Failing Element #3) */
+.btn-outline-danger {
+    color: #ff5c5c !important; /* A much brighter red for contrast on Navy */
+    border-color: #ff5c5c !important;
+    background-color: rgba(255, 92, 92, 0.1); /* Subtle fill to help visibility */
+}
+
+.btn-outline-danger:hover {
+    background-color: #ff5c5c !important;
+    color: #ffffff !important;
+}
+
+/* 3. Global Navbar Text Opacity Boost */
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important; /* Increase from default 50% to 90% */
+}
