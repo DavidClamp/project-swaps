@@ -5,7 +5,7 @@
     --ua-navy: #002d5e;   
     --bs-body-color: #1a1a1a;        
     --bs-secondary-color: #545454;   
-    --bs-warning: #b01b27; /* High-contrast Red-Orange for contrast */
+    --bs-warning: #b01b27; /* WCAG Compliant Red-Orange */
 }
 
 /* --- 2. GLOBAL UTILITIES --- */
@@ -19,11 +19,10 @@ strong, .fw-bold { color: #212529 !important; }
     border-bottom: 3px solid var(--ua-gold); 
 }
 
-/* NUCLEAR FIX: Navbar Text & Links (Lighthouse Fail) */
-nav.navbar-dark .navbar-text,
-nav.navbar-dark .navbar-text.text-white-50,
-nav.navbar-dark .nav-link,
-nav.navbar-dark .navbar-brand {
+nav.navbar.navbar-dark .navbar-text,
+nav.navbar.navbar-dark .navbar-text.text-white-50,
+nav.navbar.navbar-dark .nav-link,
+nav.navbar.navbar-dark .navbar-brand {
     color: #ffffff !important;
     opacity: 1 !important;
     font-weight: 500 !important;
@@ -35,7 +34,7 @@ nav.navbar-dark .navbar-brand {
     color: #ffffff; 
 }
 
-/* ACCESSIBILITY: Force Gold on Dark Navy backgrounds */
+/* ACCESSIBILITY: Gold on Dark Navy backgrounds */
 .card-access-dark .brand-orange,
 .navbar-dark .brand-orange,
 .footer .brand-orange {
@@ -50,18 +49,17 @@ nav.navbar-dark .navbar-brand {
     border: none;
 }
 
-/* NUCLEAR FIX: Outline Danger Button (Lighthouse Fail) */
 .btn-outline-danger, 
 a.btn.btn-sm.btn-outline-danger {
-    color: #b01b27 !important; 
-    border-color: #b01b27 !important;
+    color: #cb2431 !important; 
+    border-color: #cb2431 !important;
     background-color: transparent !important;
     border-width: 2px !important;
     font-weight: 600 !important;
 }
 
 .btn-outline-danger:hover {
-    background-color: #b01b27 !important;
+    background-color: #cb2431 !important;
     color: #ffffff !important;
 }
 
@@ -72,36 +70,21 @@ a.btn.btn-sm.btn-outline-danger {
     color: #ffffff !important;
 }
 
-/* Force white/gold for contrast in dark cards */
-.card-access-dark h2, 
-.card-access-dark p, 
-.card-access-dark small {
-    color: #ffffff !important;
+/* High-Contrast text for Dark Cards */
+div.card-access-dark .text-muted, 
+div.card-access-dark small,
+div.card-access-dark p.small,
+div.card-access-dark h2.text-white {
+    color: #f1f1f1 !important;
     opacity: 1 !important;
 }
 
-/* Fixed High-Contrast P&L Colours */
 .text-pnl-positive { color: #614603 !important; font-weight: bold; } 
-.text-pnl-negative { color: #b01b27 !important; font-weight: bold; }
+.text-pnl-negative { color: #cb2431 !important; font-weight: bold; }
 
 .badge-strategy {
     background-color: var(--ua-navy);
     border: 1px solid var(--ua-gold);
     color: var(--ua-gold);
 }
-/* WCAG AA Compliant Red (#cb2431) for light backgrounds */
-.btn-outline-danger {
-    color: #cb2431 !important; 
-    border-color: #cb2431 !important;
-}
-.btn-outline-danger:hover {
-    background-color: #cb2431 !important;
-    color: #ffffff !important;
-}
-/* Force high-contrast white for navbar links and brand */
-.navbar-dark .navbar-nav .nav-link,
-.navbar-dark .navbar-brand,
-.navbar-dark .navbar-text {
-    color: #ffffff !important;
-    opacity: 1 !important; /* Ensure 100% opacity to pass contrast checks */
-}
+
