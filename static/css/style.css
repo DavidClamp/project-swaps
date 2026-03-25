@@ -1,148 +1,60 @@
-/* --- 1. THEME VARIABLES & ACCESSIBILITY DEFAULTS --- */
+/* --- 1. THEME VARIABLES --- */
 :root {
     --ua-blue: #0057B7;    
     --ua-gold: #FFDD00;    
     --ua-navy: #002d5e;   
-
-    /* Lighthouse Contrast Overrides */
     --bs-body-color: #1a1a1a;        
     --bs-secondary-color: #545454;   
-    /* Darker Orange for light backgrounds */
-    --bs-warning: #c44500; 
+    --bs-warning: #c44500; /* High-contrast Orange */
 }
 
-/* --- 2. GLOBAL OVERRIDES & UTILITIES --- */
-body {
-    background-color: #f8f9fa;
-}
+/* --- 2. GLOBAL UTILITIES --- */
+body { background-color: #f8f9fa; }
+strong, .fw-bold { color: #212529 !important; }
+.text-muted { color: var(--bs-secondary-color) !important; }
+.brand-orange { color: var(--bs-warning) !important; }
 
-strong, .fw-bold {
-    color: #212529 !important;
-}
-
-.text-muted {
-    color: var(--bs-secondary-color) !important;
-}
-
-/* --- 3. NAVBAR & FOOTER (THE KYIV THEME) --- */
-
+/* ACCESSIBILITY FIX: Force Gold on Dark Navy backgrounds */
 .card-access-dark .brand-orange,
 .navbar-dark .brand-orange,
-.footer .brand-orange {
+.footer .brand-orange,
+.footer span.brand-orange {
     color: var(--ua-gold) !important;
 }
 
-/* Navbar Links & Active States */
-.navbar-nav .nav-link {
-    color: rgba(255, 255, 255, 0.9) !important;
-    padding-left: 1rem;
-    padding-right: 1rem;
+/* --- 3. NAVBAR & FOOTER --- */
+.navbar-dark { 
+    background-color: var(--ua-navy); 
+    border-bottom: 3px solid var(--ua-gold); 
 }
-
-.nav-link.active.text-ua-gold {
-    color: #ffffff !important;
-    border-bottom: 2px solid var(--ua-gold);
-}
-
-.navbar-text.text-white-50 {
-    color: rgba(255, 255, 255, 0.95) !important;
-}
-
-/* Footer Styling */
+.navbar-nav .nav-link { color: rgba(255, 255, 255, 0.9) !important; }
 .footer { 
     background-color: var(--ua-navy); 
     border-top: 3px solid var(--ua-gold); 
     color: #ffffff; 
 }
 
-.footer span.brand-orange {
-    color: #ff8c00 !important;
-}
-
-/* --- 4. BUTTONS & ACTIONS --- */
+/* --- 4. BUTTONS --- */
 .btn-ua-gold {
     background-color: var(--ua-gold) !important;
     color: var(--ua-navy) !important;
-    border: none !important;
     font-weight: bold;
+    border: none;
 }
 
-.btn-outline-danger {
-    color: #ff6b6b !important;
-    border-color: #ff6b6b !important;
-    border-width: 2px !important;
-    font-weight: 700 !important;
-}
-
-.btn-outline-danger:hover {
-    background-color: #ff6b6b !important;
-    color: #ffffff !important;
-}
-
-/* --- 5. DASHBOARD & DATA COMPONENTS --- */
-/* --- 1. THEME VARIABLES & ACCESSIBILITY DEFAULTS --- */
-:root {
-    --ua-blue: #0057B7;    
-    --ua-gold: #FFDD00;    
-    --ua-navy: #002d5e;   
-
-    /* Lighthouse Contrast Overrides */
-    --bs-body-color: #1a1a1a;        
-    --bs-secondary-color: #545454;   
-    /* Darker Orange for light backgrounds */
-    --bs-warning: #c44500; 
-}
-
-/* --- 3. NAVBAR & FOOTER (THE KYIV THEME) --- */
-/* Fix: Use Gold instead of Orange on Navy backgrounds for Accessibility */
-.card-access-dark .brand-orange,
-.navbar-dark .brand-orange,
-.footer .brand-orange {
-    color: var(--ua-gold) !important;
-}
-
-/* --- 5. DASHBOARD & DATA COMPONENTS --- */
-/* Fix: Darken PnL colours slightly for better contrast on Light Backgrounds */
-.text-pnl-positive { 
-    color: #705206 !important;
-    /* High-contrast Deep Gold/Brown */
-    font-weight: bold; 
-} 
-
-.text-pnl-negative { 
-    color: #00428a !important;
-    /* High-contrast Royal Blue */
-    font-weight: bold; 
-}
-
-/* Ensure text inside Navy cards is high-contrast */
+/* --- 5. DASHBOARD & DATA --- */
 .card-access-dark {
     background-color: var(--ua-navy);
     border-top: 4px solid var(--ua-gold);
     color: #ffffff !important;
-    /* Force pure white for contrast */
 }
 
-.card-kpi-ua {
-    border-left: 5px solid var(--ua-gold);
-    transition: transform 0.2s ease-in-out;
-}
-
-.card-kpi-ua:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 45, 94, 0.1);
-}
-
-/* Trade Blotter & P&L Colors */
-.badge-pay { background-color: var(--ua-blue); color: white; }
-.badge-rec { background-color: var(--ua-gold); color: var(--ua-navy); }
+/* Fixed High-Contrast P&L Colours */
+.text-pnl-positive { color: #705206 !important; font-weight: bold; } 
+.text-pnl-negative { color: #00428a !important; font-weight: bold; }
 
 .badge-strategy {
     background-color: var(--ua-navy);
     border: 1px solid var(--ua-gold);
     color: var(--ua-gold);
 }
-
-.text-pnl-positive { color: #8B6508; font-weight: bold; } 
-.text-pnl-negative { color: #004a99; font-weight: bold; } 
-
