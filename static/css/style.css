@@ -91,3 +91,75 @@ strong, .fw-bold { color: #212529 !important; }
     color: #e0e0e0 !important;
     /* Light grey instead of dark grey */
 }
+/* 1. Fix Navbar 'text-white-50' (Lighthouse Fail) */
+/* Boosted opacity from 50% to 95% to pass contrast against Navy */
+.navbar-dark .navbar-text.text-white-50 {
+    color: rgba(255, 255, 255, 0.95) !important; 
+}
+
+/* 2. Fix Outline Danger Button (Lighthouse Fail) */
+/* Standard BS5 red is too light on white. This #cb2431 is WCAG-compliant */
+.btn-outline-danger {
+    color: #cb2431 !important; 
+    border-color: #cb2431 !important;
+    border-width: 2px !important;
+}
+
+.btn-outline-danger:hover {
+    background-color: #cb2431 !important;
+    color: #ffffff !important;
+}
+
+/* 3. Fix 'Muted' text in Dark Cards (Lighthouse Fail) */
+/* Standard muted grey is invisible on navy. This light grey passes */
+.card-access-dark .text-muted, 
+.card-access-dark small,
+.card-access-dark p.small {
+    color: #e0e0e0 !important; 
+}
+
+/* 4. Fix 'Brand Orange' on Navy (Global Fix) */
+/* Force all orange spans to Gold when inside dark components */
+.card-access-dark .brand-orange,
+.navbar-dark .brand-orange,
+.footer .brand-orange {
+    color: var(--ua-gold) !important;
+    }
+
+    /* 1. Force Navbar Text Visibility */
+/* text-white-50 on Navy is a mathematically guaranteed fail. This forces high-contrast white. */
+.navbar-dark .navbar-text.text-white-50,
+.navbar-dark .navbar-nav .nav-link,
+.navbar-dark .navbar-brand {
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+/* 2. Fix the PnL & Links on Light Backgrounds */
+/* Standard 'Danger' red on white is ~4.0:1. WCAG requires 4.5:1. */
+.btn-outline-danger, 
+.text-pnl-negative {
+    color: #c0212e !important; /* Deeper, high-contrast Red */
+    border-color: #c0212e !important;
+}
+
+.text-pnl-positive {
+    color: #614603 !important; /* Very Deep Gold/Brown for white backgrounds */
+}
+
+/* 3. The 'Dark Card' Muted Text Fix */
+/* Small text on dark navy is a high-risk fail. We must use off-white, not grey. */
+.card-access-dark .text-muted,
+.card-access-dark small,
+.card-access-dark p.small {
+    color: #e6e6e6 !important;
+}
+
+/* 4. Global Dark Background Contrast */
+/* Force all orange elements to UA Gold when inside dark sections */
+.navbar-dark .brand-orange,
+.footer .brand-orange,
+.card-access-dark .brand-orange {
+    color: var(--ua-gold) !important;
+}
+
