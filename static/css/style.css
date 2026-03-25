@@ -7,7 +7,8 @@
     /* Lighthouse Contrast Overrides */
     --bs-body-color: #1a1a1a;        
     --bs-secondary-color: #545454;   
-    --bs-warning: #e65100;
+    /* Darker Orange for light backgrounds */
+    --bs-warning: #c44500; 
 }
 
 /* --- 2. GLOBAL OVERRIDES & UTILITIES --- */
@@ -23,18 +24,16 @@ strong, .fw-bold {
     color: var(--bs-secondary-color) !important;
 }
 
-.brand-orange { 
-    color: var(--bs-warning) !important; 
-}
-
 /* --- 3. NAVBAR & FOOTER (THE KYIV THEME) --- */
-.navbar-dark { 
-    background-color: var(--ua-navy); 
-    border-bottom: 3px solid var(--ua-gold); 
+
+.card-access-dark .brand-orange,
+.navbar-dark .brand-orange,
+.footer .brand-orange {
+    color: var(--ua-gold) !important;
 }
 
 /* Navbar Links & Active States */
-.navbar-dark .navbar-nav .nav-link {
+.navbar-nav .nav-link {
     color: rgba(255, 255, 255, 0.9) !important;
     padding-left: 1rem;
     padding-right: 1rem;
@@ -81,10 +80,47 @@ strong, .fw-bold {
 }
 
 /* --- 5. DASHBOARD & DATA COMPONENTS --- */
+/* --- 1. THEME VARIABLES & ACCESSIBILITY DEFAULTS --- */
+:root {
+    --ua-blue: #0057B7;    
+    --ua-gold: #FFDD00;    
+    --ua-navy: #002d5e;   
+
+    /* Lighthouse Contrast Overrides */
+    --bs-body-color: #1a1a1a;        
+    --bs-secondary-color: #545454;   
+    /* Darker Orange for light backgrounds */
+    --bs-warning: #c44500; 
+}
+
+/* --- 3. NAVBAR & FOOTER (THE KYIV THEME) --- */
+/* Fix: Use Gold instead of Orange on Navy backgrounds for Accessibility */
+.card-access-dark .brand-orange,
+.navbar-dark .brand-orange,
+.footer .brand-orange {
+    color: var(--ua-gold) !important;
+}
+
+/* --- 5. DASHBOARD & DATA COMPONENTS --- */
+/* Fix: Darken PnL colours slightly for better contrast on Light Backgrounds */
+.text-pnl-positive { 
+    color: #705206 !important;
+    /* High-contrast Deep Gold/Brown */
+    font-weight: bold; 
+} 
+
+.text-pnl-negative { 
+    color: #00428a !important;
+    /* High-contrast Royal Blue */
+    font-weight: bold; 
+}
+
+/* Ensure text inside Navy cards is high-contrast */
 .card-access-dark {
     background-color: var(--ua-navy);
     border-top: 4px solid var(--ua-gold);
-    color: white;
+    color: #ffffff !important;
+    /* Force pure white for contrast */
 }
 
 .card-kpi-ua {
