@@ -14,7 +14,7 @@ strong, .fw-bold { color: #212529 !important; }
 .text-muted { color: var(--bs-secondary-color) !important; }
 .brand-orange { color: var(--bs-warning) !important; }
 
-/* ACCESSIBILITY FIX: Force Gold on Dark Navy backgrounds */
+/* ACCESSIBILITY  */
 .card-access-dark .brand-orange,
 .navbar-dark .brand-orange,
 .footer .brand-orange,
@@ -57,4 +57,37 @@ strong, .fw-bold { color: #212529 !important; }
     background-color: var(--ua-navy);
     border: 1px solid var(--ua-gold);
     color: var(--ua-gold);
+}
+/* 1. Fix the Navbar 'text-white-50' (Lighthouse Fail) */
+.navbar-dark .navbar-text.text-white-50 {
+    color: rgba(255, 255, 255, 0.95) !important; 
+    /* Boosted opacity to 95% for contrast */
+}
+
+/* 2. Fix the Outline Danger Button (Lighthouse Fail) */
+/* The standard red is too light on white backgrounds. This is a WCAG-compliant red. */
+.btn-outline-danger {
+    color: #cb2431 !important; 
+    border-color: #cb2431 !important;
+    border-width: 2px !important;
+}
+
+.btn-outline-danger:hover {
+    background-color: #cb2431 !important;
+    color: #ffffff !important;
+}
+
+/* 3. Fix 'Account Access' Header on Navy (Lighthouse Fail) */
+/* Force pure gold on any brand-orange nested in dark cards */
+.card-access-dark h2.text-white .brand-orange,
+.card-access-dark .brand-orange {
+    color: var(--ua-gold) !important;
+    text-shadow: 0px 1px 1px rgba(0,0,0,0.5); 
+}
+
+/* 4. Ensure Muted text in Dark Cards is legible */
+.card-access-dark .text-muted, 
+.card-access-dark small {
+    color: #e0e0e0 !important;
+    /* Light grey instead of dark grey */
 }
