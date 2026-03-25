@@ -5,33 +5,41 @@
     --ua-navy: #002d5e;   
     --bs-body-color: #1a1a1a;        
     --bs-secondary-color: #545454;   
-    --bs-warning: #c44500; /* High-contrast Orange */
+    --bs-warning: #b01b27; /* High-contrast Red-Orange for contrast */
 }
 
 /* --- 2. GLOBAL UTILITIES --- */
 body { background-color: #f8f9fa; }
 strong, .fw-bold { color: #212529 !important; }
 .text-muted { color: var(--bs-secondary-color) !important; }
-.brand-orange { color: var(--bs-warning) !important; }
-
-/* ACCESSIBILITY  */
-.card-access-dark .brand-orange,
-.navbar-dark .brand-orange,
-.footer .brand-orange,
-.footer span.brand-orange {
-    color: var(--ua-gold) !important;
-}
 
 /* --- 3. NAVBAR & FOOTER --- */
 .navbar-dark { 
     background-color: var(--ua-navy); 
     border-bottom: 3px solid var(--ua-gold); 
 }
-.navbar-nav .nav-link { color: rgba(255, 255, 255, 0.9) !important; }
+
+/* NUCLEAR FIX: Navbar Text & Links (Lighthouse Fail) */
+nav.navbar-dark .navbar-text,
+nav.navbar-dark .navbar-text.text-white-50,
+nav.navbar-dark .nav-link,
+nav.navbar-dark .navbar-brand {
+    color: #ffffff !important;
+    opacity: 1 !important;
+    font-weight: 500 !important;
+}
+
 .footer { 
     background-color: var(--ua-navy); 
     border-top: 3px solid var(--ua-gold); 
     color: #ffffff; 
+}
+
+/* ACCESSIBILITY: Force Gold on Dark Navy backgrounds */
+.card-access-dark .brand-orange,
+.navbar-dark .brand-orange,
+.footer .brand-orange {
+    color: var(--ua-gold) !important;
 }
 
 /* --- 4. BUTTONS --- */
@@ -42,6 +50,21 @@ strong, .fw-bold { color: #212529 !important; }
     border: none;
 }
 
+/* NUCLEAR FIX: Outline Danger Button (Lighthouse Fail) */
+.btn-outline-danger, 
+a.btn.btn-sm.btn-outline-danger {
+    color: #b01b27 !important; 
+    border-color: #b01b27 !important;
+    background-color: transparent !important;
+    border-width: 2px !important;
+    font-weight: 600 !important;
+}
+
+.btn-outline-danger:hover {
+    background-color: #b01b27 !important;
+    color: #ffffff !important;
+}
+
 /* --- 5. DASHBOARD & DATA --- */
 .card-access-dark {
     background-color: var(--ua-navy);
@@ -49,117 +72,20 @@ strong, .fw-bold { color: #212529 !important; }
     color: #ffffff !important;
 }
 
+/* Force white/gold for contrast in dark cards */
+.card-access-dark h2, 
+.card-access-dark p, 
+.card-access-dark small {
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+
 /* Fixed High-Contrast P&L Colours */
-.text-pnl-positive { color: #705206 !important; font-weight: bold; } 
-.text-pnl-negative { color: #00428a !important; font-weight: bold; }
+.text-pnl-positive { color: #614603 !important; font-weight: bold; } 
+.text-pnl-negative { color: #b01b27 !important; font-weight: bold; }
 
 .badge-strategy {
     background-color: var(--ua-navy);
     border: 1px solid var(--ua-gold);
     color: var(--ua-gold);
 }
-/* 1. Fix the Navbar 'text-white-50' (Lighthouse Fail) */
-.navbar-dark .navbar-text.text-white-50 {
-    color: rgba(255, 255, 255, 0.95) !important; 
-    /* Boosted opacity to 95% for contrast */
-}
-
-/* 2. Fix the Outline Danger Button (Lighthouse Fail) */
-/* The standard red is too light on white backgrounds. This is a WCAG-compliant red. */
-.btn-outline-danger {
-    color: #cb2431 !important; 
-    border-color: #cb2431 !important;
-    border-width: 2px !important;
-}
-
-.btn-outline-danger:hover {
-    background-color: #cb2431 !important;
-    color: #ffffff !important;
-}
-
-/* 3. Fix 'Account Access' Header on Navy (Lighthouse Fail) */
-/* Force pure gold on any brand-orange nested in dark cards */
-.card-access-dark h2.text-white .brand-orange,
-.card-access-dark .brand-orange {
-    color: var(--ua-gold) !important;
-    text-shadow: 0px 1px 1px rgba(0,0,0,0.5); 
-}
-
-/* 4. Ensure Muted text in Dark Cards is legible */
-.card-access-dark .text-muted, 
-.card-access-dark small {
-    color: #e0e0e0 !important;
-    /* Light grey instead of dark grey */
-}
-/* 1. Fix Navbar 'text-white-50' (Lighthouse Fail) */
-/* Boosted opacity from 50% to 95% to pass contrast against Navy */
-.navbar-dark .navbar-text.text-white-50 {
-    color: rgba(255, 255, 255, 0.95) !important; 
-}
-
-/* 2. Fix Outline Danger Button (Lighthouse Fail) */
-/* Standard BS5 red is too light on white. This #cb2431 is WCAG-compliant */
-.btn-outline-danger {
-    color: #cb2431 !important; 
-    border-color: #cb2431 !important;
-    border-width: 2px !important;
-}
-
-.btn-outline-danger:hover {
-    background-color: #cb2431 !important;
-    color: #ffffff !important;
-}
-
-/* 3. Fix 'Muted' text in Dark Cards (Lighthouse Fail) */
-/* Standard muted grey is invisible on navy. This light grey passes */
-.card-access-dark .text-muted, 
-.card-access-dark small,
-.card-access-dark p.small {
-    color: #e0e0e0 !important; 
-}
-
-/* 4. Fix 'Brand Orange' on Navy (Global Fix) */
-/* Force all orange spans to Gold when inside dark components */
-.card-access-dark .brand-orange,
-.navbar-dark .brand-orange,
-.footer .brand-orange {
-    color: var(--ua-gold) !important;
-    }
-
-    /* 1. Force Navbar Text Visibility */
-/* text-white-50 on Navy is a mathematically guaranteed fail. This forces high-contrast white. */
-.navbar-dark .navbar-text.text-white-50,
-.navbar-dark .navbar-nav .nav-link,
-.navbar-dark .navbar-brand {
-    color: #ffffff !important;
-    opacity: 1 !important;
-}
-
-/* 2. Fix the PnL & Links on Light Backgrounds */
-/* Standard 'Danger' red on white is ~4.0:1. WCAG requires 4.5:1. */
-.btn-outline-danger, 
-.text-pnl-negative {
-    color: #c0212e !important; /* Deeper, high-contrast Red */
-    border-color: #c0212e !important;
-}
-
-.text-pnl-positive {
-    color: #614603 !important; /* Very Deep Gold/Brown for white backgrounds */
-}
-
-/* 3. The 'Dark Card' Muted Text Fix */
-/* Small text on dark navy is a high-risk fail. We must use off-white, not grey. */
-.card-access-dark .text-muted,
-.card-access-dark small,
-.card-access-dark p.small {
-    color: #e6e6e6 !important;
-}
-
-/* 4. Global Dark Background Contrast */
-/* Force all orange elements to UA Gold when inside dark sections */
-.navbar-dark .brand-orange,
-.footer .brand-orange,
-.card-access-dark .brand-orange {
-    color: var(--ua-gold) !important;
-}
-
