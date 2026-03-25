@@ -89,3 +89,19 @@ a.btn.btn-sm.btn-outline-danger {
     border: 1px solid var(--ua-gold);
     color: var(--ua-gold);
 }
+/* WCAG AA Compliant Red (#cb2431) for light backgrounds */
+.btn-outline-danger {
+    color: #cb2431 !important; 
+    border-color: #cb2431 !important;
+}
+.btn-outline-danger:hover {
+    background-color: #cb2431 !important;
+    color: #ffffff !important;
+}
+/* Force high-contrast white for navbar links and brand */
+.navbar-dark .navbar-nav .nav-link,
+.navbar-dark .navbar-brand,
+.navbar-dark .navbar-text {
+    color: #ffffff !important;
+    opacity: 1 !important; /* Ensure 100% opacity to pass contrast checks */
+}
