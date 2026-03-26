@@ -37,10 +37,11 @@
     <!-- Workspace Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark shadow-sm py-3">
         <div class="container-fluid px-4">
-            <a class="navbar-brand fw-bold brand-orange" href="{% url 'dashboard' %}">
-                <i class="fa-solid fa-chart-line me-2"></i>IRSQUANT
+            <a class="navbar-brand fw-bold" href="{% url 'dashboard' %}" style="color: var(--ua-gold) !important;">
+               <i class="fa-solid fa-chart-line me-2"></i>IRSQUANT
             </a>
-                     <div class="navbar-nav me-auto">
+
+            <div class="navbar-nav me-auto">
                 <!-- Dashboard link  -->
                 <a class="nav-link px-3 {% if request.resolver_match.url_name == 'dashboard' %}active fw-bold text-ua-gold{% endif %}" href="{% url 'dashboard' %}">
                     <i class="fa-solid fa-gauge-high me-1"></i> Dashboard
@@ -72,9 +73,13 @@
                         </span>
                     {% endif %}
 
-                  <!-- 2. User Info & Logout -->
-                    <span class="navbar-text me-3 small text-white-50">User: {{ user.username }}</span>
-                    <a class="btn btn-sm btn-outline-danger" href="{% url 'account_logout' %}">Logout</a>
+                    <!-- 2. User Info & Logout lighthouse changes -->
+                    <span class="navbar-text me-3 small" style="color: var(--ua-gold) !important; opacity: 1 !important;">
+                        <i class="fa-solid fa-user me-1"></i>User: {{ user.username }}
+                    </span>
+                    <a class="btn btn-sm btn-outline-danger fw-bold" style="color: var(--ua-gold) !important; opacity: 1 !important;"
+                     href="{% url 'account_logout' %}">Logout</a>
+
                 {% else %}
                    <a class="btn btn-sm btn-outline-light me-2" href="{% url 'account_login' %}">Login</a>
                    <a class="btn btn-sm btn-primary" href="{% url 'account_signup' %}">Sign Up</a>
@@ -103,7 +108,7 @@
 
     <footer class="footer mt-auto py-4">
         <div class="container text-center">
-            <span class="fw-bold brand-orange">IRSQUANT</span>
+            <span class="fw-bold text-ua-gold">IRSQUANT</span>
             <span class="text-white-50 mx-2">|</span>
             <span class="text-white">&copy; 2026 Made by David Clamp</span>
         </div>
