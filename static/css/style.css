@@ -3,102 +3,101 @@
     --ua-blue: #0057B7;    
     --ua-gold: #FFDD00;    
     --ua-navy: #002d5e;   
-    --bs-body-color: #1a1a1a;        
-    --bs-secondary-color: #545454;   
-    --bs-pnl-red: #cb2431;      /* WCAG AA Compliant Red */
-    --bs-deep-orange: #b01b27;  /* High-contrast Orange for white bg */
+    --bg-light: #f8f9fa;
+    --text-main: #1a1a1a;
+    --pnl-red: #cb2431; 
 }
 
-/* --- 2. GLOBAL UTILITIES --- */
-body { background-color: #f8f9fa; color: var(--bs-body-color); }
+/* --- 2. BASE RESET & GLOBAL UTILITIES --- */
+body { 
+    background-color: var(--bg-light); 
+    color: var(--text-main); 
+    font-family: 'Inter', sans-serif; 
+}
 
-/* Bold text is DARK on light backgrounds for contrast */
-strong, .fw-bold { color: #212529 !important; } 
-.text-muted { color: var(--bs-secondary-color) !important; }
-.brand-orange { color: var(--bs-deep-orange) !important; } 
-.text-ua-gold { color: var(--ua-gold) !important; }
+/* Default bold/strong text is dark for light backgrounds */
+strong, .fw-bold { color: inherit; } 
+.text-muted { color: #545454 !important; }
+.brand-orange { color: #b01b27 !important; }
+/* High-contrast Red-Orange */
 
-/* --- 3. NAVBAR & FOOTER --- */
+/* --- 3. MASTER NAVBAR & FOOTER FIX --- */
 .navbar-dark, .footer { 
     background-color: var(--ua-navy); 
     border-top: 3px solid var(--ua-gold); 
     border-bottom: 3px solid var(--ua-gold); 
 }
 
-/* Force Navbar & Footer text to 100% Opacity White (Lighthouse Fix) */
+/* High-Specificity: Force GOLD over Bootstrap WHITE for Brand and Icons */
+nav.navbar.navbar-dark .navbar-brand,
+nav.navbar.navbar-dark .navbar-brand i,
+nav.navbar-dark .nav-link.active,
+.footer .text-ua-gold,
+.text-ua-gold {
+    color: var(--ua-gold) !important;
+    opacity: 1 !important;
+}
+
+/* Force Navbar Text & Links to 100% Opacity White (Lighthouse Fix) */
 nav.navbar-dark .navbar-text,
-nav.navbar-dark .navbar-text.text-white-50,
 nav.navbar-dark .nav-link,
-nav.navbar-dark .navbar-brand,
 .footer span {
     color: #ffffff !important;
     opacity: 1 !important;
 }
 
-/* Force Gold on ALL Navy containers (Navbar, Footer, Cards) */
-.navbar-dark .brand-orange, 
-.footer .brand-orange, 
-.card-access-dark .brand-orange,
-.navbar-dark .nav-link.active { 
-    color: var(--ua-gold) !important; 
+/* --- 4. CONTEXTUAL DARK CARDS --- */
+.card-access-dark {
+    background-color: var(--ua-navy);
+    border-top: 4px solid var(--ua-gold);
+    color: #ffffff;
+    padding: 1.5rem;
 }
 
-/* --- 4. BUTTONS --- */
-/* Targets buttons and nested links */
-.btn-ua-gold,
-a.btn-ua-gold,
-button.btn-ua-gold {
+/* Automatic Gold for headers/icons inside Navy cards */
+.card-access-dark h1, .card-access-dark h2, .card-access-dark h3, 
+.card-access-dark .h5, .card-access-dark i, .card-access-dark strong, 
+.card-access-dark .fw-bold {
+    color: var(--ua-gold) !important;
+}
+
+/* High-contrast off-white for secondary text in dark cards */
+.card-access-dark p, .card-access-dark small, .card-access-dark .text-muted {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* --- 5. COMPONENT CLASSES --- */
+/* High-Contrast: Navy Text on Gold Background */
+.btn-ua-gold, button.btn-ua-gold, a.btn-ua-gold {
     background-color: var(--ua-gold) !important;
     color: var(--ua-navy) !important;
     font-weight: 700 !important;
     border: none !important;
-    text-decoration: none !important;
+    transition: 0.2s ease-in-out;
 }
 
-.btn-ua-gold:hover,
-a.btn-ua-gold:hover {
-    background-color: #e6c600 !important;
-    color: var(--ua-navy) !important;
+.btn-ua-gold:hover { background-color: #e6c600 !important; transform: translateY(-1px); }
+
+/* KPI Icon Circles */
+.kpi-icon-circle {
+    background-color: var(--ua-blue);
+    width: 60px; height: 60px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
 }
+.kpi-icon-circle i { color: var(--ua-gold) !important; }
 
 /* Accessible Red Button (Lighthouse Fix) */
 .btn-outline-danger, a.btn.btn-sm.btn-outline-danger {
-    color: var(--bs-pnl-red) !important; 
-    border-color: var(--bs-pnl-red) !important;
+    color: var(--pnl-red) !important; 
+    border-color: var(--pnl-red) !important;
     border-width: 2px !important;
     font-weight: 600 !important;
 }
 
-/* --- 5. DARK CARD COMPONENTS --- */
-.card-access-dark {
-    background-color: var(--ua-navy);
-    border-top: 4px solid var(--ua-gold);
-    color: #ffffff !important;
-}
-
-/* Force Gold only for metrics/headers inside dark cards */
-.card-access-dark strong, 
-.card-access-dark .fw-bold, 
-.card-access-dark h2, 
-.card-access-dark .h5 {
-    color: var(--ua-gold) !important;
-    opacity: 1 !important;
-}
-
-/* Ensure secondary text & Crispy labels are readable on Navy */
-.card-access-dark .text-muted, 
-.card-access-dark small,
-.card-access-dark label, 
-.card-access-dark .form-check-label {
-    color: #f1f1f1 !important;
-}
-
-/* --- 6. DATA & P&L --- */
+/* --- 6. DATA COLORS --- */
 .text-pnl-positive { color: #614603 !important; font-weight: bold; } 
-.text-pnl-negative { color: var(--bs-pnl-red) !important; font-weight: bold; }
+.text-pnl-negative { color: var(--pnl-red) !important; font-weight: bold; }
 
-.badge-strategy {
-    background-color: var(--ua-navy);
-    border: 1px solid var(--ua-gold);
-    color: var(--ua-gold);
-}
+/* Chart.js Container */
+#yieldCurve { max-height: 450px; }

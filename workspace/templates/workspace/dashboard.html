@@ -31,28 +31,21 @@
     <div class="col-md-4">
       <div class="card shadow-sm border-0 h-100 p-3 card-kpi-ua">
         <div class="d-flex align-items-center">
-          <div
-            class="p-3 rounded-circle me-3"
-            style="background-color: var(--ua-blue); opacity: 0.9"
-          >
-            <i
-              class="fa-solid {{ icon }} fa-xl"
-              style="color: var(--ua-gold)"
-            ></i>
+          <!-- Replaced inline style with clean class -->
+          <div class="kpi-icon-circle me-3">
+            <i class="fa-solid {{ icon }} fa-xl"></i>
           </div>
-              <div>
-               <!-- Change the Label to <h2> for semantic order -->
-                  <h2 class="text-muted small mb-1 text-uppercase fw-bold h6">
-                  {{ label }}
-                  </h2>
-              <!-- Change the Value to a div to avoid skipping levels -->
-              <div class="h3 mb-0 fw-bold {{ color_class }}">{{ value }}</div>
+          <div>
+            <h2 class="text-muted small mb-1 text-uppercase fw-bold h6">
+              {{ label }}
+            </h2>
+            <div class="h3 mb-0 fw-bold {{ color_class }}">{{ value }}</div>
           </div>
         </div>
       </div>
     </div>
     {% endfor %}
-  </div>
+</div>
 
   <!-- Main Content Row -->
 
