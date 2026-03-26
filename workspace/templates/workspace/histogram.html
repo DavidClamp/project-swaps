@@ -2,14 +2,14 @@
 
 {% block content %}
 <div class="container py-4">
-    <div class="card shadow-sm border-0 p-4 card-kpi-ua">
-
-        <h2 class="h5 fw-bold mb-4 border-bottom pb-2">
+    <!-- Main Card Container: -->
+    <div class="card shadow-sm border-0 p-4">
+        <!-- Header: -->
+        <h1 class="h5 fw-bold mb-4 border-bottom pb-2 text-dark">
             USD SOFR <span class="brand-orange">1Y Distribution</span>
-        </h2>
-
-        <!-- Chart.js needs an explicit height -->
-        <div style="position: relative; height:400px; width:100%">
+        </h1>
+        <!-- Chart Container: -->
+        <div id="chartContainer" style="position: relative; height:400px; width:100%">
             <canvas id="histChart"></canvas>
         </div>
 
@@ -27,18 +27,13 @@
     </div>
 </div>
 
-<!-- Ensure Chart.js is loaded at the bottom -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const ctx = document.getElementById('histChart').getContext('2d');
-
-        // Use |safe to prevent Django from escaping the JSON quotes
-        // Clean single-line mapping
         const labels = {{ hist_labels|safe }};
         const counts = {{ hist_counts|safe }};
-
 
         new Chart(ctx, {
             type: 'bar',
@@ -47,24 +42,26 @@
                 datasets: [{
                     label: 'Frequency (Days)',
                     data: counts,
-                    backgroundColor: 'rgba(0, 87, 183, 0.8)', // Azure Blue 
-                    borderColor: '#FFDD00', // Gold borders
-                    borderWidth: 2
+                    backgroundColor: '#0057B7', // UA Blue 
+                    borderColor: '#002d5e',     // UA Navy 
+                    borderWidth: 1,
+                    borderRadius: 4
                 }]
-
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false } // Cleaner for single-dataset histograms
+                },
                 scales: {
-                    y: {
-                        beginAtZero: true
+                    y: { 
+                        beginAtZero: true,
+                        title: { display: true, text: 'Frequency (Days)', color: '#1a1a1a' }
                     },
                     x: {
-                        title: {
-                            display: true,
-                            text: 'Rate Levels (%)'
-                        }
+                        title: { display: true, text: 'Rate Levels (%)', color: '#1a1a1a' },
+                        ticks: { color: '#1a1a1a' }
                     }
                 }
             }
