@@ -5,16 +5,18 @@
     --ua-navy: #002d5e;   
     --bs-body-color: #1a1a1a;        
     --bs-secondary-color: #545454;   
-    --bs-pnl-red: #cb2431; /* WCAG Compliant Red */
-    --bs-deep-orange: #b01b27; /* High-contrast Orange/Red for white bg */
+    --bs-pnl-red: #cb2431;      /* WCAG AA Compliant Red */
+    --bs-deep-orange: #b01b27;  /* High-contrast Orange for white bg */
 }
 
 /* --- 2. GLOBAL UTILITIES --- */
 body { background-color: #f8f9fa; color: var(--bs-body-color); }
+
 /* Bold text is DARK on light backgrounds for contrast */
 strong, .fw-bold { color: #212529 !important; } 
 .text-muted { color: var(--bs-secondary-color) !important; }
 .brand-orange { color: var(--bs-deep-orange) !important; } 
+.text-ua-gold { color: var(--ua-gold) !important; }
 
 /* --- 3. NAVBAR & FOOTER --- */
 .navbar-dark, .footer { 
@@ -25,6 +27,7 @@ strong, .fw-bold { color: #212529 !important; }
 
 /* Force Navbar & Footer text to 100% Opacity White (Lighthouse Fix) */
 nav.navbar-dark .navbar-text,
+nav.navbar-dark .navbar-text.text-white-50,
 nav.navbar-dark .nav-link,
 nav.navbar-dark .navbar-brand,
 .footer span {
@@ -32,20 +35,26 @@ nav.navbar-dark .navbar-brand,
     opacity: 1 !important;
 }
 
-/* ACCESSIBILITY FIX: Force Gold on ALL Navy backgrounds */
+/* Global Fix: Force Gold on Dark Navy backgrounds for Accessibility */
 .navbar-dark .brand-orange, 
 .footer .brand-orange, 
-.card-access-dark .brand-orange,
-.text-ua-gold { 
+.card-access-dark .brand-orange { 
     color: var(--ua-gold) !important; 
 }
 
 /* --- 4. BUTTONS --- */
-.btn-ua-gold {
+/* High-Contrast: Navy Text on Gold Background (10:1 Ratio) */
+.btn.btn-ua-gold, 
+button.btn-ua-gold {
     background-color: var(--ua-gold) !important;
     color: var(--ua-navy) !important;
-    font-weight: bold;
-    border: none;
+    font-weight: 700 !important;
+    border: none !important;
+}
+
+.btn.btn-ua-gold:hover {
+    background-color: #e6c600 !important;
+    color: var(--ua-navy) !important;
 }
 
 /* Accessible Red Button (Lighthouse Fix) */
@@ -53,6 +62,7 @@ nav.navbar-dark .navbar-brand,
     color: var(--bs-pnl-red) !important; 
     border-color: var(--bs-pnl-red) !important;
     border-width: 2px !important;
+    font-weight: 600 !important;
 }
 
 /* --- 5. DARK CARD COMPONENTS --- */
@@ -62,7 +72,7 @@ nav.navbar-dark .navbar-brand,
     color: #ffffff !important;
 }
 
-/* FORCE GOLD for metrics/headers inside dark cards only */
+/* Force Gold only for metrics/headers inside dark cards */
 .card-access-dark strong, 
 .card-access-dark .fw-bold, 
 .card-access-dark h2, 
@@ -71,12 +81,40 @@ nav.navbar-dark .navbar-brand,
     opacity: 1 !important;
 }
 
-/* Ensure secondary text in dark cards is off-white (Passes 4.5:1) */
+/* Ensure secondary text & Crispy labels are readable on Navy */
 .card-access-dark .text-muted, 
-.card-access-dark small {
+.card-access-dark small,
+.card-access-dark label, 
+.card-access-dark .form-check-label {
     color: #f1f1f1 !important;
 }
 
 /* --- 6. DATA & P&L --- */
 .text-pnl-positive { color: #614603 !important; font-weight: bold; } 
 .text-pnl-negative { color: var(--bs-pnl-red) !important; font-weight: bold; }
+
+.badge-strategy {
+    background-color: var(--ua-navy);
+    border: 1px solid var(--ua-gold);
+    color: var(--ua-gold);
+}
+/* --- THE ULTIMATE ACCESSIBILITY OVERRIDE --- */
+/* Force Navy text on Gold background regardless of tag type */
+.btn-ua-gold,
+.btn-ua-gold a,
+.btn-ua-gold span,
+a.btn-ua-gold,
+button.btn-ua-gold {
+    background-color: var(--ua-gold) !important;
+    color: var(--ua-navy) !important; /* THE NUCLEAR NAVY FIX */
+    fill: var(--ua-navy) !important;  /* Fixes icons if they are SVGs */
+    border: none !important;
+    text-decoration: none !important;
+}
+
+/* Ensure hover doesn't revert to gold text */
+.btn-ua-gold:hover,
+a.btn-ua-gold:hover {
+    background-color: #e6c600 !important;
+    color: var(--ua-navy) !important;
+}
