@@ -5,13 +5,15 @@
     --ua-navy: #002d5e;   
     --bs-body-color: #1a1a1a;        
     --bs-secondary-color: #545454;   
-    --bs-warning: #b01b27; /* WCAG Compliant Red-Orange */
+    --bs-pnl-red: #cb2431; /* WCAG Compliant Red */
 }
 
 /* --- 2. GLOBAL UTILITIES --- */
-body { background-color: #f8f9fa; }
-strong, .fw-bold { color: #212529 !important; }
+body { background-color: #f8f9fa; color: var(--bs-body-color); }
+/* Bold text is DARK on light backgrounds for contrast */
+strong, .fw-bold { color: #212529 !important; } 
 .text-muted { color: var(--bs-secondary-color) !important; }
+.brand-orange { color: #b01b27 !important; } /* High-contrast orange/red */
 
 /* --- 3. NAVBAR & FOOTER --- */
 .navbar-dark { 
@@ -19,26 +21,21 @@ strong, .fw-bold { color: #212529 !important; }
     border-bottom: 3px solid var(--ua-gold); 
 }
 
-nav.navbar.navbar-dark .navbar-text,
-nav.navbar.navbar-dark .navbar-text.text-white-50,
-nav.navbar.navbar-dark .nav-link,
-nav.navbar.navbar-dark .navbar-brand {
+/* Force Navbar Text & Links to 100% Opacity White (Lighthouse Fix) */
+nav.navbar-dark .navbar-text,
+nav.navbar-dark .nav-link,
+nav.navbar-dark .navbar-brand {
     color: #ffffff !important;
     opacity: 1 !important;
-    font-weight: 500 !important;
 }
+
+/* Force Gold only for "PRO" or "Active" Navbar elements */
+.navbar-dark .brand-orange, .text-ua-gold { color: var(--ua-gold) !important; }
 
 .footer { 
     background-color: var(--ua-navy); 
     border-top: 3px solid var(--ua-gold); 
     color: #ffffff; 
-}
-
-/* ACCESSIBILITY: Gold on Dark Navy backgrounds */
-.card-access-dark .brand-orange,
-.navbar-dark .brand-orange,
-.footer .brand-orange {
-    color: var(--ua-gold) !important;
 }
 
 /* --- 4. BUTTONS --- */
@@ -49,42 +46,40 @@ nav.navbar.navbar-dark .navbar-brand {
     border: none;
 }
 
-.btn-outline-danger, 
-a.btn.btn-sm.btn-outline-danger {
-    color: #cb2431 !important; 
-    border-color: #cb2431 !important;
-    background-color: transparent !important;
+/* Accessible Red Button */
+.btn-outline-danger, a.btn.btn-sm.btn-outline-danger {
+    color: var(--bs-pnl-red) !important; 
+    border-color: var(--bs-pnl-red) !important;
     border-width: 2px !important;
-    font-weight: 600 !important;
 }
 
-.btn-outline-danger:hover {
-    background-color: #cb2431 !important;
-    color: #ffffff !important;
-}
-
-/* --- 5. DASHBOARD & DATA --- */
+/* --- 5. DARK CARD COMPONENTS --- */
 .card-access-dark {
     background-color: var(--ua-navy);
     border-top: 4px solid var(--ua-gold);
     color: #ffffff !important;
 }
 
-/* High-Contrast text for Dark Cards */
-div.card-access-dark .text-muted, 
-div.card-access-dark small,
-div.card-access-dark p.small,
-div.card-access-dark h2.text-white {
-    color: #f1f1f1 !important;
+/* FORCE GOLD for bold text/headers ONLY inside dark cards */
+.card-access-dark strong, 
+.card-access-dark .fw-bold, 
+.card-access-dark h2, 
+.card-access-dark .h5 {
+    color: var(--ua-gold) !important;
     opacity: 1 !important;
 }
 
-.text-pnl-positive { color: #614603 !important; font-weight: bold; } 
-.text-pnl-negative { color: #cb2431 !important; font-weight: bold; }
+/* Ensure secondary text in dark cards is off-white (Passes contrast) */
+.card-access-dark .text-muted, .card-access-dark small {
+    color: #f1f1f1 !important;
+}
+
+/* --- 6. DATA & P&L --- */
+.text-pnl-positive { color: #614603 !important; font-weight: bold; } /* Deep Gold/Brown */
+.text-pnl-negative { color: var(--bs-pnl-red) !important; font-weight: bold; }
 
 .badge-strategy {
     background-color: var(--ua-navy);
     border: 1px solid var(--ua-gold);
     color: var(--ua-gold);
 }
-
