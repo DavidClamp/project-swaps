@@ -4,13 +4,14 @@
 {% block title %}Execute Trade | IRSQuant{% endblock %}
 
 {% block content %}
-<div class="container py-5">
+<div class="container py-5 mt-4">
     <div class="row justify-content-center">
         <div class="col-lg-7">
-            <!-- Header: Navy with Gold Icon -->
+            <!-- Header Section -->
             <div class="d-flex align-items-center mb-4 border-bottom pb-3">
                 <div class="p-3 rounded me-3 card-access-dark">
-                    <i class="fa-solid fa-file-invoice-dollar fa-xl brand-orange"></i>
+                    <!-- Icon forced to Gold for Navy background contrast -->
+                    <i class="fa-solid fa-file-invoice-dollar fa-xl text-ua-gold"></i>
                 </div>
                 <div>
                     <h1 class="h3 mb-0 fw-bold">Trade <span class="brand-orange">Execution</span></h1>
@@ -18,9 +19,8 @@
                 </div>
             </div>
 
-            <!-- Form Card: Azure Top Border -->
-            <div class="card shadow-sm border-0 overflow-hidden card-access-dark"
-                style="background-color: white !important; color: black !important;">
+            <!-- Form Card -->
+            <div class="card shadow-sm border-0 overflow-hidden" style="background-color: white;">
                 <div class="card-body p-4 p-md-5">
                     <form method="POST" class="needs-validation" novalidate>
                         {% csrf_token %}
@@ -29,7 +29,7 @@
                             {{ form|crispy }}
                         </div>
 
-                        <!-- Gold "Execute" Button -->
+                        <!-- Action Row -->
                         <div class="mt-4 pt-3 border-top d-flex gap-2">
                             <button type="submit" class="btn btn-ua-gold px-4 py-2 flex-grow-1 shadow-sm">
                                 <i class="fa-solid fa-check-double me-2"></i>Execute & Price
@@ -41,11 +41,12 @@
                     </form>
                 </div>
 
-                <!-- Bottom Info Bar -->
-                <div class="card-footer border-0 py-3 text-center" style="background-color: rgba(0, 87, 183, 0.05);">
-                    <small class="text-muted italic">
-                        <i class="fa-solid fa-shield-halved me-1" style="color: var(--ua-blue);"></i>
-                        Valuation bootstrapped against latest <strong>SOFR Zero Curve</strong>
+                <!-- Footer Info Bar -->
+                <div class="card-footer border-0 py-3 text-center bg-light">
+                    <small class="text-muted">
+                        <i class="fa-solid fa-shield-halved me-1 text-primary"></i>
+                        Valuation derived from latest 
+                        <strong class="text-dark">SOFR Zero Curve</strong>
                     </small>
                 </div>
             </div>
