@@ -3,8 +3,8 @@
 {% block content %}
 <div class="container py-4">
     <!-- Line 5 Update -->
-    <div class="card shadow-sm border-0 p-4 card-kpi-ua">
-        <h2 class="h5 fw-bold mb-4 border-bottom pb-2">
+    <div class="card shadow-sm border-0">
+        <h2 class="h5 fw-bold mb-4 border-bottom pb-2 text-dark">
             USD SOFR <span class="brand-orange">Term Structure</span>
         </h2>
             <!-- Container must have an explicit height or chart is 0px -->
@@ -39,11 +39,11 @@
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Rate (%)',
+                    label: 'Zero Rate (%)',
                     data: rates,
-                    backgroundColor: '#0057B7', // Blue bars
-                    borderColor: '#FFDD00',     // Gold outlines
-                    borderWidth: 2,
+                    backgroundColor: '#0057B7', // UA Blue 
+                    borderColor: '#002d5e',     // UA Navy 
+                    borderWidth: 1,
                     borderRadius: 4
                 }]
             },
@@ -52,11 +52,13 @@
                 maintainAspectRatio: false,
                 scales: {
                     y: { 
-                        beginAtZero: false, 
-                        title: { display: true, text: 'Interest Rate (%)' } 
+                       beginAtZero: false, 
+                       ticks: { color: '#1a1a1a', font: { weight: 'bold' } }, //  Black
+                       title: { display: true, text: 'Interest Rate (%)', color: '#002d5e' } 
                     },
                     x: { 
-                        title: { display: true, text: 'Tenors' } 
+                       ticks: { color: '#1a1a1a', font: { weight: 'bold' } }, //  Black
+                       title: { display: true, text: 'Tenors (Years)', color: '#002d5e' } 
                     }
                 }
             }
