@@ -55,16 +55,19 @@
   </div>
 
   <!-- Main Content Row -->
+
   <div class="row">
+   
     <!-- Strategy Table -->
     <div class="col-lg-8">
       <div class="card shadow-sm border-0 mb-4 overflow-hidden">
         <div class="card-header text-white py-3 card-access-dark">
-          <p class="mb-0">
-            <i class="fa-solid fa-layer-group me-2 brand-orange"></i>Active
-            Strategies
-          </p>
+            <h2 class="mb-0 h6 fw-bold">
+                <i class="fa-solid fa-layer-group me-2" style="color: var(--ua-gold) !important;"></i>
+                Active Strategies
+            </h2>
         </div>
+       
         <div class="table-responsive">
           <table class="table table-hover align-middle mb-0">
             <thead class="table-light">
@@ -114,7 +117,7 @@
           class="d-flex justify-content-between align-items-center mb-3 border-bottom border-secondary pb-2">
           <!-- Force text-white to fix the contrast againstNavy -->
           <h2 class="fw-bold mb-0 h5 text-white"> 
-              Account <span class="brand-orange">Access</span>
+              Account Access
           </h2>
           {% if user.profile.is_subscriber %}
           <small class="brand-orange fw-bold">

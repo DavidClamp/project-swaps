@@ -6,6 +6,7 @@
     --bs-body-color: #1a1a1a;        
     --bs-secondary-color: #545454;   
     --bs-pnl-red: #cb2431; /* WCAG Compliant Red */
+    --bs-deep-orange: #b01b27; /* High-contrast Orange/Red for white bg */
 }
 
 /* --- 2. GLOBAL UTILITIES --- */
@@ -13,29 +14,30 @@ body { background-color: #f8f9fa; color: var(--bs-body-color); }
 /* Bold text is DARK on light backgrounds for contrast */
 strong, .fw-bold { color: #212529 !important; } 
 .text-muted { color: var(--bs-secondary-color) !important; }
-.brand-orange { color: #b01b27 !important; } /* High-contrast orange/red */
+.brand-orange { color: var(--bs-deep-orange) !important; } 
 
 /* --- 3. NAVBAR & FOOTER --- */
-.navbar-dark { 
+.navbar-dark, .footer { 
     background-color: var(--ua-navy); 
+    border-top: 3px solid var(--ua-gold); 
     border-bottom: 3px solid var(--ua-gold); 
 }
 
-/* Force Navbar Text & Links to 100% Opacity White (Lighthouse Fix) */
+/* Force Navbar & Footer text to 100% Opacity White (Lighthouse Fix) */
 nav.navbar-dark .navbar-text,
 nav.navbar-dark .nav-link,
-nav.navbar-dark .navbar-brand {
+nav.navbar-dark .navbar-brand,
+.footer span {
     color: #ffffff !important;
     opacity: 1 !important;
 }
 
-/* Force Gold only for "PRO" or "Active" Navbar elements */
-.navbar-dark .brand-orange, .text-ua-gold { color: var(--ua-gold) !important; }
-
-.footer { 
-    background-color: var(--ua-navy); 
-    border-top: 3px solid var(--ua-gold); 
-    color: #ffffff; 
+/* ACCESSIBILITY FIX: Force Gold on ALL Navy backgrounds */
+.navbar-dark .brand-orange, 
+.footer .brand-orange, 
+.card-access-dark .brand-orange,
+.text-ua-gold { 
+    color: var(--ua-gold) !important; 
 }
 
 /* --- 4. BUTTONS --- */
@@ -46,7 +48,7 @@ nav.navbar-dark .navbar-brand {
     border: none;
 }
 
-/* Accessible Red Button */
+/* Accessible Red Button (Lighthouse Fix) */
 .btn-outline-danger, a.btn.btn-sm.btn-outline-danger {
     color: var(--bs-pnl-red) !important; 
     border-color: var(--bs-pnl-red) !important;
@@ -60,7 +62,7 @@ nav.navbar-dark .navbar-brand {
     color: #ffffff !important;
 }
 
-/* FORCE GOLD for bold text/headers ONLY inside dark cards */
+/* FORCE GOLD for metrics/headers inside dark cards only */
 .card-access-dark strong, 
 .card-access-dark .fw-bold, 
 .card-access-dark h2, 
@@ -69,17 +71,12 @@ nav.navbar-dark .navbar-brand {
     opacity: 1 !important;
 }
 
-/* Ensure secondary text in dark cards is off-white (Passes contrast) */
-.card-access-dark .text-muted, .card-access-dark small {
+/* Ensure secondary text in dark cards is off-white (Passes 4.5:1) */
+.card-access-dark .text-muted, 
+.card-access-dark small {
     color: #f1f1f1 !important;
 }
 
 /* --- 6. DATA & P&L --- */
-.text-pnl-positive { color: #614603 !important; font-weight: bold; } /* Deep Gold/Brown */
+.text-pnl-positive { color: #614603 !important; font-weight: bold; } 
 .text-pnl-negative { color: var(--bs-pnl-red) !important; font-weight: bold; }
-
-.badge-strategy {
-    background-color: var(--ua-navy);
-    border: 1px solid var(--ua-gold);
-    color: var(--ua-gold);
-}
