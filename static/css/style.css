@@ -90,7 +90,7 @@ nav.navbar-dark .nav-link,
 /* Accessible Red Button (Lighthouse Fix) */
 .btn-outline-danger, a.btn.btn-sm.btn-outline-danger {
     color: var(--pnl-red) !important; 
-    border-color: var(--pnl-red) !important;
+    border-color: var(--ua-gold) !important;
     border-width: 2px !important;
     font-weight: 600 !important;
 }
