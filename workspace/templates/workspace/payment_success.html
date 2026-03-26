@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{# Post-Stripe success page with hardened contrast and semantic hierarchy #}
 
 {% block title %}Upgrade Successful | IRSQuant{% endblock %}
 
@@ -6,37 +7,45 @@
 <div class="container py-5 mt-5">
     <div class="row justify-content-center">
         <div class="col-md-7">
+            <!-- Card: Navy with Gold accents -->
             <div class="card shadow-lg border-0 card-access-dark p-5 text-center">
-                <!-- Success Icon -->
+                
+                <!-- Success Icon: -->
                 <div class="mb-4">
                     <div class="display-1 text-ua-gold">
                         <i class="fa-solid fa-circle-check"></i>
                     </div>
                 </div>
 
-                <h1 class="fw-bold mb-3">Upgrade <span class="brand-orange">Confirmed</span></h1>
-                <p class="text-white-50 fs-5 mb-4">
-                    Welcome to the **Pro Quant** tier. Your terminal has been upgraded with institutional-grade analytics.
+                <!-- Header:  -->
+                <h1 class="fw-bold mb-3">Upgrade <span class="text-ua-gold">Confirmed</span></h1>
+                
+                <!-- Body:  -->
+                <p class="text-white fs-5 mb-4 px-3">
+                    Welcome to the <strong class="text-ua-gold">Pro Quant</strong> tier. 
+                    Your terminal has been upgraded with institutional-grade analytics.
                 </p>
 
+                <!-- Features Row:  -->
                 <div class="row g-3 mb-5 text-start">
                     <div class="col-sm-6">
-                        <div class="p-3 rounded bg-dark border border-secondary h-100">
+                        <div class="p-3 rounded bg-dark border border-warning h-100">
                             <i class="fa-solid fa-bezier-curve text-ua-gold me-2"></i>
-                            <span class="small">Full Zero Curve Analyser</span>
+                            <span class="small fw-bold">Full Zero Curve Analyser</span>
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="p-3 rounded bg-dark border border-secondary h-100">
+                        <div class="p-3 rounded bg-dark border border-warning h-100">
                             <i class="fa-solid fa-chart-column text-ua-gold me-2"></i>
-                            <span class="small">1Y Forward Distribution</span>
+                            <span class="small fw-bold">1Y Forward Distribution</span>
                         </div>
                     </div>
                 </div>
 
+                <!-- Primary Action -->
                 <div class="d-grid gap-2">
                     <a href="{% url 'dashboard' %}" class="btn btn-ua-gold btn-lg fw-bold shadow">
-                        Enter Pro Terminal
+                        Enter Pro Terminal <i class="fa-solid fa-arrow-right ms-2"></i>
                     </a>
                 </div>
             </div>
