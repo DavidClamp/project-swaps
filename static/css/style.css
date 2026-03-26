@@ -35,24 +35,28 @@ nav.navbar-dark .navbar-brand,
     opacity: 1 !important;
 }
 
-/* Global Fix: Force Gold on Dark Navy backgrounds for Accessibility */
+/* Force Gold on ALL Navy containers (Navbar, Footer, Cards) */
 .navbar-dark .brand-orange, 
 .footer .brand-orange, 
-.card-access-dark .brand-orange { 
+.card-access-dark .brand-orange,
+.navbar-dark .nav-link.active { 
     color: var(--ua-gold) !important; 
 }
 
 /* --- 4. BUTTONS --- */
-/* High-Contrast: Navy Text on Gold Background (10:1 Ratio) */
-.btn.btn-ua-gold, 
+/* Targets buttons and nested links */
+.btn-ua-gold,
+a.btn-ua-gold,
 button.btn-ua-gold {
     background-color: var(--ua-gold) !important;
     color: var(--ua-navy) !important;
     font-weight: 700 !important;
     border: none !important;
+    text-decoration: none !important;
 }
 
-.btn.btn-ua-gold:hover {
+.btn-ua-gold:hover,
+a.btn-ua-gold:hover {
     background-color: #e6c600 !important;
     color: var(--ua-navy) !important;
 }
@@ -97,24 +101,4 @@ button.btn-ua-gold {
     background-color: var(--ua-navy);
     border: 1px solid var(--ua-gold);
     color: var(--ua-gold);
-}
-/* --- THE ULTIMATE ACCESSIBILITY OVERRIDE --- */
-/* Force Navy text on Gold background regardless of tag type */
-.btn-ua-gold,
-.btn-ua-gold a,
-.btn-ua-gold span,
-a.btn-ua-gold,
-button.btn-ua-gold {
-    background-color: var(--ua-gold) !important;
-    color: var(--ua-navy) !important; /* THE NUCLEAR NAVY FIX */
-    fill: var(--ua-navy) !important;  /* Fixes icons if they are SVGs */
-    border: none !important;
-    text-decoration: none !important;
-}
-
-/* Ensure hover doesn't revert to gold text */
-.btn-ua-gold:hover,
-a.btn-ua-gold:hover {
-    background-color: #e6c600 !important;
-    color: var(--ua-navy) !important;
 }
