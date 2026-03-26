@@ -1,18 +1,34 @@
-{% extends 'base.html' %}
-{% block content %}
-<div class="container mt-5">
-    <div class="card border-danger shadow-sm mx-auto" style="max-width: 500px; border-top: 5px solid #dc3545;">
+<div class="container py-5 mt-5">
+    <div class="card shadow-lg border-0 mx-auto" style="max-width: 500px; border-top: 5px solid var(--bs-pnl-red);">
         <div class="card-body text-center p-5">
-            <i class="fa-solid fa-triangle-exclamation text-danger fa-3x mb-3"></i>
-            <h3 class="fw-bold">Confirm Deletion</h3>
-            <p class="text-muted">Delete trade <strong>{{ trade.trade_id }}</strong>? This will remove it from all strategy NPV aggregations.</p>
-            <form method="POST">
+            <!-- 1. High-Contrast Icon  -->
+            <i class="fa-solid fa-triangle-exclamation fa-4x mb-4 text-pnl-negative"></i>
+            
+            <!-- 2. Semantic Heading -->
+            <h1 class="h3 fw-bold text-dark mb-3">Confirm Deletion</h1>
+            
+            <!-- 3. Safe Contrast Body Text -->
+            <p class="text-dark mb-4 px-3">
+                Are you sure you want to delete trade 
+                <strong class="text-pnl-negative">{{ trade.trade_id }}</strong>? 
+                <br>
+                <span class="small opacity-75">This action will permanently remove it from strategy NPV aggregations.</span>
+            </p>
+            
+            <!-- 4. High-Contrast Button Row -->
+            <form method="POST" class="d-flex justify-content-center gap-3">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-danger px-4">Yes, Delete</button>
-                    <a href="{% url 'blotter' %}" class="btn px-4" style="border: 1px solid var(--ua-navy); color: var(--ua-navy);">Cancel
-                    </a>
+                <!-- Red Button using your Section 4 CSS -->
+                <button type="submit" class="btn btn-outline-danger fw-bold px-4 py-2">
+                    <i class="fa-solid fa-trash-can me-2"></i>Yes, Delete
+                </button>
+                
+                <!-- Navy Button matching your Section 3 Branding -->
+                <a href="{% url 'blotter' %}" class="btn px-4 py-2 fw-bold" 
+                   style="border: 2px solid var(--ua-navy); color: var(--ua-navy);">
+                    Cancel
+                </a>
             </form>
         </div>
     </div>
 </div>
-{% endblock %}
