@@ -176,3 +176,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
 STRIPE_PRICE_ID = os.environ.get('STRIPE_PRICE_ID')
+STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET')
