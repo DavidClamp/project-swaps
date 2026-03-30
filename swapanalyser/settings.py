@@ -26,7 +26,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # Cleaner DEBUG check to prevent accidental True in production
 
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEVELOPMENT = os.environ.get('DEVELOPMENT', 'False') == 'True'
+
 # DEBUG = True
+# DEVELOPMENT = True
 
 ALLOWED_HOSTS = [
     '.herokuapp.com',
@@ -165,7 +168,7 @@ STRIPE_PRICE_ID = os.environ.get('STRIPE_PRICE_ID')
 STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET')
 
 # --- EMAIL CONFIGURATION ---
-if 'DEVELOPMENT' in os.environ:
+if  DEVELOPMENT:
     # Logs emails to the terminal during local testing
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     DEFAULT_FROM_EMAIL = 'terminal@irsquant.io'
