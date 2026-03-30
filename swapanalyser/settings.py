@@ -36,7 +36,10 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
 ]
-
+# Security check for live Heroku URL
+if not DEVELOPMENT:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
 # Application definition
 
 INSTALLED_APPS = [
