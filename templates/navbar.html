@@ -2,26 +2,31 @@
 <nav class="navbar navbar-expand-lg navbar-dark shadow-sm py-3" style="background-color: var(--ua-navy); border-bottom: 3px solid var(--ua-gold);">
     <div class="container-xxl px-4">
         <!-- Brand Identity -->
-        <a class="navbar-brand fw-bold" href="{% url 'dashboard' %}" style="color: var(--ua-gold) !important;">
-            <i class="fa-solid fa-chart-line me-2"></i>IRSQUANT
+        <a class="navbar-brand fw-bold" href="{% url 'dashboard' %}" aria-label="IRSQuant Home Dashboard" style="color: var(--ua-gold) !important;">
+            <i class="fa-solid fa-chart-line me-2" aria-hidden="true"></i>IRSQUANT
         </a>                  
 
         <!-- Tools & Analysis Navigation -->
         <div class="navbar-nav me-auto">
-            <a class="nav-link px-3 {% if request.resolver_match.url_name == 'dashboard' %}active fw-bold text-ua-gold{% endif %}" href="{% url 'dashboard' %}">
-                <i class="fa-solid fa-gauge-high me-1"></i> Dashboard
+            <a class="nav-link px-3 {% if request.resolver_match.url_name == 'dashboard' %}active fw-bold text-ua-gold{% endif %}" 
+               href="{% url 'dashboard' %}" aria-label="Go to Dashboard Workspace">
+                <i class="fa-solid fa-gauge-high me-1" aria-hidden="true"></i> Dashboard
             </a>                
-            <a class="nav-link px-3 {% if request.resolver_match.url_name == 'blotter' %}active{% endif %}" href="{% url 'blotter' %}">
-                <i class="fa-solid fa-table-list me-1"></i> Blotter
+            <a class="nav-link px-3 {% if request.resolver_match.url_name == 'blotter' %}active{% endif %}" 
+               href="{% url 'blotter' %}" aria-label="View Trade Blotter">
+                <i class="fa-solid fa-table-list me-1" aria-hidden="true"></i> Blotter
             </a>
-            <a class="nav-link px-3 {% if request.resolver_match.url_name == 'analyser' %}active{% endif %}" href="{% url 'analyser' %}">
-                <i class="fa-solid fa-bezier-curve me-1"></i> Analyser
+            <a class="nav-link px-3 {% if request.resolver_match.url_name == 'analyser' %}active{% endif %}" 
+               href="{% url 'analyser' %}" aria-label="Open Risk Analyser">
+                <i class="fa-solid fa-bezier-curve me-1" aria-hidden="true"></i> Analyser
             </a>
-            <a class="nav-link px-3 {% if request.resolver_match.url_name == 'curve_bars' %}active{% endif %}" href="{% url 'curve_bars' %}">
-                <i class="fa-solid fa-chart-bar me-1"></i> Term Structure
+            <a class="nav-link px-3 {% if request.resolver_match.url_name == 'curve_bars' %}active{% endif %}" 
+               href="{% url 'curve_bars' %}" aria-label="View Term Structure Charts">
+                <i class="fa-solid fa-chart-bar me-1" aria-hidden="true"></i> Term Structure
             </a>
-            <a class="nav-link px-3 {% if request.resolver_match.url_name == 'add_trade' %}active{% endif %}" href="{% url 'add_trade' %}">
-                <i class="fa-solid fa-plus-circle me-1"></i> Add Trade
+            <a class="nav-link px-3 {% if request.resolver_match.url_name == 'add_trade' %}active{% endif %}" 
+               href="{% url 'add_trade' %}" aria-label="Add a New Trade">
+                <i class="fa-solid fa-plus-circle me-1" aria-hidden="true"></i> Add Trade
             </a>
         </div>
 
@@ -29,17 +34,18 @@
         <div class="navbar-nav align-items-center">
             {% if user.is_authenticated %}
                 {% if user.profile.is_subscriber %}
-                    <span class="badge badge-rec me-3 d-flex align-items-center shadow-sm">
-                        <i class="fa-solid fa-crown me-1"></i> PRO
+                    <span class="badge badge-rec me-3 d-flex align-items-center shadow-sm" aria-label="Premium Pro Account Status">
+                        <i class="fa-solid fa-crown me-1" aria-hidden="true"></i> PRO
                     </span>
                 {% endif %}
                 <span class="navbar-text me-3 small text-ua-gold">
-                    <i class="fa-solid fa-user me-1"></i>{{ user.username }}
+                    <i class="fa-solid fa-user me-1" aria-hidden="true"></i>{{ user.username }}
                 </span>
-                <a class="btn btn-sm btn-outline-danger fw-bold text-ua-gold" href="{% url 'account_logout' %}">Logout</a>
+                <a class="btn btn-sm btn-outline-danger fw-bold text-ua-gold" 
+                   href="{% url 'account_logout' %}" aria-label="Log out of IRSQuant">Logout</a>
             {% else %}
-                <a class="btn btn-sm btn-outline-light me-2" href="{% url 'account_login' %}">Login</a>
-                <a class="btn btn-sm btn-primary" href="{% url 'account_signup' %}">Sign Up</a>
+                <a class="btn btn-sm btn-outline-light me-2" href="{% url 'account_login' %}" aria-label="Log in to your account">Login</a>
+                <a class="btn btn-sm btn-primary" href="{% url 'account_signup' %}" aria-label="Register for a new account">Sign Up</a>
             {% endif %}
         </div>    
     </div>
