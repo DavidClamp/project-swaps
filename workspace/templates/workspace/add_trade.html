@@ -31,7 +31,10 @@
                     <form method="POST" class="needs-validation" novalidate>
                         {% csrf_token %}
 
-                        <!-- Crispy Forms to render inputs -->
+                        <!-- 
+                           Crispy Forms Wrapper
+                           The 'text-white' class ensures labels are readable on the Navy background.
+                        -->
                         <div class="text-white">
                             {{ form|crispy }}
                         </div>
@@ -43,7 +46,7 @@
                                 <i class="fa-solid fa-gavel me-2"></i>Execute Trade
                             </button>
                             
-                            <!-- Secondary: Silver/Dark -->
+                            <!-- Secondary: Silver/Dark Outline -->
                             <a href="{% url 'blotter' %}" class="btn btn-outline-light px-4 py-2">
                                 Cancel
                             </a>
@@ -52,6 +55,7 @@
                 </div>
 
                 <!-- Footer Info Bar -->
+                <!-- Removed bg-light, added transparent dark overlay -->
                 <div class="card-footer border-0 py-3 text-center" style="background-color: rgba(0,0,0,0.2);">
                     <small class="text-white-50">
                         <i class="fa-solid fa-shield-halved me-1 text-ua-gold"></i>
