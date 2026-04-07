@@ -18,33 +18,43 @@
                 </div>
 
                 <!-- Header:  -->
-                <h1 class="fw-bold mb-3">Upgrade <span class="text-ua-gold">Confirmed</span></h1>
+                <h1 class="fw-bold mb-3 text-white">Upgrade <span class="text-ua-gold">Confirmed</span></h1>
                 
                 <!-- Body:  -->
-                <p class="text-white fs-5 mb-4 px-3">
-                    Welcome to the <strong class="text-ua-gold">Pro Quant</strong> tier. 
+                <p class="text-white-50 fs-5 mb-5 px-3">
+                    Welcome to the <strong class="text-white">Pro Quant</strong> tier. 
                     Your terminal has been upgraded with institutional-grade analytics.
                 </p>
 
-                <!-- Features Row:  -->
+                <!-- Unlocked Features Grid -->
                 <div class="row g-3 mb-5 text-start">
                     <div class="col-sm-6">
-                        <div class="p-3 rounded bg-dark border border-warning h-100">
-                            <i class="fa-solid fa-bezier-curve text-ua-gold me-2"></i>
-                            <span class="small fw-bold">Full Zero Curve Analyser</span>
+                        <!-- Feature 1 -->
+                        <div class="p-3 rounded h-100 d-flex align-items-center" 
+                             style="border: 1px solid var(--ua-gold); background-color: rgba(255,255,255,0.05);">
+                            <i class="fa-solid fa-bezier-curve text-ua-gold fa-2x me-3"></i>
+                            <div>
+                                <div class="small text-white-50 text-uppercase">Module Unlocked</div>
+                                <div class="fw-bold text-white">Zero Curve Analyser</div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="p-3 rounded bg-dark border border-warning h-100">
-                            <i class="fa-solid fa-chart-column text-ua-gold me-2"></i>
-                            <span class="small fw-bold">1Y Forward Distribution</span>
+                        <!-- Feature 2 -->
+                        <div class="p-3 rounded h-100 d-flex align-items-center" 
+                             style="border: 1px solid var(--ua-gold); background-color: rgba(255,255,255,0.05);">
+                            <i class="fa-solid fa-chart-column text-ua-gold fa-2x me-3"></i>
+                            <div>
+                                <div class="small text-white-50 text-uppercase">Data Unlocked</div>
+                                <div class="fw-bold text-white">1Y Forward Distribution</div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Primary Action -->
                 <div class="d-grid gap-2">
-                    <a href="{% url 'dashboard' %}" class="btn btn-ua-gold btn-lg fw-bold shadow">
+                    <a href="{% url 'dashboard' %}" class="btn btn-ua-gold btn-lg fw-bold shadow-sm">
                         Enter Pro Terminal <i class="fa-solid fa-arrow-right ms-2"></i>
                     </a>
                 </div>
