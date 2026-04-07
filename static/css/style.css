@@ -5,8 +5,8 @@
     --ua-navy: #002d5e;   
     --bg-light: #f8f9fa;
     --text-main: #1a1a1a;
-    --pnl-red: #cb2431; /* WCAG AA Compliant Red */
-    --brand-danger: #b01b27; /* High-contrast Red-Orange */
+    --pnl-red: #f33443; 
+    --brand-danger: #b33239; 
 }
 
 /* --- 2. BASE RESET & GLOBAL UTILITIES --- */
@@ -67,7 +67,7 @@ nav.navbar-dark .nav-link,
 }
 
 /* --- 5. COMPONENT CLASSES --- */
-/* High-Contrast: Navy Text on Gold Background (10:1 Ratio) */
+/* High-Contrast: Navy Text on Gold Background  */
 .btn-ua-gold, button.btn-ua-gold, a.btn-ua-gold {
     background-color: var(--ua-gold) !important;
     color: var(--ua-navy) !important;
@@ -101,7 +101,7 @@ nav.navbar-dark .nav-link,
     border-top: 5px solid var(--ua-blue) !important;
 }
 
-/* High-Contrast Dark Buttons (12.6:1 ratio) */
+/* High-Contrast Dark Buttons */
 .btn-outline-dark {
     border: 2px solid var(--text-main) !important;
     color: var(--text-main) !important;
