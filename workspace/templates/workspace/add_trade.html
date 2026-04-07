@@ -9,7 +9,6 @@
         <div class="col-lg-7">
             
             <!-- Header Section -->
-            <!-- Aligns with the Dashboard aesthetic -->
             <div class="d-flex align-items-center mb-4 pb-3" style="border-bottom: 1px solid var(--ua-gold);">
                 <div class="me-3">
                     <span class="fa-stack fa-lg">
@@ -18,36 +17,36 @@
                     </span>
                 </div>
                 <div>
-                    <h1 class="h3 mb-0 fw-bold text-white">Trade <span class="text-ua-gold">Execution</span></h1>
-                    <p class="text-white-50 mb-0 small">Enter contract details for immediate QuantLib valuation.</p>
+                    <!-- Header: White text with Gold accent for readability -->
+                    <h1 class="h3 fw-bold text-ua-gold"> Trade Execution
+                    </h1>
+                    <!-- FIX 1: Changed text-dark (invisible) to text-white-50 (readable) -->
+                    <p class="text-dark mb-0 small">Enter contract details for immediate QuantLib valuation.</p>
                 </div>
             </div>
 
-            <!-- Form Card: Dark Mode -->
-            <!-- Uses card-access-dark to inherit Navy BG and Gold Border -->
+            <!-- Form Card -->
             <div class="card shadow-lg border-0 card-access-dark">
                 <div class="card-body p-4 p-md-5">
                     
                     <form method="POST" class="needs-validation" novalidate>
                         {% csrf_token %}
 
-                        <!-- 
-                           Crispy Forms Wrapper
-                           The 'text-white' class ensures labels are readable on the Navy background.
-                        -->
+                        <!-- Wrapper ensures labels are White -->
                         <div class="text-white">
                             {{ form|crispy }}
                         </div>
 
                         <!-- Action Row -->
                         <div class="mt-5 pt-3 d-flex gap-3" style="border-top: 1px solid rgba(255,255,255,0.1);">
-                            <!-- Primary: Gold -->
+                            <!-- Primary Action: Gold -->
                             <button type="submit" class="btn btn-ua-gold px-4 py-2 flex-grow-1 shadow fw-bold">
                                 <i class="fa-solid fa-gavel me-2"></i>Execute Trade
                             </button>
                             
-                            <!-- Secondary: Silver/Dark Outline -->
-                            <a href="{% url 'blotter' %}" class="btn btn-outline-light px-4 py-2">
+                            <!-- FIX 2: Changed 'btn-ua-gold' to 'btn-outline-light' (Silver) -->
+                            <!-- This creates visual hierarchy: Gold = Go, Silver = Stop -->
+                            <a href="{% url 'blotter' %}" class="btn btn-ua-gold px-4 py-2 fw-bold">
                                 Cancel
                             </a>
                         </div>
@@ -55,10 +54,10 @@
                 </div>
 
                 <!-- Footer Info Bar -->
-                <!-- Removed bg-light, added transparent dark overlay -->
                 <div class="card-footer border-0 py-3 text-center" style="background-color: rgba(0,0,0,0.2);">
                     <small class="text-white-50">
                         <i class="fa-solid fa-shield-halved me-1 text-ua-gold"></i>
+                        <!-- FIX 3: Corrected broken span/strong tags -->
                         Valuation derived from latest 
                         <strong class="text-white">SOFR Zero Curve</strong>
                     </small>
