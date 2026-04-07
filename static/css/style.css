@@ -1,7 +1,3 @@
-/* =========================================
-   IRSQUANT INSTITUTIONAL THEME (FINAL STATIC)
-   ========================================= */
-
 /* --- 1. THEME VARIABLES --- */
 :root {
     --ua-blue: #0057B7;    
@@ -10,16 +6,15 @@
     --bg-deep: #0b0e14;       /* Global Background (Deep Navy) */
     --text-main: #e2e6ea;     /* Off-White Text for readability */
     --text-muted: #adb5bd;    /* Silver for secondary text */
-    --pnl-red: #ff4d4d;       /* High-vis Red */
-    --pnl-green: #00ff00;     /* Terminal Green */
+    --pnl-red: #ff4d4d;       
+    --pnl-green: #00ff00;     
 }
 
 /* --- 2. BASE RESET & TYPOGRAPHY --- */
-/* CRITICAL: Forces Dark Mode globally to fix Lighthouse "White on White" errors */
 body { 
     background-color: var(--bg-deep) !important; 
     color: var(--text-main); 
-    font-family: 'Inter', -apple-system, monospace; /* Monospace hint for financial vibe */
+    font-family: 'Inter', -apple-system, monospace;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -39,7 +34,6 @@ strong, .fw-bold { color: #ffffff; }
 .text-muted { color: var(--text-muted) !important; }
 
 /* BRANDING: High-Contrast Gold */
-/* Hard shadow ensures readability on any background (Lighthouse AA Pass) */
 .text-ua-gold {
     color: var(--ua-gold) !important;
     text-shadow: 0px 1px 2px rgba(0,0,0,0.8); 
@@ -66,11 +60,10 @@ nav.navbar.navbar-dark .nav-link,
 }
 
 /* --- 4. COMPONENT: CARDS (Dark Mode) --- */
-/* The core container for Forms and Data */
 .card-access-dark {
     background-color: var(--ua-navy);
     border: 1px solid #434a54;
-    border-top: 4px solid var(--ua-gold); /* Institutional Accent */
+    border-top: 4px solid var(--ua-gold);
     color: #ffffff;
     border-radius: 8px;
 }
@@ -81,8 +74,7 @@ nav.navbar.navbar-dark .nav-link,
     color: #ffffff;
 }
 
-/* Fix Form Help Text (Accessibility Pass) */
-/* Changes invisible grey text to readable Silver */
+/* Form Help Text */
 .card-access-dark .form-text {
     color: var(--text-muted) !important;
     font-size: 0.85rem;
