@@ -4,37 +4,47 @@
 {% block title %}Execute Trade | IRSQuant{% endblock %}
 
 {% block content %}
-<div class="container py-5 mt-4">
+<div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-7">
+            
             <!-- Header Section -->
-            <div class="d-flex align-items-center mb-4 border-bottom pb-3">
-                <div class="p-3 rounded me-3 card-access-dark">
-                    <!-- Icon forced to Gold for Navy background contrast -->
-                    <i class="fa-solid fa-file-invoice-dollar fa-xl text-ua-gold"></i>
+            <!-- Aligns with the Dashboard aesthetic -->
+            <div class="d-flex align-items-center mb-4 pb-3" style="border-bottom: 1px solid var(--ua-gold);">
+                <div class="me-3">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa-solid fa-circle fa-stack-2x text-ua-gold"></i>
+                        <i class="fa-solid fa-file-signature fa-stack-1x text-ua-navy"></i>
+                    </span>
                 </div>
                 <div>
-                    <h1 class="h3 mb-0 fw-bold">Trade <span class="brand-orange">Execution</span></h1>
-                    <p class="text-muted mb-0 small">Enter contract details for QuantLib valuation.</p>
+                    <h1 class="h3 mb-0 fw-bold text-white">Trade <span class="text-ua-gold">Execution</span></h1>
+                    <p class="text-white-50 mb-0 small">Enter contract details for immediate QuantLib valuation.</p>
                 </div>
             </div>
 
-            <!-- Form Card -->
-            <div class="card shadow-sm border-0 overflow-hidden" style="background-color: white;">
+            <!-- Form Card: Dark Mode -->
+            <!-- Uses card-access-dark to inherit Navy BG and Gold Border -->
+            <div class="card shadow-lg border-0 card-access-dark">
                 <div class="card-body p-4 p-md-5">
+                    
                     <form method="POST" class="needs-validation" novalidate>
                         {% csrf_token %}
 
-                        <div class="row g-3">
+                        <!-- Crispy Forms to render inputs -->
+                        <div class="text-white">
                             {{ form|crispy }}
                         </div>
 
                         <!-- Action Row -->
-                        <div class="mt-4 pt-3 border-top d-flex gap-2">
-                            <button type="submit" class="btn btn-ua-gold px-4 py-2 flex-grow-1 shadow-sm">
-                                <i class="fa-solid fa-check-double me-2"></i>Execute & Price
+                        <div class="mt-5 pt-3 d-flex gap-3" style="border-top: 1px solid rgba(255,255,255,0.1);">
+                            <!-- Primary: Gold -->
+                            <button type="submit" class="btn btn-ua-gold px-4 py-2 flex-grow-1 shadow fw-bold">
+                                <i class="fa-solid fa-gavel me-2"></i>Execute Trade
                             </button>
-                            <a href="{% url 'blotter' %}" class="btn btn-outline-secondary px-4 py-2">
+                            
+                            <!-- Secondary: Silver/Dark -->
+                            <a href="{% url 'blotter' %}" class="btn btn-outline-light px-4 py-2">
                                 Cancel
                             </a>
                         </div>
@@ -42,14 +52,15 @@
                 </div>
 
                 <!-- Footer Info Bar -->
-                <div class="card-footer border-0 py-3 text-center bg-light">
-                    <small class="text-muted">
-                        <i class="fa-solid fa-shield-halved me-1 text-primary"></i>
+                <div class="card-footer border-0 py-3 text-center" style="background-color: rgba(0,0,0,0.2);">
+                    <small class="text-white-50">
+                        <i class="fa-solid fa-shield-halved me-1 text-ua-gold"></i>
                         Valuation derived from latest 
-                        <strong class="text-dark">SOFR Zero Curve</strong>
+                        <strong class="text-white">SOFR Zero Curve</strong>
                     </small>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
