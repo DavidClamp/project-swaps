@@ -1,52 +1,85 @@
-<!-- templates/navbar.html -->
 <nav class="navbar navbar-expand-lg navbar-dark shadow-sm py-3" style="background-color: var(--ua-navy); border-bottom: 3px solid var(--ua-gold);">
     <div class="container-xxl px-4">
-        <!-- Brand Identity -->
+        
+        <!-- 1. Brand Identity -->
         <a class="navbar-brand fw-bold" href="{% url 'dashboard' %}" aria-label="IRSQuant Home Dashboard" style="color: var(--ua-gold) !important;">
             <i class="fa-solid fa-chart-line me-2" aria-hidden="true"></i>IRSQUANT
-        </a>                  
+        </a>
 
-        <!-- Tools & Analysis Navigation -->
-        <div class="navbar-nav me-auto">
-            <a class="nav-link px-3 {% if request.resolver_match.url_name == 'dashboard' %}active fw-bold text-ua-gold{% endif %}" 
-               href="{% url 'dashboard' %}" aria-label="Go to Dashboard Workspace">
-                <i class="fa-solid fa-gauge-high me-1" aria-hidden="true"></i> Dashboard
-            </a>                
-            <a class="nav-link px-3 {% if request.resolver_match.url_name == 'blotter' %}active{% endif %}" 
-               href="{% url 'blotter' %}" aria-label="View Trade Blotter">
-                <i class="fa-solid fa-table-list me-1" aria-hidden="true"></i> Blotter
-            </a>
-            <a class="nav-link px-3 {% if request.resolver_match.url_name == 'analyser' %}active{% endif %}" 
-               href="{% url 'analyser' %}" aria-label="Open Risk Analyser">
-                <i class="fa-solid fa-bezier-curve me-1" aria-hidden="true"></i> Analyser
-            </a>
-            <a class="nav-link px-3 {% if request.resolver_match.url_name == 'curve_bars' %}active{% endif %}" 
-               href="{% url 'curve_bars' %}" aria-label="View Term Structure Charts">
-                <i class="fa-solid fa-chart-bar me-1" aria-hidden="true"></i> Term Structure
-            </a>
-            <a class="nav-link px-3 {% if request.resolver_match.url_name == 'add_trade' %}active{% endif %}" 
-               href="{% url 'add_trade' %}" aria-label="Add a New Trade">
-                <i class="fa-solid fa-plus-circle me-1" aria-hidden="true"></i> Add Trade
-            </a>
-        </div>
+        <!-- 2. Gold Hamburger Toggler -->
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="fa-solid fa-bars text-ua-gold fs-3"></span>
+        </button>
 
-        <!-- Session & User Logic -->
-        <div class="navbar-nav align-items-center">
-            {% if user.is_authenticated %}
-                {% if user.profile.is_subscriber %}
-                    <span class="badge badge-rec me-3 d-flex align-items-center shadow-sm" aria-label="Premium Pro Account Status">
-                        <i class="fa-solid fa-crown me-1" aria-hidden="true"></i> PRO
+        <!-- 3. Collapsible Content -->
+        <div class="collapse navbar-collapse" id="mainNav">
+            
+            <!-- A. Tools (Left) -->
+            <div class="navbar-nav me-auto mb-2 mb-lg-0 mt-3 mt-lg-0">
+                <a class="nav-link px-3 {% if request.resolver_match.url_name == 'dashboard' %}active fw-bold text-ua-gold{% endif %}" 
+                   href="{% url 'dashboard' %}">
+                    <i class="fa-solid fa-gauge-high me-1"></i> Dashboard
+                </a>                
+                <a class="nav-link px-3 {% if request.resolver_match.url_name == 'blotter' %}active{% endif %}" 
+                   href="{% url 'blotter' %}">
+                    <i class="fa-solid fa-table-list me-1"></i> Blotter
+                </a>
+                <a class="nav-link px-3 {% if request.resolver_match.url_name == 'analyser' %}active{% endif %}" 
+                   href="{% url 'analyser' %}">
+                    <i class="fa-solid fa-bezier-curve me-1"></i> Analyser
+                </a>
+                <a class="nav-link px-3 {% if request.resolver_match.url_name == 'curve_bars' %}active{% endif %}" 
+                   href="{% url 'curve_bars' %}">
+                    <i class="fa-solid fa-chart-bar me-1"></i> Term Structure
+                </a>
+                <a class="nav-link px-3 {% if request.resolver_match.url_name == 'add_trade' %}active{% endif %}" 
+                   href="{% url 'add_trade' %}">
+                    <i class="fa-solid fa-plus-circle me-1"></i> Add Trade
+                </a>
+            </div>
+
+            <!-- MOBILE DIVIDER: Only shows on screens < 992px -->
+            <hr class="d-lg-none text-white-50 my-2">
+
+            <!-- B. Session Logic (Right) -->
+            <!-- Removed 'border-top' and 'border-lg-0' to fix the desktop ghost line -->
+            <div class="navbar-nav align-items-lg-center">
+                
+                {% if user.is_authenticated %}
+                    {% if user.profile.is_subscriber %}
+                        <span class="badge me-lg-3 mb-3 mb-lg-0 d-inline-flex align-items-center shadow-sm" 
+                              style="background-color: rgba(255, 215, 0, 0.1); color: var(--ua-gold); border: 1px solid var(--ua-gold); width: fit-content;">
+                            <i class="fa-solid fa-crown me-1"></i> PRO
+                        </span>
+                    {% endif %}
+                    
+                    <span class="navbar-text me-lg-3 mb-3 mb-lg-0 small text-ua-gold d-block d-lg-inline">
+                        <i class="fa-solid fa-user me-1"></i>{{ user.username }}
                     </span>
+                    
+                    <a class="btn btn-sm btn-outline-secondary text-white fw-bold d-block d-lg-inline-block" 
+                       href="{% url 'account_logout' %}" aria-label="Log out">
+                       Logout
+                    </a>
+
+                {% else %}
+                    <div class="d-flex gap-2 mt-2 mt-lg-0">
+                        <!-- Login: Ghost Gold -->
+                        <a class="btn btn-sm fw-bold" href="{% url 'account_login' %}" 
+                           style="color: var(--ua-gold); border: 1px solid var(--ua-gold); background: transparent;"
+                           onmouseover="this.style.background='var(--ua-gold)'; this.style.color='var(--ua-navy)';"
+                           onmouseout="this.style.background='transparent'; this.style.color='var(--ua-gold)';"
+                           aria-label="Log in">
+                           Login
+                        </a>
+                        
+                        <!-- Sign Up: Solid Gold -->
+                        <a class="btn btn-sm btn-ua-gold" href="{% url 'account_signup' %}" aria-label="Register">
+                           Sign Up
+                        </a>
+                    </div>
                 {% endif %}
-                <span class="navbar-text me-3 small text-ua-gold">
-                    <i class="fa-solid fa-user me-1" aria-hidden="true"></i>{{ user.username }}
-                </span>
-                <a class="btn btn-sm btn-outline-danger fw-bold text-ua-gold" 
-                   href="{% url 'account_logout' %}" aria-label="Log out of IRSQuant">Logout</a>
-            {% else %}
-                <a class="btn btn-sm btn-outline-light me-2" href="{% url 'account_login' %}" aria-label="Log in to your account">Login</a>
-                <a class="btn btn-sm btn-primary" href="{% url 'account_signup' %}" aria-label="Register for a new account">Sign Up</a>
-            {% endif %}
-        </div>    
+            </div>    
+        </div>
     </div>
 </nav>
