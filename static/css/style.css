@@ -2,122 +2,127 @@
 :root {
     --ua-blue: #0057B7;    
     --ua-gold: #FFDD00;    
-    --ua-navy: #002d5e;   
-    --bg-light: #f8f9fa;
-    --text-main: #1a1a1a;
-    --pnl-red: #f33443; 
-    --brand-danger: #b33239; 
+    --ua-navy: #002d5e;       /* Primary Brand Color */
+    --bg-deep: #0b0e14;       /* Global Background (Deep Navy) */
+    --text-main: #e2e6ea;     /* Off-White Text for readability */
+    --text-muted: #adb5bd;    /* Silver for secondary text */
+    --pnl-red: #ff4d4d;       
+    --pnl-green: #00ff00;     
 }
 
-/* --- 2. BASE RESET & GLOBAL UTILITIES --- */
+/* --- 2. BASE RESET & TYPOGRAPHY --- */
 body { 
-    background-color: var(--bg-light); 
+    background-color: var(--bg-deep) !important; 
     color: var(--text-main); 
-    font-family: 'Inter', -apple-system, sans-serif; 
+    font-family: 'Inter', -apple-system, monospace; 
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Default bold text is dark for light backgrounds */
-strong, .fw-bold { color: inherit; } 
-.text-muted { color: #545454 !important; }
-.brand-orange { color: var(--brand-danger) !important; } 
+/* Hyperlinks */
+a { color: var(--ua-gold); text-decoration: none; }
+a:hover { color: #fff; text-decoration: underline; }
 
-/* --- 3. MASTER NAVBAR & FOOTER --- */
+/* Typography Overrides */
+h1, h2, h3, h4, h5, h6 { color: #ffffff; font-weight: 700; }
+strong, .fw-bold { color: #ffffff; }
+
+/* Utility: Text Colors */
+.text-white { color: #ffffff !important; }
+.text-white-50 { color: rgba(255, 255, 255, 0.5) !important; }
+.text-muted { color: var(--text-muted) !important; }
+
+/* BRANDING: High-Contrast Gold */
+.text-ua-gold {
+    color: var(--ua-gold) !important;
+    text-shadow: 0px 1px 2px rgba(0,0,0,0.8); /* Hard shadow for Lighthouse Score */
+}
+
+/* --- 3. LAYOUT (Navbar & Footer) --- */
 .navbar-dark, .footer { 
     background-color: var(--ua-navy); 
     border-top: 3px solid var(--ua-gold); 
     border-bottom: 3px solid var(--ua-gold); 
 }
 
-/* High-Specificity: Force GOLD over Bootstrap WHITE for Branding */
+/* Navigation Text */
 nav.navbar.navbar-dark .navbar-brand,
-nav.navbar.navbar-dark .navbar-brand i,
-nav.navbar-dark .nav-link.active,
-.footer .text-ua-gold,
-.text-ua-gold {
+nav.navbar.navbar-dark .nav-link.active {
     color: var(--ua-gold) !important;
-    opacity: 1 !important;
+    font-weight: bold;
 }
 
-/* Ensure Navbar text & links are 100% white (Lighthouse Pass) */
-nav.navbar-dark .navbar-text,
-nav.navbar-dark .nav-link,
+nav.navbar.navbar-dark .nav-link,
 .footer span {
     color: #ffffff !important;
-    opacity: 1 !important;
+    opacity: 0.9;
 }
 
-/* --- 4. CONTEXTUAL DARK CARDS --- */
+/* --- 4. COMPONENT: CARDS (Dark Mode) --- */
+/* The core container for Forms and Data */
 .card-access-dark {
     background-color: var(--ua-navy);
-    border-top: 4px solid var(--ua-gold);
+    border: 1px solid #434a54;
+    border-top: 4px solid var(--ua-gold); /* Institutional Accent */
     color: #ffffff;
-    padding: 1.5rem;
+    border-radius: 8px;
 }
 
-/* Automatic Gold for headers/icons inside Navy cards */
+/* Auto-style headers inside dark cards */
 .card-access-dark h1, .card-access-dark h2, .card-access-dark h3, 
-.card-access-dark .h5, .card-access-dark i, .card-access-dark strong, 
-.card-access-dark .fw-bold {
-    color: var(--ua-gold) !important;
+.card-access-dark .h5, .card-access-dark label {
+    color: #ffffff;
 }
 
-/* High-contrast off-white for secondary text in dark cards */
-.card-access-dark p, .card-access-dark small, .card-access-dark .text-muted {
-    color: rgba(255, 255, 255, 0.9) !important;
+/* Fix Form Help Text (Accessibility Pass) */
+.card-access-dark .form-text {
+    color: var(--text-muted) !important;
+    font-size: 0.85rem;
 }
 
-/* --- 5. COMPONENT CLASSES --- */
-/* High-Contrast: Navy Text on Gold Background  */
-.btn-ua-gold, button.btn-ua-gold, a.btn-ua-gold {
-    background-color: var(--ua-gold) !important;
-    color: var(--ua-navy) !important;
-    font-weight: 700 !important;
-    border: none !important;
-    transition: 0.2s ease;
+/* --- 5. COMPONENT: BUTTONS --- */
+/* Primary Action: Gold */
+.btn-ua-gold {
+    background-color: var(--ua-gold);
+    color: var(--ua-navy);
+    font-weight: 800;
+    border: 1px solid var(--ua-gold);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.btn-ua-gold:hover { 
+    background-color: #ffe600; 
+    color: #000; 
+    box-shadow: 0 0 10px rgba(255, 221, 0, 0.4);
 }
 
-.btn-ua-gold:hover { background-color: #e6c600 !important; transform: translateY(-1px); }
-
-/* KPI Icon Circles */
-.kpi-icon-circle {
-    background-color: var(--ua-blue);
-    width: 60px; height: 60px;
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 50%;
+/* Secondary Action: Silver Outline */
+.btn-outline-secondary, .btn-outline-light, .btn-outline-dark {
+    color: #e2e6ea !important;
+    border-color: #6c757d !important;
 }
-.kpi-icon-circle i { color: var(--ua-gold) !important; }
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: #fff !important;
+}
 
-/* Accessible Danger Buttons */
-.btn-outline-danger, a.btn.btn-sm.btn-outline-danger {
-    color: var(--pnl-red) !important; 
+/* Destructive Action */
+.btn-outline-danger {
+    color: var(--pnl-red) !important;
     border-color: var(--pnl-red) !important;
-    border-width: 2px !important;
-    font-weight: 600 !important;
 }
 
-/* Edit Trade Card */
-.card-edit-trade {
-    max-width: 600px;
-    border-top: 5px solid var(--ua-blue) !important;
+/* --- 6. CHARTS & DATA TABLES --- */
+.table-dark {
+    background-color: var(--ua-navy);
+    color: #fff;
 }
 
-/* High-Contrast Dark Buttons */
-.btn-outline-dark {
-    border: 2px solid var(--text-main) !important;
-    color: var(--text-main) !important;
-    font-weight: 600;
+/* Chart Containers */
+#yieldCurve, #termStructureChart { 
+    background-color: rgba(255,255,255,0.05); /* Subtle glass effect */
+    border-radius: 4px;
+    padding: 10px;
+    border: 1px solid rgba(255,255,255,0.1);
 }
-
-/* --- 6. DATA & P&L --- */
-.text-pnl-positive { color: #614603 !important; font-weight: bold; } 
-.text-pnl-negative { color: var(--pnl-red) !important; font-weight: bold; }
-
-/* Form Labels Logic */
-.trade-form-labels p {
-    margin-bottom: 1rem;
-    color: var(--text-main);
-    font-weight: 600;
-}
-
-/* Chart Container */
-#yieldCurve, #termStructureChart { max-height: 450px; }
