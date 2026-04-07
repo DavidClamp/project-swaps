@@ -23,7 +23,7 @@ class DataIntegrityTests(TestCase):
 
     def test_duplicate_prevention(self):
         """
-        CRITICAL: Test the unique_together constraint.
+        Test the unique_together constraint.
         If we try to insert the same Date + Index + Tenor twice, 
         the database MUST reject it.
         """
@@ -50,7 +50,8 @@ class TradeLogicTests(TestCase):
             fixed_rate=3.75,
             side="PAY"
         )
-        self.assertEqual(trade.strategy, "OUTRIGHT")  # Test default value
+        # Verify default behavior defined in models.py
+        self.assertEqual(trade.strategy, "OUTRIGHT") 
         self.assertEqual(str(trade), f"OUTRIGHT | USD-SOFR | {self.user.username}")
 
 
@@ -67,7 +68,7 @@ class SignalAutomationTests(TestCase):
         # 1. Create a naked User
         new_user = User.objects.create_user(username='new_subscriber', password='pw')
         
-        # 2. Assert the Profile was magically created
+        # 2. Assert the Profile was magically created by the signal
         self.assertTrue(hasattr(new_user, 'profile'))
         self.assertFalse(new_user.profile.is_subscriber)  # Should be False by default
 
@@ -76,6 +77,5 @@ class SignalAutomationTests(TestCase):
         user = User.objects.create_user(username='vip_user', password='pw')
         profile = user.profile
         
-        # Verify reverse lookup
+        # Verify reverse lookup capability
         self.assertEqual(profile.user.username, 'vip_user')
-
