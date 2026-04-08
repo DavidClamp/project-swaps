@@ -26,16 +26,15 @@
     </div>
   </div>
 
-  <!-- 2. KPI Row -->
-  
+  <!-- 2. KPI Row (Darker Text) -->
   <div class="row g-3 mb-4">
     {% for label, icon, value, color_class in kpi_data %}
     <div class="col-md-4">
       <div class="card shadow-sm border-0 h-100 p-4 card-kpi-ua">
         <div class="d-flex flex-column justify-content-center h-100">
           
-          <!-- LABEL -->
-          <h2 class="text-secondary text-uppercase fw-bold mb-2 small" style="letter-spacing: 1px;">
+          <!-- LABEL: Changed text-secondary to text-dark -->
+          <h2 class="text-dark text-uppercase fw-bold mb-2 small" style="letter-spacing: 1px;">
             {{ label }}
           </h2>
           
@@ -79,14 +78,16 @@
             <tbody>
               {% for gid, data in strategies.items %}
               <tr class="border-bottom border-light">
+                <!-- GROUP ID: Darker Badge -->
                 <td class="ps-4">
-                  <span class="badge bg-light text-dark border fw-bold font-monospace">
+                  <span class="badge bg-dark text-white border border-dark fw-bold font-monospace">
                     {{ gid }}
                   </span>
                 </td>
                 <td class="fw-bold text-dark">{{ data.strategy }}</td>
+                <!-- LEGS: Darker Badge -->
                 <td class="text-center">
-                    <span class="badge bg-secondary bg-opacity-10 text-dark border border-secondary-subtle">
+                    <span class="badge bg-secondary text-white border border-secondary-subtle">
                         {{ data.count }}
                     </span>
                 </td>
@@ -110,9 +111,8 @@
       </div>
     </div>
 
-    <!-- 4. Subscription Card (RESTYLED: Compact & Clear) -->
+    <!-- 4. Subscription Card (Cleaned) -->
     <div class="col-lg-4">
-      <!-- Removed h-100 so it fits content naturally -->
       <div class="card shadow-sm border-0 card-access-dark p-4">
         
         <div class="d-flex justify-content-between align-items-center mb-3 border-bottom border-secondary pb-2">
@@ -134,14 +134,11 @@
         </div>
         {% else %}
         <div class="mb-4">
-            <!-- BADGE FIX: White Pill for Max Contrast -->
-            <span class="badge bg-white text-dark fw-bold rounded-pill fs-6 mb-2 px-3 shadow-sm">
+            <!-- REMOVED: Description Text -->
+            <!-- KEPT: High Contrast Badge -->
+            <span class="badge bg-light text-dark fw-bold rounded-pill fs-6 mb-2 px-3 shadow-sm">
                 Basic Tier
             </span>
-            <!-- TEXT FIX: Solid White (No opacity) -->
-            <p class="text-white mt-2 mb-0" style="line-height: 1.4;">
-              Upgrade your account to unlock multi-leg strategies and real-time pricing capabilities.
-            </p>
         </div>
         <a href="{% url 'subscription' %}" class="btn btn-ua-gold w-100 fw-bold text-dark shadow-sm py-2">
           <i class="fa-solid fa-gem me-2"></i> Upgrade to Pro
