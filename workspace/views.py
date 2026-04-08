@@ -5,12 +5,22 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.management import call_command
-from .models import Trade, HistoricalRate
-from .data_handler import import_bluegamma_data
-from .utils import get_sofr_curve, calculate_trade_npv, 
-    get_histogram_data, get_forward_histogram_data, get_forward_term_structure
-from .forms import TradeForm
+from datetime import date
 
+# --- MODELS & FORMS ---
+from .models import Trade, HistoricalRate
+from .forms import TradeForm
+from .data_handler import import_bluegamma_data
+
+# --- UTILITIES (Fixed Imports) ---
+# Using parentheses allows us to break lines safely without SyntaxErrors
+from .utils import (
+    get_sofr_curve, 
+    calculate_trade_npv, 
+    get_histogram_data, 
+    get_forward_histogram_data, 
+    get_forward_term_structure
+)
 
 @login_required
 def curve_analyser(request):
