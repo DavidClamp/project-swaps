@@ -1,138 +1,91 @@
-{% extends 'base.html' %}
-{% load humanize %} 
-
-{% block title %}Trade Blotter{% endblock %}
-
-{% block content %}
-<div class="container-fluid py-4">
-    
-    <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h1 class="h4 fw-bold text-black mb-0">
-                <i class="fa-solid fa-table-list text-primary me-2"></i>Trade Blotter
-            </h1>
-            <p class="text-secondary small mb-0">Live Portfolio Valuation</p>
-        </div>
-        <a href="{% url 'add_trade' %}" class="btn btn-primary shadow-sm fw-bold">
-            <i class="fa-solid fa-plus me-2"></i>New Trade
-        </a>
-    </div>
-
-    <!-- Trade Table Card -->
-    <div class="card border border-secondary-subtle rounded-1 shadow-sm bg-white">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="bg-light border-bottom border-secondary">
-                        <tr>
-                            <th class="ps-4 py-3 text-secondary text-uppercase small fw-bold">Trade ID</th>
-                            <th class="py-3 text-secondary text-uppercase small fw-bold">Strategy</th>
-                            <th class="py-3 text-secondary text-uppercase small fw-bold">Side</th>
-                            <th class="py-3 text-secondary text-uppercase small fw-bold">Structure</th>
-                            <th class="py-3 text-secondary text-uppercase small fw-bold text-end">Notional</th>
-                            <th class="py-3 text-secondary text-uppercase small fw-bold text-end">Rate</th>
-                            <th class="py-3 text-secondary text-uppercase small fw-bold text-end">NPV ($)</th>
-                            <th class="pe-4 py-3 text-end"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for trade in trades %}
-                        <tr class="border-bottom border-light">
-                            
-                            <!-- 1. TRADE ID -->
-                            <td class="ps-4">
-                                <div class="d-flex align-items-center">
-                                    <div class="icon-square bg-light text-primary rounded me-2 border">
-                                        <i class="fa-solid fa-file-contract"></i>
-                                    </div>
-                                    <div>
-                                        <a href="{% url 'edit_trade' trade.pk %}" class="text-decoration-none text-primary fw-bold font-monospace">
-                                            {{ trade.trade_id }}
-                                        </a>
-                                        <div class="small text-secondary">{{ trade.created_at|date:"M d, Y" }}</div>
-                                    </div>
-                                </div>
-                            </td>
-
-                            <!-- 2. STRATEGY -->
-                            <td>
-                                <span class="badge bg-light text-dark border border-secondary fw-bold font-monospace">
-                                    {{ trade.get_strategy_display }}
-                                </span>
-                            </td>
-
-                            <!-- 3. SIDE -->
-                            <td>
-                                {% if trade.side == 'PAY' %}
-                                    <span class="text-danger fw-bold font-monospace">
-                                        <i class="fa-solid fa-arrow-trend-down me-1"></i>PAY
-                                    </span>
-                                {% else %}
-                                    <span class="text-success fw-bold font-monospace">
-                                        <i class="fa-solid fa-arrow-trend-up me-1"></i>REC
-                                    </span>
-                                {% endif %}
-                            </td>
-
-                            <!-- 4. STRUCTURE -->
-                            <td>
-                                <span class="fw-bold text-dark">{{ trade.ticker }}</span>
-                                <span class="text-muted small ms-1">({{ trade.tenor_years }}Y)</span>
-                            </td>
-
-                            <!-- 5. NOTIONAL (Fixed with intcomma) -->
-                            <td class="text-end font-monospace fw-bold text-dark">
-                                ${{ trade.notional|intcomma }}
-                            </td>
-
-                            <!-- 6. RATE -->
-                            <td class="text-end font-monospace fw-bold text-dark">
-                                {{ trade.fixed_rate }}%
-                            </td>
-                            
-                            <!-- 7. NPV (Fixed Logic) -->
-                            <td class="text-end font-monospace fw-bold">
-                                {% if trade.last_npv >= 0 %}
-                                    <!-- Positive: Green -->
-                                    <span class="text-success">
-                                        +${{ trade.last_npv|floatform:0|intcomma }}
-                                    </span>
-                                {% else %}
-                                    <!-- Negative: Red (Slice off the minus sign from intcomma output) -->
-                                    <span class="text-danger">
-                                        -${{ trade.last_npv|floatform:0|intcomma|slice:"1:" }}
-                                    </span>
-                                {% endif %}
-                            </td>
-
-                            <!-- 8. ACTIONS -->
-                            <td class="pe-4 text-end">
-                                <div class="dropdown">
-                                    <button class="btn btn-sm btn-light border" type="button" data-bs-toggle="dropdown">
-                                        <i class="fa-solid fa-ellipsis"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
-                                        <li><a class="dropdown-item small" href="{% url 'edit_trade' trade.pk %}">Edit Trade</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item small text-danger" href="{% url 'delete_trade' trade.pk %}">Delete</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="8" class="text-center py-5 text-muted">
-                                <i class="fa-solid fa-box-open fa-2x mb-3 opacity-50"></i>
-                                <p>No trades found in your blotter.</p>
-                                <a href="{% url 'add_trade' %}" class="btn btn-sm btn-outline-primary">Book First Trade</a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+<tbody>
+    {% for trade in trades %}
+    <tr class="border-bottom border-light">
+        
+        <!-- 1. TRADE ID -->
+        <td class="ps-4">
+            <div class="d-flex align-items-center">
+                <div class="icon-square bg-light text-primary rounded me-2 border">
+                    <i class="fa-solid fa-file-contract"></i>
+                </div>
+                <div>
+                    <a href="{% url 'edit_trade' trade.pk %}" class="text-decoration-none text-primary fw-bold font-monospace">
+                        {{ trade.trade_id }}
+                    </a>
+                    <div class="small text-secondary">{{ trade.created_at|date:"M d, Y" }}</div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
-{% endblock %}
+        </td>
+
+        <!-- 2. STRATEGY -->
+        <td>
+            <span class="badge bg-light text-dark border border-secondary fw-bold font-monospace">
+                {{ trade.get_strategy_display }}
+            </span>
+        </td>
+
+        <!-- 3. SIDE -->
+        <td>
+            {% if trade.side == 'PAY' %}
+                <span class="text-danger fw-bold font-monospace">
+                    <i class="fa-solid fa-arrow-trend-down me-1"></i>PAY
+                </span>
+            {% else %}
+                <span class="text-success fw-bold font-monospace">
+                    <i class="fa-solid fa-arrow-trend-up me-1"></i>REC
+                </span>
+            {% endif %}
+        </td>
+
+        <!-- 4. STRUCTURE -->
+        <td>
+            <span class="fw-bold text-dark">{{ trade.ticker }}</span>
+            <span class="text-muted small ms-1">({{ trade.tenor_years }}Y)</span>
+        </td>
+
+        <!-- 5. NOTIONAL (Fixed) -->
+        <td class="text-end font-monospace fw-bold text-dark">
+            {{ trade.fmt_notional }}
+        </td>
+
+        <!-- 6. RATE (Fixed) -->
+        <td class="text-end font-monospace fw-bold text-dark">
+            {{ trade.fmt_rate }}%
+        </td>
+        
+        <!-- 7. NPV (Fixed) -->
+        <td class="text-end font-monospace fw-bold">
+            {% if trade.is_profitable %}
+                <span class="text-success">
+                    +{{ trade.fmt_npv }}
+                </span>
+            {% else %}
+                <span class="text-danger">
+                    -{{ trade.fmt_npv }}
+                </span>
+            {% endif %}
+        </td>
+
+        <!-- 8. ACTIONS -->
+        <td class="pe-4 text-end">
+            <div class="dropdown">
+                <button class="btn btn-sm btn-light border" type="button" data-bs-toggle="dropdown">
+                    <i class="fa-solid fa-ellipsis"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                    <li><a class="dropdown-item small" href="{% url 'edit_trade' trade.pk %}">Edit Trade</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item small text-danger" href="{% url 'delete_trade' trade.pk %}">Delete</a></li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="8" class="text-center py-5 text-muted">
+            <p>No trades found.</p>
+            <a href="{% url 'add_trade' %}" class="btn btn-sm btn-outline-primary">Book Trade</a>
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>

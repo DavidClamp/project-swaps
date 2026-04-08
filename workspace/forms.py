@@ -8,52 +8,34 @@ class TradeForm(forms.ModelForm):
         fields = ['trade_id', 'strategy', 'ticker', 'notional', 'forward_start',
                   'tenor_years', 'fixed_rate', 'side', 'group_id']
         
-        # WIDGETS: Control HTML rendering and Default Values
+        # WIDGETS: Control HTML rendering
         widgets = {
             'fixed_rate': forms.NumberInput(attrs={
-                'step': '0.0001', 
-                'placeholder': 'e.g. 0.0450 (for 4.5%)'
+                'step': '0.01', 
+                'placeholder': '4.00 (Enter as %)'
             }),
             'notional': forms.NumberInput(attrs={
                 'step': '100000', 
-                'placeholder': 'e.g. 10000000'
+                'placeholder': '10,000,000'
             }),
-            
-            # FORWARD START: 
             'forward_start': forms.NumberInput(attrs={
                 'step': '0.25', 
-                'placeholder': '0.0 (Spot)',
-                'value': '0.0'  
+                'placeholder': '0.0 (Spot)'
             }),
-
             'trade_id': forms.TextInput(attrs={
                 'placeholder': 'TRD-2026-XXXX'
             }),
-            
             'group_id': forms.TextInput(attrs={
                 'placeholder': 'e.g. STRAT-001 (Leave blank for Outright)',
                 'class': 'text-uppercase'
             }),
-
-            # DROPDOWNS: 
-            'ticker': forms.Select(choices=[
-                ('USD-SOFR', 'USD - SOFR (Secured Overnight)'),
-                ('EUR-EURIBOR', 'EUR - EURIBOR'),
-                ('GBP-SONIA', 'GBP - SONIA'),
-            ]),
-            
-            'strategy': forms.Select(choices=[
-                ('OUTRIGHT', 'Outright (Single Leg)'),
-                ('CURVE', 'Curve (Steepener/Flattener)'),
-                ('FLY', 'Butterfly (Fly)'),
-            ]),
         }
         
-        # LABELS:
+        # LABELS: Clear instruction to user
         labels = {
             'forward_start': 'Start Delay (Years)', 
             'tenor_years': 'Tenor (Years)',
-            'fixed_rate': 'Fixed Rate (Decimal)',
+            'fixed_rate': 'Fixed Rate (%)',
             'ticker': 'Benchmark Index',
             'group_id': 'Group ID (Optional for Outright)',
         }
@@ -80,17 +62,11 @@ class TradeForm(forms.ModelForm):
     def clean_forward_start(self):
         """
         UX SAFETY NET: 
-        If the user clears the input (None/Empty), silently default 
-        to 0.0 (Spot) instead of raising a 'This field is required' error.
+        Handle empty input gracefully.
         """
         data = self.cleaned_data.get('forward_start')
-        
-        # 1. Handle Empty Input -> Default to Spot
         if data is None:
             return 0.0
-            
-        # 2. Handle Logic Error -> Prevent Past Dates
         if data < 0:
             raise forms.ValidationError("Start delay cannot be in the past.")
-            
         return data

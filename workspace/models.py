@@ -4,10 +4,8 @@ from django.core.validators import MinValueValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-
 class HistoricalRate(models.Model):
     """Global Market Data Store: SOFR, SONIA, TONA, EURIBOR, etc."""
-
     INDEX_CHOICES = [
         ('SOFR', 'USD SOFR'),
         ('SONIA', 'GBP SONIA'),
@@ -34,7 +32,7 @@ class HistoricalRate(models.Model):
 
 
 class Trade(models.Model):
-    """IRS Trade Blotter: Supports Outrights and Butterflies """
+    """IRS Trade Blotter: Supports Outrights and Butterflies"""
     STRATEGY_CHOICES = [('OUTRIGHT', 'Outright'), ('FLY', 'Butterfly')]
     SIDE_CHOICES = [('PAY', 'Pay Fixed'), ('REC', 'Rec Fixed')]
 
@@ -43,19 +41,25 @@ class Trade(models.Model):
     strategy = models.CharField(max_length=10, choices=STRATEGY_CHOICES, default='OUTRIGHT')
     group_id = models.CharField(max_length=50, blank=True, null=True, help_text="Links Butterfly legs")
 
-    ticker = models.CharField(max_length=20)
-    notional = models.DecimalField(max_digits=20, decimal_places=2, validators=[MinValueValidator(0)])
+    # --- Defaults Added for Usability ---
+    ticker = models.CharField(max_length=20, default='USD-SOFR')
+    notional = models.DecimalField(
+        max_digits=20, 
+        decimal_places=2, 
+        validators=[MinValueValidator(0)],
+        default=10_000_000
+    )
     forward_start = models.FloatField(
         default=0.0,
-        blank=True,  # Allows form to be submitted even if empty
+        blank=True,
         verbose_name="Start Delay (Years)"
     )
-    tenor_years = models.PositiveIntegerField()
-    fixed_rate = models.FloatField()
-    side = models.CharField(max_length=3, choices=SIDE_CHOICES)
+    tenor_years = models.PositiveIntegerField(default=10)
+    fixed_rate = models.FloatField(default=4.0)
+    side = models.CharField(max_length=3, choices=SIDE_CHOICES, default='PAY')
     weight = models.FloatField(default=1.0)
 
-    # QuantLib/Pandas Outputs
+    # --- Analytics Caching ---
     last_npv = models.FloatField(null=True, blank=True)
     pv01 = models.FloatField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -63,12 +67,35 @@ class Trade(models.Model):
     def __str__(self):
         return f"{self.strategy} | {self.ticker} | {self.user.username}"
 
+    # --- VIEW HELPERS ---
+    
+    @property
+    def fmt_notional(self):
+        """Returns formatted string: $10,000,000"""
+        return f"${self.notional:,.0f}"
+
+    @property
+    def fmt_rate(self):
+        """Returns formatted string: 4.00"""
+        return f"{self.fixed_rate:.2f}"
+
+    @property
+    def fmt_npv(self):
+        """
+        Returns absolute value string (e.g. $1,500) for display logic.
+        Handles None safely to prevent template crashes.
+        """
+        val = self.last_npv if self.last_npv is not None else 0
+        return f"${abs(val):,.0f}"
+
+    @property
+    def is_profitable(self):
+        """Returns True if NPV is positive (Green), False if negative (Red)"""
+        return (self.last_npv or 0) >= 0
+
 
 class Profile(models.Model):
-    """
-    Extends User to track subscription status.
-    Required for the 'can_access_butterfly_analytics' gating in utils.py.
-    """
+    """Extends User to track subscription status."""
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     is_subscriber = models.BooleanField(default=False)
     stripe_customer_id = models.CharField(max_length=100, blank=True, null=True)
@@ -76,10 +103,8 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.user.username}'s Profile"
 
-
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
-    """Automatically creates a Profile whenever a new User is registered."""
     if created:
         Profile.objects.create(user=instance)
     instance.profile.save()

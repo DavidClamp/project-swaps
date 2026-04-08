@@ -64,7 +64,7 @@ def calculate_trade_npv(trade_id, curve):
     # 1. Retrieve trade parameters
     trade = Trade.objects.get(id=trade_id)
     notional = float(trade.notional)
-    fixed_rate = trade.fixed_rate
+    fixed_rate = trade.fixed_rate /100.0
     tenor = ql.Period(trade.tenor_years, ql.Years)
 
     # 2. Determine Trade Direction
@@ -84,13 +84,12 @@ def calculate_trade_npv(trade_id, curve):
     # Shift the start date by the forward delay (e.g., +1 Year)
     # Use Days for precision with floats (0.25 years approx 91 days)
     delay_days = int(trade.forward_start * 365)
-    effective_date = calendar.advance(ref_date, delay_days, ql.Days)
+    effective_date = calendar.advance(ref_date, delay_days, ql.Days, ql.ModifiedFollowing)
 
     # C. Calculate Maturity Date
     # Maturity is calculated from the EFFECTIVE date, not reference date.
     # i.e A 5Y swap starting in 1Y matures at T + 6Y.
     maturity_date = effective_date + tenor
-
     
     # 4. Generate Payment Schedules 
     fixed_schedule = ql.Schedule(
