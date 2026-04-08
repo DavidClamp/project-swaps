@@ -7,39 +7,44 @@
     <div class="row justify-content-center">
         <div class="col-lg-10">
             
-            <div class="card border border-secondary-subtle rounded-1 bg-white">
+            <!-- TERMINAL CARD -->
+            <div class="card border border-secondary rounded-1 bg-white">
                 
-                <!-- Header: specific to Forward Analysis -->
+                <!-- Header -->
                 <div class="card-header bg-white border-bottom py-3">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h1 class="h5 fw-bold text-black mb-0">
-                                <i class="fa-solid fa-forward text-primary me-2"></i>
-                                {{ title }} <span class="text-secondary">Distribution</span>
+                                <i class="fa-solid fa-clock-rotate-left text-primary me-2"></i>
+                                {{ title }} <span class="text-secondary">Distribution of 1Y/1Y Forward Rates</span>
                             </h1>
                             <span class="small text-secondary font-monospace">
-                                IMPLIED FROM: USD-SOFR (1Y & 2Y)
+                                IMPLIED FROM: USD-SOFR (1Y & 2Y Swap Rates)
                             </span>
                         </div>
-                        <span class="badge bg-primary rounded-1 fw-normal font-monospace">DERIVED DATA</span>
                     </div>
                 </div>
 
                 <div class="card-body p-4">
+                    <!-- Chart Container -->
                     <div id="chartContainer" style="position: relative; height:450px; width:100%">
                         <canvas id="histChart"></canvas>
                     </div>
 
-                    <hr class="my-4 border-secondary opacity-25">
+                    <!-- STATS MODULE: High Contrast -->
+                    <hr class="my-4 border-secondary opacity-50">
                     
                     <div class="row g-0 border border-secondary rounded-1 text-center bg-light">
+                        <!-- Count Stat -->
                         <div class="col-6 border-end border-secondary p-3">
-                            <span class="d-block text-secondary small text-uppercase fw-bold mb-1">Observation Count</span>
-                            <span class="h4 fw-bold text-black font-monospace mb-0">{{ sample_size }}</span>
+                            <!-- UPDATED: Changed 'text-secondary' to 'text-dark fw-bold' -->
+                            <span class="d-block text-dark fw-bold small text-uppercase mb-1">Observation Count</span>
+                            <span class="h3 fw-bold text-primary font-monospace mb-0">{{ sample_size }}</span>
                         </div>
+                        <!-- Mean Stat -->
                         <div class="col-6 p-3">
-                            <span class="d-block text-secondary small text-uppercase fw-bold mb-1">Mean Forward Rate</span>
-                            <span class="h4 fw-bold text-primary font-monospace mb-0">{{ mean_val }}%</span>
+                            <span class="d-block text-dark fw-bold small text-uppercase mb-1">Mean Forward Rate</span>
+                            <span class="h3 fw-bold text-primary font-monospace mb-0">{{ mean_val }}%</span>
                         </div>
                     </div>
                 </div>
@@ -63,12 +68,14 @@
                 datasets: [{
                     label: 'Frequency',
                     data: {{ hist_counts|safe }},
-                    // Theme: Use purple for Forwards to distinguish from "Blue" Spot rates
-                    backgroundColor: 'rgba(102, 16, 242, 0.85)', 
-                    borderColor: '#6610f2',     
+                    // Theme: Solid Purple for visibility
+                    backgroundColor: '#6610f2', 
+                    borderColor: '#000000',     
                     borderWidth: 1,
                     borderRadius: 0,
-                    barPercentage: 0.6
+                    // Make bars wider (take up 95% of the space)
+                    barPercentage: 0.95,
+                    categoryPercentage: 0.95
                 }]
             },
             options: {
@@ -78,11 +85,32 @@
                 scales: {
                     y: { 
                         beginAtZero: true,
-                        title: { display: true, text: 'FREQUENCY (DAYS)', font: { weight: 'bold', family: 'monospace' } }
+                        grid: { color: '#e9ecef' },
+                        title: { 
+                            display: true, 
+                            text: 'FREQUENCY (DAYS)', 
+                            color: '#000', // Absolute Black
+                            font: { weight: 'bold', family: 'monospace' } 
+                        },
+                        ticks: {
+                            color: '#000', // Absolute Black
+                            font: { family: 'monospace' }
+                        }
                     },
                     x: {
-                        title: { display: true, text: 'IMPLIED FORWARD RATE (%)', font: { weight: 'bold', family: 'monospace' } },
-                        ticks: { font: { family: 'monospace' } }
+                        grid: { display: false },
+                        title: { 
+                            display: true, 
+                            text: 'IMPLIED FORWARD RATE (%)', 
+                            color: '#000', // Absolute Black
+                            font: { weight: 'bold', family: 'monospace' } 
+                        },
+                        ticks: { 
+                            color: '#000', // Absolute Black
+                            font: { weight: 'bold', family: 'monospace' },
+                            maxRotation: 45,
+                            minRotation: 0
+                        }
                     }
                 }
             }

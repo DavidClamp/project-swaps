@@ -149,46 +149,43 @@ def get_histogram_data(index_name='SOFR', tenor='1Y', bins=15):
     return labels, counts.tolist()
 
 
-def get_forward_histogram_data(index_name='SOFR', bins=20):
+def get_forward_histogram_data(index_name='SOFR', bins=15): 
     """
-    Calculates the historical frequency distribution of the 1y1y Forward Rate.
-    Math: Fwd_1y1y = [(1 + Z2)^2 / (1 + Z1)^1] - 1
+    Calculates the historical frequency of the 1y1y Forward Rate.
+    Reduced bins=15 for cleaner visual presentation.
     """
-    # 1. Fetch the raw Spot ingredients (1Y and 2Y Zero Rates)
-    # Rates are stored as decimals (0.045). If %, divide by 100.
+    # 1. Fetch the raw ingredients (Spot 1Y and Spot 2Y)
     qs_1y = HistoricalRate.objects.filter(index_name=index_name, tenor='1Y').values('date', 'rate')
     qs_2y = HistoricalRate.objects.filter(index_name=index_name, tenor='2Y').values('date', 'rate')
 
-    # 2. Align Data using Pandas
+    # 2. Align Data
     df1 = pd.DataFrame(list(qs_1y)).set_index('date').rename(columns={'rate': 'z1'})
     df2 = pd.DataFrame(list(qs_2y)).set_index('date').rename(columns={'rate': 'z2'})
 
-    # Only calculate for days where we have BOTH rates
     df = df1.join(df2, how='inner')
 
     if df.empty:
         return [], [], 0, "0.00"
 
-    # 3. The Forward Rate Formula (Annual Compounding)
-    # Formula: f = (1 + z2)^2 / (1 + z1) - 1
-    df['fwd_1y1y'] = ( ((1 + df['z2'])**2) / (1 + df['z1']) ) - 1
+    # 3. Calculate Forward Rate
+    df['fwd'] = ( ((1 + df['z2'])**2) / (1 + df['z1']) ) - 1
 
-    # 4. Histogram Binning
-    data_points = df['fwd_1y1y'].values
+    # 4. Histogram Binning (Consolidated)
+    data_points = df['fwd'].values * 100
+    # NumPy automatically handles the bin distribution
     counts, bin_edges = np.histogram(data_points, bins=bins)
 
-    # 5. Format Labels (Convert decimals back to Percent String)
+    # 5. Format Labels (2 decimal places)
     labels = []
     for i in range(len(counts)):
         midpoint = (bin_edges[i] + bin_edges[i+1]) / 2
-        labels.append(f"{midpoint*100:.2f}%")
+        labels.append(f"{midpoint:.2f}%")
 
-    # 6. Stats
+    # 6. Statistics
     sample_size = len(df)
-    mean_val = f"{np.mean(data_points)*100:.2f}"
+    mean_val = f"{np.mean(data_points):.2f}"
 
     return labels, counts.tolist(), sample_size, mean_val
-
 
 def get_forward_term_structure(curve, max_years=10):
     """
