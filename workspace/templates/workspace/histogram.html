@@ -1,67 +1,88 @@
 {% extends 'base.html' %}
 
-{% block content %}
-<div class="container py-4">
-    <!-- Main Card Container: -->
-    <div class="card shadow-sm border-0 p-4">
-        <!-- Header: -->
-        <h1 class="h5 fw-bold mb-4 border-bottom pb-2 text-dark">
-            USD SOFR <span class="brand-orange">1Y Distribution</span>
-        </h1>
-        <!-- Chart Container: -->
-        <div id="chartContainer" style="position: relative; height:400px; width:100%">
-            <canvas id="histChart"></canvas>
-        </div>
+{% block title %}Forward Rate Analysis{% endblock %}
 
-        <!-- Stats Footer -->
-        <div class="mt-3 pt-3 border-top d-flex justify-content-around text-center">
-            <div>
-                <small class="text-muted d-block">Sample Size</small>
-                <span class="fw-bold text-dark">{{ sample_size }} Days</span>
-            </div>
-            <div>
-                <small class="text-muted d-block">Mean Rate</small>
-                <span class="fw-bold brand-orange">{{ mean_val }}%</span>
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            
+            <div class="card border border-secondary-subtle rounded-1 bg-white">
+                
+                <!-- Header: specific to Forward Analysis -->
+                <div class="card-header bg-white border-bottom py-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="h5 fw-bold text-black mb-0">
+                                <i class="fa-solid fa-forward text-primary me-2"></i>
+                                {{ title }} <span class="text-secondary">Distribution</span>
+                            </h1>
+                            <span class="small text-secondary font-monospace">
+                                IMPLIED FROM: USD-SOFR (1Y & 2Y)
+                            </span>
+                        </div>
+                        <span class="badge bg-primary rounded-1 fw-normal font-monospace">DERIVED DATA</span>
+                    </div>
+                </div>
+
+                <div class="card-body p-4">
+                    <div id="chartContainer" style="position: relative; height:450px; width:100%">
+                        <canvas id="histChart"></canvas>
+                    </div>
+
+                    <hr class="my-4 border-secondary opacity-25">
+                    
+                    <div class="row g-0 border border-secondary rounded-1 text-center bg-light">
+                        <div class="col-6 border-end border-secondary p-3">
+                            <span class="d-block text-secondary small text-uppercase fw-bold mb-1">Observation Count</span>
+                            <span class="h4 fw-bold text-black font-monospace mb-0">{{ sample_size }}</span>
+                        </div>
+                        <div class="col-6 p-3">
+                            <span class="d-block text-secondary small text-uppercase fw-bold mb-1">Mean Forward Rate</span>
+                            <span class="h4 fw-bold text-primary font-monospace mb-0">{{ mean_val }}%</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
 
+{% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const ctx = document.getElementById('histChart').getContext('2d');
-        const labels = {{ hist_labels|safe }};
-        const counts = {{ hist_counts|safe }};
-
+        
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: labels,
+                labels: {{ hist_labels|safe }},
                 datasets: [{
-                    label: 'Frequency (Days)',
-                    data: counts,
-                    backgroundColor: '#0057B7', // UA Blue 
-                    borderColor: '#002d5e',     // UA Navy 
+                    label: 'Frequency',
+                    data: {{ hist_counts|safe }},
+                    // Theme: Use purple for Forwards to distinguish from "Blue" Spot rates
+                    backgroundColor: 'rgba(102, 16, 242, 0.85)', 
+                    borderColor: '#6610f2',     
                     borderWidth: 1,
-                    borderRadius: 4
+                    borderRadius: 0,
+                    barPercentage: 0.6
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false } // Cleaner for single-dataset histograms
-                },
+                plugins: { legend: { display: false } },
                 scales: {
                     y: { 
                         beginAtZero: true,
-                        title: { display: true, text: 'Frequency (Days)', color: '#1a1a1a' }
+                        title: { display: true, text: 'FREQUENCY (DAYS)', font: { weight: 'bold', family: 'monospace' } }
                     },
                     x: {
-                        title: { display: true, text: 'Rate Levels (%)', color: '#1a1a1a' },
-                        ticks: { color: '#1a1a1a' }
+                        title: { display: true, text: 'IMPLIED FORWARD RATE (%)', font: { weight: 'bold', family: 'monospace' } },
+                        ticks: { font: { family: 'monospace' } }
                     }
                 }
             }

@@ -35,8 +35,9 @@ urlpatterns = [
     path('add-trade/', views.add_trade, name='add_trade'),
     path('edit-trade/<int:pk>/', views.edit_trade, name='edit_trade'),
     path('delete-trade/<int:pk>/', views.delete_trade, name='delete_trade'),
-    path('histogram/', views.forward_histogram, name='histogram'),
-    path('term-structure/', views.curve_bar_chart, name='curve_bars'),
+    path('analyser/', views.curve_analyser, name='analyser'),
+    path('term-structure/', views.forward_curve_view, name='curve_bars'),
+    path('distribution/', views.forward_rate_analysis, name='forward_rates'),
 ]
 # Custom Error Handlers
 handler404 = 'workspace.views.custom_404'

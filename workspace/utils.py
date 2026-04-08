@@ -147,3 +147,84 @@ def get_histogram_data(index_name='SOFR', tenor='1Y', bins=15):
         labels.append(f"{midpoint*100:.2f}%")
 
     return labels, counts.tolist()
+
+
+def get_forward_histogram_data(index_name='SOFR', bins=20):
+    """
+    Calculates the historical frequency distribution of the 1y1y Forward Rate.
+    Math: Fwd_1y1y = [(1 + Z2)^2 / (1 + Z1)^1] - 1
+    """
+    # 1. Fetch the raw Spot ingredients (1Y and 2Y Zero Rates)
+    # Rates are stored as decimals (0.045). If %, divide by 100.
+    qs_1y = HistoricalRate.objects.filter(index_name=index_name, tenor='1Y').values('date', 'rate')
+    qs_2y = HistoricalRate.objects.filter(index_name=index_name, tenor='2Y').values('date', 'rate')
+
+    # 2. Align Data using Pandas
+    df1 = pd.DataFrame(list(qs_1y)).set_index('date').rename(columns={'rate': 'z1'})
+    df2 = pd.DataFrame(list(qs_2y)).set_index('date').rename(columns={'rate': 'z2'})
+
+    # Only calculate for days where we have BOTH rates
+    df = df1.join(df2, how='inner')
+
+    if df.empty:
+        return [], [], 0, "0.00"
+
+    # 3. The Forward Rate Formula (Annual Compounding)
+    # Formula: f = (1 + z2)^2 / (1 + z1) - 1
+    df['fwd_1y1y'] = ( ((1 + df['z2'])**2) / (1 + df['z1']) ) - 1
+
+    # 4. Histogram Binning
+    data_points = df['fwd_1y1y'].values
+    counts, bin_edges = np.histogram(data_points, bins=bins)
+
+    # 5. Format Labels (Convert decimals back to Percent String)
+    labels = []
+    for i in range(len(counts)):
+        midpoint = (bin_edges[i] + bin_edges[i+1]) / 2
+        labels.append(f"{midpoint*100:.2f}%")
+
+    # 6. Stats
+    sample_size = len(df)
+    mean_val = f"{np.mean(data_points)*100:.2f}"
+
+    return labels, counts.tolist(), sample_size, mean_val
+
+
+def get_forward_term_structure(curve, max_years=10):
+    """
+    Calculates the 'Forward Curve': A series of 1-Year rates 
+    starting 1, 2, 3... years into the future.
+    
+    Returns: labels ['1Y1Y', '2Y1Y'...], values [4.5, 4.7...]
+    """
+    if not curve:
+        return [], []
+
+    calendar = ql.UnitedStates(ql.UnitedStates.GovernmentBond)
+    day_count = ql.Actual360()
+    ref_date = curve.referenceDate()
+    
+    labels = []
+    rates = []
+
+    # Loop: Calculate the 1-Year rate starting at year i
+    # 0y1y is Spot. We start at 1y1y (Year 1 to Year 2).
+    for i in range(0, max_years):
+        start_dist = i
+        end_dist = i + 1
+        
+        # Advance dates
+        d1 = calendar.advance(ref_date, ql.Period(start_dist, ql.Years))
+        d2 = calendar.advance(ref_date, ql.Period(end_dist, ql.Years))
+        
+        # Calculate Forward Rate
+        fwd = curve.forwardRate(
+            d1, d2, day_count, ql.Compounded, ql.Annual
+        ).rate()
+        
+        # Label: "0y1y" (Spot), "1y1y", "2y1y"
+        labels.append(f"{i}y1y") 
+        rates.append(fwd * 100) # Percent
+
+    return labels, rates
+

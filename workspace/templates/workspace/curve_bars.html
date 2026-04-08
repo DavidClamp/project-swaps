@@ -1,64 +1,113 @@
 {% extends 'base.html' %}
 
+{% block title %}Forward Term Structure{% endblock %}
+
 {% block content %}
-<div class="container py-4">
-    <!-- Line 5 Update -->
-    <div class="card shadow-sm border-0">
-        <h2 class="h5 fw-bold mb-4 border-bottom pb-2 text-dark">
-            USD SOFR <span class="brand-orange">Term Structure</span>
-        </h2>
-            <!-- Container must have an explicit height or chart is 0px -->
-        <div id="chartContainer" style="position: relative; height:450px; width:100%">
-            <canvas id="termStructureChart"></canvas>
-            <!-- 2. Fallback if JS fails -->
-            <div id="noDataMessage" class="alert alert-warning d-none">
-                <i class="fa-solid fa-triangle-exclamation me-2"></i> 
-                No market data found for the X-axis (Labels are empty).
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            
+            <!-- TERMINAL CARD -->
+            <div class="card border border-secondary-subtle rounded-1 bg-white">
+                
+                <!-- Header -->
+                <div class="card-header bg-white border-bottom py-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="h5 fw-bold text-black mb-0">
+                                <i class="fa-solid fa-layer-group text-primary me-2"></i>
+                                Forward Term Structure
+                            </h1>
+                            <span class="small text-secondary font-monospace">
+                                IMPLIED PATH OF 1-YEAR RATES (USD SOFR)
+                            </span>
+                        </div>
+                        <!-- Quick Stat -->
+                        <div class="text-end">
+                            <span class="d-block small text-secondary fw-bold">TERMINAL RATE (10Y)</span>
+                            <span class="fw-bold text-success font-monospace">{{ terminal_rate }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-4">
+                    <!-- Chart Container -->
+                    <div style="position: relative; height:450px; width:100%">
+                        <canvas id="fwdCurveChart"></canvas>
+                    </div>
+                    
+                    <!-- Insight Module -->
+                    <hr class="my-4 border-secondary opacity-25">
+                    <div class="alert alert-light border border-secondary rounded-0 mb-0 d-flex">
+                        <i class="fa-solid fa-lightbulb text-warning me-3 mt-1"></i>
+                        <div>
+                            <h6 class="fw-bold text-black mb-1">What is this chart?</h6>
+                            <p class="small text-secondary mb-0">
+                                This is the market's consensus prediction. The first bar (0y1y) is the rate <strong>today</strong>. 
+                                The subsequent bars are where the market is betting the 1-Year rate will be in the future.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
 
-<!-- 3. CDN for Chart.js -->
+{% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // 1. Map variables from Django (Note the new names: labels and rates)
-        const labels = {{ labels|safe }};
-        const rates = {{ rates|safe }};
-        
-        // 2. Debug check: Press F12 in your browser to see if this prints
-        console.log("Tenors:", labels);
-        console.log("Rates:", rates);
-
-        const ctx = document.getElementById('termStructureChart').getContext('2d');
+    document.addEventListener("DOMContentLoaded", function () {
+        const ctx = document.getElementById('fwdCurveChart').getContext('2d');
         
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: labels,
+                labels: {{ labels|safe }},
                 datasets: [{
-                    label: 'Zero Rate (%)',
-                    data: rates,
-                    backgroundColor: '#0057B7', // UA Blue 
-                    borderColor: '#002d5e',     // UA Navy 
+                    label: 'Implied Forward Rate',
+                    data: {{ rates|safe }},
+                    backgroundColor: '#198754', 
+                    borderColor: '#146c43',     
                     borderWidth: 1,
-                    borderRadius: 4
+                    barPercentage: 0.5,
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                plugins: { 
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.parsed.y.toFixed(2) + '%';
+                            }
+                        }
+                    }
+                },
                 scales: {
                     y: { 
-                       beginAtZero: false, 
-                       ticks: { color: '#1a1a1a', font: { weight: 'bold' } }, //  Black
-                       title: { display: true, text: 'Interest Rate (%)', color: '#002d5e' } 
+                        beginAtZero: false,
+                        grid: { color: '#e9ecef' },
+                        ticks: { 
+                            font: { family: 'monospace' },
+                            callback: function(value) { return value.toFixed(1) + '%'; }
+                        }
                     },
-                    x: { 
-                       ticks: { color: '#1a1a1a', font: { weight: 'bold' } }, //  Black
-                       title: { display: true, text: 'Tenors (Years)', color: '#002d5e' } 
+                    x: {
+                        grid: { display: false },
+                        ticks: { 
+                            font: { weight: 'bold', family: 'monospace' } 
+                        },
+                        title: {
+                            display: true,
+                            text: 'START YEAR (Delay)',
+                            font: { size: 11, weight: 'bold' }
+                        }
                     }
                 }
             }

@@ -7,7 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.management import call_command
 from .models import Trade, HistoricalRate
 from .data_handler import import_bluegamma_data
-from .utils import get_sofr_curve, calculate_trade_npv, get_histogram_data
+from .utils import get_sofr_curve, calculate_trade_npv, 
+    get_histogram_data, get_forward_histogram_data, get_forward_term_structure
 from .forms import TradeForm
 
 
@@ -266,3 +267,45 @@ def custom_404(request, exception):
 def custom_500(request):
     """Render the branded 500 error page"""
     return render(request, 'workspace/500.html', status=500)
+
+@login_required
+def forward_rate_analysis(request):
+    # 1. Get forward rates
+    labels, counts, size, mean = get_forward_histogram_data(index_name='SOFR')
+
+    # 2. Prepare Context for the Template
+    context = {
+        # Data for Chart.js
+        'hist_labels': labels,
+        'hist_counts': counts,
+        
+        # Statistics for the "Grid"
+        'sample_size': size,
+        'mean_val': mean,
+        
+        # Titles
+        'title': '1Y Forward Rate (1y1y)',
+        'sub_title': 'Implied 1Y Rate, starting 1 Year from today'
+    }
+
+    # 3. Render the "Purple" Template
+    return render(request, 'workspace/histogram.html', context)
+
+def forward_curve_view(request):
+    # 1. Get Today's Spot Curve
+    # (In production, get the latest date from DB)
+    today = date.today() 
+    curve = get_sofr_curve(today)
+    
+    # 2. Calculate the Term Structure of Forwards
+    labels, rates = get_forward_term_structure(curve, max_years=10)
+    
+    context = {
+        'labels': labels,
+        'rates': rates,
+        # Dynamic Header Data
+        'current_1y': f"{rates[0]:.2f}%", # Spot Rate
+        'terminal_rate': f"{rates[-1]:.2f}%" # The rate in 10 years
+    }
+    
+    return render(request, 'workspace/curve_bars.html', context)
