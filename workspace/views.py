@@ -24,33 +24,62 @@ from .utils import (
 
 @login_required
 def curve_analyser(request):
-    """Generates a mathematically bootstrapped Zero Curve for Chart.js"""
+    """
+    Tool 1: The SPOT CURVE (Line Chart).
+    Visualise the 'Basis' between Market Par Rates (Input) and Zero Rates (Output).
+    """
     try:
-        latest_date = HistoricalRate.objects.latest('date').date
-        # 1. Get the Math Engine
-        curve = get_sofr_curve(latest_date)
+        latest_entry = HistoricalRate.objects.filter(index_name='SOFR').order_by('-date').first()
+        if not latest_entry:
+            messages.warning(request, "No market data found. Please refresh.")
+            return render(request, 'workspace/analyser.html', {'tenors': [], 'rates': []})
+
+        # 1. Maths (QuantLib)
+        curve = get_sofr_curve(latest_entry.date)
         curve.enableExtrapolation()
 
-        # 2. Create smooth plot points (1Y, 2Y, 3Y, 5Y, 7Y, 10Y, 20Y, 30Y)
+        # 2. Define Tenors to Plot
         plot_tenors = ["1Y", "2Y", "3Y", "5Y", "7Y", "10Y", "20Y", "30Y"]
-        plot_rates = []
+        
+        # 3. Build the Datasets
+        zero_rates = []
+        par_rates = [] 
+        
         for t in plot_tenors:
-            # Convert '5Y' string to numeric years for QuantLib
             years = float(t.replace('Y', ''))
-            # Get the bootstrapped Zero Rate (%) at that exact point
+            
+            # A. Calculate Zero Rate (The "Pure" Spot Rate)
             z_rate = curve.zeroRate(years, ql.Continuous).rate() * 100
-            plot_rates.append(round(z_rate, 4))
+            zero_rates.append(round(z_rate, 4))
+            
+            # B. Market Par Rate (The "Raw" Swap Rate)
+            # Fetch the actual tradeable rate from the DB to compare
+            try:
+                # Note: Ensure your DB stores rates as decimals (0.045). Mult by 100 for display.
+                market_obj = HistoricalRate.objects.filter(
+                    date=latest_entry.date, 
+                    tenor=t, 
+                    index_name='SOFR'
+                ).first()
+                
+                if market_obj:
+                    par_rates.append(round(float(market_obj.rate) * 100, 4))
+                else:
+                    par_rates.append(None) 
+            except Exception:
+                par_rates.append(None)
 
         context = {
             'tenors': json.dumps(plot_tenors),
-            'rates': json.dumps(plot_rates),
-            'latest_date': latest_date,
+            'zero_rates': json.dumps(zero_rates),
+            'par_rates': json.dumps(par_rates),
+            'latest_date': latest_entry.date,
         }
-    except HistoricalRate.DoesNotExist:
-        messages.warning(request, "No market data found. Please refresh BlueGamma data.")
-        context = {'tenors': [], 'rates': [], 'latest_date': 'N/A'}
+        return render(request, 'workspace/analyser.html', context)
 
-    return render(request, 'workspace/analyser.html', context)
+    except Exception as e:
+        messages.error(request, f"Error generating curve: {e}")
+        return redirect('dashboard')
 
 
 @login_required

@@ -92,7 +92,6 @@ def calculate_trade_npv(trade_id, curve):
     maturity_date = effective_date + tenor
 
     
-
     # 4. Generate Payment Schedules 
     fixed_schedule = ql.Schedule(
         effective_date,      
