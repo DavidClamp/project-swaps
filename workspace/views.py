@@ -301,21 +301,47 @@ def forward_rate_analysis(request):
     # 3. Render the "Purple" Template
     return render(request, 'workspace/histogram.html', context)
 
+@login_required
 def forward_curve_view(request):
-    # 1. Get Today's Spot Curve
-    # (In production, get the latest date from DB)
-    today = date.today() 
-    curve = get_sofr_curve(today)
-    
-    # 2. Calculate the Term Structure of Forwards
-    labels, rates = get_forward_term_structure(curve, max_years=10)
-    
-    context = {
-        'labels': labels,
-        'rates': rates,
-        # Dynamic Header Data
-        'current_1y': f"{rates[0]:.2f}%", # Spot Rate
-        'terminal_rate': f"{rates[-1]:.2f}%" # The rate in 10 years
-    }
-    
-    return render(request, 'workspace/curve_bars.html', context)
+    """
+    Tool 2: FORWARD TERM STRUCTURE (Bar Chart).
+    URL: /term-structure/ (name='curve_bars')
+    """
+    try:
+        # 1. Build Today's Curve
+        # Assume the latest date in the DB is the "Analysis Date"
+        today_rate = HistoricalRate.objects.filter(index_name='SOFR').order_by('-date').first()
+        
+        if not today_rate:
+            messages.warning(request, "No market data found. Please run 'Refresh Market Data'.")
+            return redirect('dashboard')
+            
+        curve = get_sofr_curve(today_rate.date)
+        
+        # 2. Calculate Forward Path
+        # If curve is None (build failed), returns [], []
+        labels, rates = get_forward_term_structure(curve, max_years=10)
+        
+        # --- SAFETY CHECK START ---
+        # If the curve failed, rates will be empty. 
+        if rates:
+            current_val = f"{rates[0]:.2f}%"
+            terminal_val = f"{rates[-1]:.2f}%"
+        else:
+            current_val = "0.00%"
+            terminal_val = "0.00%"
+            messages.warning(request, "Insufficient data to bootstrap the forward curve.")
+        # --- SAFETY CHECK END ---
+
+        context = {
+            'labels': json.dumps(labels),
+            'rates': json.dumps(rates),
+            'current_1y': current_val,
+            'terminal_rate': terminal_val
+        }
+        return render(request, 'workspace/curve_bars.html', context)
+        
+    except Exception as e:
+        # Catch any other math errors (e.g., QuantLib interpolation failure)
+        messages.error(request, f"Calculation Error: {e}")
+        return redirect('dashboard')
