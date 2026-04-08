@@ -1,62 +1,67 @@
 {% extends 'base.html' %}
+{% load humanize %} 
+
 {% block title %}Dashboard | IRSQuant{% endblock %}
+
 {% block content %}
 <div class="container-fluid px-4 py-4">
-  <!-- Header Section -->
-  <div
-    class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3"
-  >
+  
+  <!-- 1. Header Section -->
+  <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
     <div>
       <h1 class="h3 mb-0 fw-bold text-dark">
         Workspace <span class="text-dark">Dashboard</span>
       </h1>
       <p class="text-dark mb-0 small">
-        Operational Overview for
-        <span>{{ latest_date|default:"Current" }}</span>
+        Operational Overview for <span>{{ latest_date|default:"Current" }}</span>
       </p>
     </div>
     <div>
-      <a href="{% url 'blotter' %}" class="btn btn-sm btn-ua-gold shadow-sm"
-        ><i class="fa-solid fa-list-ul me-1"></i> View Blotter</a
-      >
-      <a href="{% url 'analyser' %}" class="btn btn-sm btn-ua-gold shadow-sm"
-        ><i class="fa-solid fa-bezier-curve me-1"></i> Open Analyser</a
-      >
+      <a href="{% url 'blotter' %}" class="btn btn-sm btn-ua-gold shadow-sm fw-bold text-dark">
+        <i class="fa-solid fa-list-ul me-1"></i> View Blotter
+      </a>
+      <a href="{% url 'analyser' %}" class="btn btn-sm btn-ua-gold shadow-sm fw-bold text-dark">
+        <i class="fa-solid fa-bezier-curve me-1"></i> Open Analyser
+      </a>
     </div>
   </div>
-ua
-  <!-- KPI Row -->
+
+  <!-- 2. KPI Row -->
+  
   <div class="row g-3 mb-4">
     {% for label, icon, value, color_class in kpi_data %}
     <div class="col-md-4">
-      <div class="card shadow-sm border-0 h-100 p-3 card-kpi-ua">
-        <div class="d-flex align-items-center">
-          <!-- Replaced inline style with clean class -->
-          <div class="kpi-icon-circle me-3">
-            <i class="fa-solid {{ icon }} fa-xl"></i>
+      <div class="card shadow-sm border-0 h-100 p-4 card-kpi-ua">
+        <div class="d-flex flex-column justify-content-center h-100">
+          
+          <!-- LABEL -->
+          <h2 class="text-secondary text-uppercase fw-bold mb-2 small" style="letter-spacing: 1px;">
+            {{ label }}
+          </h2>
+          
+          <!-- VALUE -->
+          <div class="display-6 fw-bold {{ color_class }}">
+              {{ value }}
           </div>
-          <div>
-            <h2 class=" text-dark mb-1 text-uppercase fw-bold h6">
-              {{ label }}
-            </h2>
-            <div class="h3 mb-0 fw-bold {{ color_class }}">{{ value }}</div>
-          </div>
+
         </div>
       </div>
     </div>
     {% endfor %}
-</div>
+  </div>
 
-  <!-- Main Content Row -->
 
+  <!-- 3. Main Content Row -->
   <div class="row">
    
-    <!-- Strategy Table -->
+    <!-- Active Strategies Table -->
     <div class="col-lg-8">
       <div class="card shadow-sm border-0 mb-4 overflow-hidden">
+        
+        <!-- Dark Header Strip -->
         <div class="card-header text-white py-3 card-access-dark">
             <h2 class="mb-0 h6 fw-bold">
-                <i class="fa-solid fa-layer-group me-2 text-ua-gold" ></i>
+                <i class="fa-solid fa-layer-group me-2 text-warning"></i>
                 Active Strategies
             </h2>
         </div>
@@ -64,35 +69,38 @@ ua
         <div class="table-responsive">
           <table class="table table-hover align-middle mb-0">
             <thead class="table-light">
-              <tr class="small text-uppercase">
-                <th>Group ID</th>
-                <th>Strategy</th>
-                <th class="text-center">Legs</th>
-                <th class="text-end">Net NPV (USD)</th>
+              <tr class="small text-uppercase text-secondary">
+                <th class="ps-4 py-3">Group ID</th>
+                <th class="py-3">Strategy</th>
+                <th class="py-3 text-center">Legs</th>
+                <th class="py-3 text-end pe-4">Net NPV (USD)</th>
               </tr>
             </thead>
             <tbody>
               {% for gid, data in strategies.items %}
-              <tr>
-                <td>
-                  <span class="badge bg-light text-dark border fw-bold"
-                    >{{ gid }}</span
-                  >
+              <tr class="border-bottom border-light">
+                <td class="ps-4">
+                  <span class="badge bg-light text-dark border fw-bold font-monospace">
+                    {{ gid }}
+                  </span>
                 </td>
-                <td>{{ data.strategy }}</td>
-                <td class="text-center">{{ data.count }}</td>
-                <td
-                  class="text-end fw-bold {% if data.npv < 0 %}text-pnl-negative{% else %}text-pnl-positive{% endif %}">
-                  ${{ data.npv|floatformat:2 }}
+                <td class="fw-bold text-dark">{{ data.strategy }}</td>
+                <td class="text-center">
+                    <span class="badge bg-secondary bg-opacity-10 text-dark border border-secondary-subtle">
+                        {{ data.count }}
+                    </span>
+                </td>
+                <td class="text-end pe-4 fw-bold font-monospace {% if data.npv < 0 %}text-danger{% else %}text-success{% endif %}">
+                  ${{ data.npv|floatformat:0|intcomma }}
                 </td>
               </tr>
               {% empty %}
               <tr>
-                <td
-                  colspan="4"
-                  class="text-center py-5 small fst-italic"
-                >
-                  No active strategies.
+                <td colspan="4" class="text-center py-5">
+                  <div class="py-3">
+                      <i class="fa-solid fa-layer-group fa-3x text-secondary mb-3"></i>
+                      <p class="fw-bold text-dark mb-0">No active strategies.</p>
+                  </div>
                 </td>
               </tr>
               {% endfor %}
@@ -102,36 +110,46 @@ ua
       </div>
     </div>
 
-    <!-- Subscription Card:  -->
-    <!-- Add this col-lg-4 wrapper back in -->
+    <!-- 4. Subscription Card (RESTYLED: Compact & Clear) -->
     <div class="col-lg-4">
+      <!-- Removed h-100 so it fits content naturally -->
       <div class="card shadow-sm border-0 card-access-dark p-4">
-        <div
-          class="d-flex justify-content-between align-items-center mb-3 border-bottom border-secondary pb-2">
-          <!-- Force text-white to fix the contrast againstNavy -->
+        
+        <div class="d-flex justify-content-between align-items-center mb-3 border-bottom border-secondary pb-2">
           <h2 class="fw-bold mb-0 h5 text-white"> 
               Account Access
           </h2>
           {% if user.profile.is_subscriber %}
-          <small class="brand-orange fw-bold">
+          <small class="text-warning fw-bold">
             <i class="fa-solid fa-crown me-1"></i>PRO
           </small>
           {% endif %}
         </div>
 
         {% if user.profile.is_subscriber %}
-        <p class="small text-white mb-0">
-          Current Member: Unlimited **QuantLib** access enabled.
-        </p>
+        <div class="text-center py-3">
+            <i class="fa-solid fa-check-circle fa-3x text-success mb-3"></i>
+            <p class="text-white fw-bold mb-1">Unlimited Access</p>
+            <p class="small text-white mb-0">QuantLib Engine Enabled</p>
+        </div>
         {% else %}
-        <span class="badge badge-pay mb-3 px-2">Basic Tier</span>
-        <a href="{% url 'subscription' %}" class="btn btn-sm btn-ua-gold w-100">
-          <i class="fa-solid fa-gem me-1"></i> Upgrade
+        <div class="mb-4">
+            <!-- BADGE FIX: White Pill for Max Contrast -->
+            <span class="badge bg-white text-dark fw-bold rounded-pill fs-6 mb-2 px-3 shadow-sm">
+                Basic Tier
+            </span>
+            <!-- TEXT FIX: Solid White (No opacity) -->
+            <p class="text-white mt-2 mb-0" style="line-height: 1.4;">
+              Upgrade your account to unlock multi-leg strategies and real-time pricing capabilities.
+            </p>
+        </div>
+        <a href="{% url 'subscription' %}" class="btn btn-ua-gold w-100 fw-bold text-dark shadow-sm py-2">
+          <i class="fa-solid fa-gem me-2"></i> Upgrade to Pro
         </a>
         {% endif %}
       </div>
     </div>
-    <!-- Close col-lg-4 -->
+
   </div>
 </div>
 {% endblock %}
