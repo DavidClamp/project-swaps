@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %} 
 
 {% block title %}Trade Blotter{% endblock %}
 
@@ -25,7 +26,6 @@
                 <table class="table table-hover align-middle mb-0">
                     <thead class="bg-light border-bottom border-secondary">
                         <tr>
-                            <!-- Headers: Uppercase & Bold for legibility -->
                             <th class="ps-4 py-3 text-secondary text-uppercase small fw-bold">Trade ID</th>
                             <th class="py-3 text-secondary text-uppercase small fw-bold">Strategy</th>
                             <th class="py-3 text-secondary text-uppercase small fw-bold">Side</th>
@@ -40,14 +40,13 @@
                         {% for trade in trades %}
                         <tr class="border-bottom border-light">
                             
-                            <!-- 1. TRADE ID (High Contrast) -->
+                            <!-- 1. TRADE ID -->
                             <td class="ps-4">
                                 <div class="d-flex align-items-center">
                                     <div class="icon-square bg-light text-primary rounded me-2 border">
                                         <i class="fa-solid fa-file-contract"></i>
                                     </div>
                                     <div>
-                                        <!-- CHANGED: text-primary + fw-bold -->
                                         <a href="{% url 'edit_trade' trade.pk %}" class="text-decoration-none text-primary fw-bold font-monospace">
                                             {{ trade.trade_id }}
                                         </a>
@@ -56,15 +55,14 @@
                                 </div>
                             </td>
 
-                            <!-- 2. STRATEGY (Darker) -->
+                            <!-- 2. STRATEGY -->
                             <td>
-                                <!-- CHANGED: text-dark fw-bold -->
                                 <span class="badge bg-light text-dark border border-secondary fw-bold font-monospace">
                                     {{ trade.get_strategy_display }}
                                 </span>
                             </td>
 
-                            <!-- 3. SIDE (Conditional Color) -->
+                            <!-- 3. SIDE -->
                             <td>
                                 {% if trade.side == 'PAY' %}
                                     <span class="text-danger fw-bold font-monospace">
@@ -77,30 +75,38 @@
                                 {% endif %}
                             </td>
 
-                            <!-- Structure -->
+                            <!-- 4. STRUCTURE -->
                             <td>
                                 <span class="fw-bold text-dark">{{ trade.ticker }}</span>
                                 <span class="text-muted small ms-1">({{ trade.tenor_years }}Y)</span>
                             </td>
 
-                            <!-- Financials (Monospace aligned right) -->
+                            <!-- 5. NOTIONAL (Fixed with intcomma) -->
                             <td class="text-end font-monospace fw-bold text-dark">
-                                ${{ trade.notional|floatform:0 }}
+                                ${{ trade.notional|intcomma }}
                             </td>
+
+                            <!-- 6. RATE -->
                             <td class="text-end font-monospace fw-bold text-dark">
                                 {{ trade.fixed_rate }}%
                             </td>
                             
-                            <!-- NPV (Green/Red logic) -->
+                            <!-- 7. NPV (Fixed Logic) -->
                             <td class="text-end font-monospace fw-bold">
                                 {% if trade.last_npv >= 0 %}
-                                    <span class="text-success">+${{ trade.last_npv|floatform:0 }}</span>
+                                    <!-- Positive: Green -->
+                                    <span class="text-success">
+                                        +${{ trade.last_npv|floatform:0|intcomma }}
+                                    </span>
                                 {% else %}
-                                    <span class="text-danger">-${{ trade.last_npv|floatform:0|slice:"1:" }}</span>
+                                    <!-- Negative: Red (Slice off the minus sign from intcomma output) -->
+                                    <span class="text-danger">
+                                        -${{ trade.last_npv|floatform:0|intcomma|slice:"1:" }}
+                                    </span>
                                 {% endif %}
                             </td>
 
-                            <!-- Actions -->
+                            <!-- 8. ACTIONS -->
                             <td class="pe-4 text-end">
                                 <div class="dropdown">
                                     <button class="btn btn-sm btn-light border" type="button" data-bs-toggle="dropdown">
