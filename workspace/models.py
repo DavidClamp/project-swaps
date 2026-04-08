@@ -45,6 +45,11 @@ class Trade(models.Model):
 
     ticker = models.CharField(max_length=20)
     notional = models.DecimalField(max_digits=20, decimal_places=2, validators=[MinValueValidator(0)])
+    forward_start = models.FloatField(
+        default=0.0,
+        blank=True,  # Allows form to be submitted even if empty
+        verbose_name="Start Delay (Years)"
+    )
     tenor_years = models.PositiveIntegerField()
     fixed_rate = models.FloatField()
     side = models.CharField(max_length=3, choices=SIDE_CHOICES)
