@@ -60,18 +60,25 @@
                             </td>
 
                             <!-- 2. Strategy -->
-                            <td>
-                                <div class="d-flex flex-column align-items-start">
-                                    <span class="badge bg-light text-dark border border-secondary-subtle fw-bold font-monospace mb-1">
-                                        {{ trade.get_strategy_display }}
+                            <!-- 2. Strategy Column -->
+                        <td>
+                            <div class="d-flex flex-column align-items-start">
+        
+                                <!-- Strategy: Solid Black Badge-->
+                                <span class="badge bg-dark text-white border border-dark fw-bold font-monospace mb-1">
+                                    {{ trade.get_strategy_display }}
+                                </span>
+        
+                                {% if trade.group_id %}
+                                    <!-- Group ID: White Badge, Black Text, Solid Border -->
+                                    <span class="badge bg-light text-secondary border border-secondary-subtle fw-bold font-monospace" style="font-size: 0.7rem;">
+                                        <i class="fa-solid fa-link me-1"></i>{{ trade.group_id }}
                                     </span>
-                                    {% if trade.group_id %}
-                                        <span class="badge bg-info bg-opacity-10 text-info border border-info-subtle fw-normal font-monospace">
-                                            <i class="fa-solid fa-link me-1"></i>{{ trade.group_id }}
-                                        </span>
-                                    {% endif %}
-                                </div>
-                            </td>
+                                {% endif %}
+        
+                            </div>
+                        </td>
+
 
                             <!-- 3. Side (Solid Blocks) -->
                             <td>
@@ -109,9 +116,9 @@
                                 {{ trade.fmt_notional }}
                             </td>
 
-                            <!-- 7. Rate -->
+                            <!-- 7. Rate to 4 dp-->
                             <td class="text-end font-monospace fw-bold text-dark" style="font-size: 0.9rem;">
-                                {{ trade.fmt_rate }}%
+                                {{ trade.fmt_rate|floatformat:4 }}%
                             </td>
                             
                             <!-- 8. NPV -->
