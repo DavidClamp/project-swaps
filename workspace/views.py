@@ -191,6 +191,8 @@ def dashboard(request):
     """
     trades = Trade.objects.filter(user=request.user)
     strategies = {}
+    
+    # 1. Grouping Logic
     for t in trades:
         gid = t.group_id if t.group_id else f"OUTRIGHT-{t.trade_id}"
         if gid not in strategies:
@@ -200,24 +202,32 @@ def dashboard(request):
                 'strategy': t.strategy,
                 'ticker': t.ticker
             }
+        # Add trade NPV (handle None as 0.0)
         strategies[gid]['npv'] += (t.last_npv or 0.0)
         strategies[gid]['count'] += 1
 
-        # 1. Calculate Totals
+    # 2. Calculate Global Totals
     total_npv = sum(t.last_npv for t in trades if t.last_npv) or 0.0
     trade_count = trades.count()
-    # 2. Get latest rate date safely
+    
+    # 3. Get latest rate date safely
     latest_rate = HistoricalRate.objects.filter(index_name='SOFR').order_by('-date').first()
     latest_date = latest_rate.date if latest_rate else "Data Pending"
 
-    # 3. Build KPI List
+    # 4. Build KPI List (FIXED: Using 'text-dark')
     kpi_data = [
-        ('Portfolio NPV', 'fa-scale-balanced', f"${total_npv:,.2f}",
-         'text-pnl-positive' if total_npv >= 0 else 'text-pnl-negative'),
-        ('Active Trades', 'fa-file-invoice-dollar', trade_count, ''),
-        ('Index Focus', 'fa-satellite-dish', 'USD SOFR', ''),
+        # KPI 1: Portfolio NPV (Red/Green)
+        ('Portfolio NPV', 'fa-scale-balanced', f"${total_npv:,.0f}", 
+         'text-success' if total_npv >= 0 else 'text-danger'),
+
+        # KPI 2: Active Trades (Fixed: text-dark is safer than text-black)
+        ('Active Trades', 'fa-file-invoice-dollar', trade_count, 'text-dark'),
+
+        # KPI 3: Index Focus (Fixed: text-dark is safer than text-black)
+        ('Index Focus', 'fa-satellite-dish', 'USD SOFR', 'text-dark'),
     ]
-    # 4. Final Context
+
+    # 5. Final Context
     context = {
         'strategies': strategies,
         'total_npv': total_npv,
