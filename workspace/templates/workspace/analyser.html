@@ -3,154 +3,154 @@
 {% block title %}Curve Analyser{% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-    <div class="row">
+    <div class="container-fluid">
+        <div class="row">
         <!-- Main Chart Area -->
-        <div class="col-lg-9">
-            <div class="card shadow-sm border-0 p-4 mb-4 bg-white">
+            <div class="col-lg-9">
+                <div class="card shadow-sm border-0 p-4 mb-4 bg-white">
                 <!-- Header with Legend -->
-                <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-4">
-                    <h2 class="h5 fw-bold text-dark mb-0">
-                        USD SOFR <span class="text-primary">Curve Analysis</span>
-                    </h2>
-                    <span class="badge bg-light text-dark border">
-                        <i class="fa-regular fa-calendar me-1"></i> {{ latest_date }}
-                    </span>
-                </div>
-                
-                <div style="position: relative; height: 450px; width: 100%;">
-                    <canvas id="yieldCurve"></canvas>
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-4">
+                        <h2 class="h5 fw-bold text-dark mb-0">
+                            USD SOFR <span class="text-primary">Curve Analysis</span>
+                        </h2>
+                        <span class="badge bg-light text-dark border">
+                            <i class="fa-regular fa-calendar me-1"></i> {{ latest_date }}
+                        </span>
+                    </div>
+
+                    <div style="position: relative; height: 450px; width: 100%;">
+                        <canvas id="yieldCurve"></canvas>
+                    </div>
                 </div>
             </div>
-        </div>
 
         <!-- Sidebar / Controls -->
-        <div class="col-lg-3">
-            <div class="card p-4 shadow-sm border-0 bg-white text-dark">
-                <h2 class="h5 fw-bold mb-3 text-dark">Analysis Controls</h2>  
-                
-                <form action="{% url 'refresh_data' %}" method="POST">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-primary w-100 shadow-sm fw-bold py-2">
-                       <i class="fa-solid fa-arrows-rotate me-2"></i>Refresh Market Data
-                    </button>
-                </form>
+            <div class="col-lg-3">
+                <div class="card p-4 shadow-sm border-0 bg-white text-dark">
+                    <h2 class="h5 fw-bold mb-3 text-dark">Analysis Controls</h2>
 
-                <hr class="my-4 border-secondary opacity-25">
+                    <form action="{% url 'refresh_data' %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary w-100 shadow-sm fw-bold py-2">
+                            <i class="fa-solid fa-arrows-rotate me-2"></i>Refresh Market Data
+                        </button>
+                    </form>
+
+                    <hr class="my-4 border-secondary opacity-25">
 
                 <!-- Legend / Explanation -->
-                <div class="small">
-                    <div class="d-flex align-items-center mb-2">
-                        <span style="display:inline-block; width:12px; height:12px; background-color:#0d6efd; margin-right:8px;"></span>
-                        <span class="fw-bold text-dark">Zero Rate (Spot)</span>
-                    </div>
-                    <p class="text-dark mb-3" style="font-size: 0.8rem;">
-                        The theoretically derived yield for a zero-coupon bond. 
-                    </p>
+                    <div class="small">
+                        <div class="d-flex align-items-center mb-2">
+                            <span style="display:inline-block; width:12px; height:12px; background-color:#0d6efd; margin-right:8px;"></span>
+                            <span class="fw-bold text-dark">Zero Rate (Spot)</span>
+                        </div>
+                        <p class="text-dark mb-3" style="font-size: 0.8rem;">
+                            The theoretically derived yield for a zero-coupon bond.
+                        </p>
 
-                    <div class="d-flex align-items-center mb-2">
-                        <span style="display:inline-block; width:12px; height:12px; background-color:#6c757d; margin-right:8px; border-radius: 50%;"></span>
-                        <span class="fw-bold text-secondary">Market Par Rate</span>
+                        <div class="d-flex align-items-center mb-2">
+                            <span style="display:inline-block; width:12px; height:12px; background-color:#6c757d; margin-right:8px; border-radius: 50%;"></span>
+                            <span class="fw-bold text-secondary">Market Par Rate</span>
+                        </div>
+                        <p class="text-dark mb-0" style="font-size: 0.8rem;">
+                            The actual Swaps rates traded in the market.<br>
+                            Gaps in curve indicate missing market data for specific tenors.
+                        </p>
                     </div>
-                    <p class="text-dark mb-0" style="font-size: 0.8rem;">
-                        The actual Swaps rates traded in the market.<br>
-                        Gaps in curve indicate missing market data for specific tenors.
-                    </p>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const canvas = document.getElementById('yieldCurve');
-        if (!canvas) return;
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const canvas = document.getElementById('yieldCurve');
+            if (!canvas) return;
 
         // Data Injection
-        const labels = {{ tenors|safe }};
-        const zeroData = {{ zero_rates|safe }};
-        const parData = {{ par_rates|safe }};
+            const labels = {{ tenors|safe }};
+            const zeroData = {{ zero_rates|safe }};
+            const parData = {{ par_rates|safe }};
 
-        new Chart(canvas, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: 'Zero Rate (Spot)',
-                        data: zeroData,
-                        borderColor: '#0d6efd', // Bootstrap Primary Blue
-                        backgroundColor: 'rgba(13, 110, 253, 0.05)', 
-                        fill: true,
-                        borderWidth: 3,
-                        tension: 0.4,
-                        pointRadius: 0, // Hide points for cleaner curve
-                        pointHoverRadius: 6
-                    },
-                    {
-                        label: 'Market Par Rate',
-                        data: parData,
-                        borderColor: '#6c757d', // Bootstrap Grey
-                        backgroundColor: 'transparent',
-                        borderWidth: 2,
-                        borderDash: [5, 5], // Dashed Line
-                        tension: 0.4,
-                        pointRadius: 4,
-                        pointBackgroundColor: '#fff',
-                        pointBorderColor: '#6c757d',
-                        pointHoverRadius: 6
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                interaction: {
-                    mode: 'index',
-                    intersect: false,
+            new Chart(canvas, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Zero Rate (Spot)',
+                            data: zeroData,
+                            borderColor: '#0d6efd', // Bootstrap Primary Blue
+                            backgroundColor: 'rgba(13, 110, 253, 0.05)',
+                            fill: true,
+                            borderWidth: 3,
+                            tension: 0.4,
+                            pointRadius: 0, // Hide points for cleaner curve
+                            pointHoverRadius: 6
+                        },
+                        {
+                            label: 'Market Par Rate',
+                            data: parData,
+                            borderColor: '#6c757d', // Bootstrap Grey
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            borderDash: [5, 5], // Dashed Line
+                            tension: 0.4,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#fff',
+                            pointBorderColor: '#6c757d',
+                            pointHoverRadius: 6
+                        }
+                    ]
                 },
-                plugins: {
-                    legend: { display: false }, // Custom legend in sidebar
-                    tooltip: {
-                        backgroundColor: 'rgba(33, 37, 41, 0.95)',
-                        titleColor: '#fff',
-                        bodyColor: '#fff',
-                        padding: 10,
-                        callbacks: {
-                            label: function(context) {
-                                return context.dataset.label + ': ' + context.parsed.y.toFixed(4) + '%'; 
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: { display: false }, // Custom legend in sidebar
+                        tooltip: {
+                            backgroundColor: 'rgba(33, 37, 41, 0.95)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            padding: 10,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.y.toFixed(4) + '%';
+                                }
                             }
                         }
-                    }
-                },
-                scales: {
-                    x: {
-                        grid: { color: '#f0f0f0' },
-                        ticks: { 
-                            color: '#495057', 
-                            font: { weight: '500', family: 'monospace' }
-                        },
-                        title: { display: true, text: 'Tenor', font: {weight:'bold'} }
                     },
-                    y: {
-                        grid: { color: '#f0f0f0' },
-                        ticks: {
-                            color: '#495057', 
-                            font: { family: 'monospace' },
-                            callback: function(value) {
-                                return value.toFixed(2) + '%'; 
-                            }
+                    scales: {
+                        x: {
+                            grid: { color: '#f0f0f0' },
+                            ticks: {
+                                color: '#495057',
+                                font: { weight: '500', family: 'monospace' }
+                            },
+                            title: { display: true, text: 'Tenor', font: {weight:'bold'} }
                         },
-                        title: { display: true, text: 'Rate (%)', font: {weight:'bold'} }
+                        y: {
+                            grid: { color: '#f0f0f0' },
+                            ticks: {
+                                color: '#495057',
+                                font: { family: 'monospace' },
+                                callback: function(value) {
+                                    return value.toFixed(2) + '%';
+                                }
+                            },
+                            title: { display: true, text: 'Rate (%)', font: {weight:'bold'} }
+                        }
                     }
                 }
-            }
+            });
         });
-    });
-</script>
+    </script>
 {% endblock %}

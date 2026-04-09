@@ -2,28 +2,28 @@
 {% load i18n %}
 
 {% block content %}
-<div class="container py-5 mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card shadow-lg border-0 card-access-dark p-5 text-center">
-                <h1 class="brand-orange fw-bold h3 mb-4">{% trans "Sign Out" %}</h1>
-                <p class="text-white-50 mb-4">{% trans "Are you sure you want to sign out of the terminal?" %}</p>
+    <div class="container py-5 mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card shadow-lg border-0 card-access-dark p-5 text-center">
+                    <h1 class="brand-orange fw-bold h3 mb-4">{% trans "Sign Out" %}</h1>
+                    <p class="text-white-50 mb-4">{% trans "Are you sure you want to sign out of the terminal?" %}</p>
 
-                <form method="post" action="{% url 'account_logout' %}">
-                    {% csrf_token %}
-                    {% if redirect_field_value %}
-                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-                    {% endif %}
-                    <button type="submit" class="btn brand-orange btn-outline-danger fw-bold w-100 py-2">
-                        {% trans "Confirm Sign Out" %}
-                    </button>
-                </form>
-                
-                <a href="{% url 'dashboard' %}" class="btn btn-link text-white-50 mt-3 text-decoration-none">
-                    Cancel and Return
-                </a>
+                    <form method="post" action="{% url 'account_logout' %}">
+                        {% csrf_token %}
+                        {% if redirect_field_value %}
+                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                        {% endif %}
+                        <button type="submit" class="btn brand-orange btn-outline-danger fw-bold w-100 py-2">
+                            {% trans "Confirm Sign Out" %}
+                        </button>
+                    </form>
+
+                    <a href="{% url 'dashboard' %}" class="btn btn-link text-white-50 mt-3 text-decoration-none">
+                        Cancel and Return
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

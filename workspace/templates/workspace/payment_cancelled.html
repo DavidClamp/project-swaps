@@ -4,33 +4,33 @@
 {% block title %}Payment Cancelled | IRSQuant{% endblock %}
 
 {% block content %}
-<div class="container py-5 mt-5 text-center">
+    <div class="container py-5 mt-5 text-center">
     <!-- Card: Uses Navy with UA Gold accents -->
-    <div class="card shadow-lg p-5 mx-auto card-access-dark" style="max-width: 600px;">
-        
+        <div class="card shadow-lg p-5 mx-auto card-access-dark" style="max-width: 600px;">
+
         <!-- Icon: Gold -->
-        <i class="fa-solid fa-circle-xmark text-ua-gold fa-5x mb-4"></i>
-        
+            <i class="fa-solid fa-circle-xmark text-ua-gold fa-5x mb-4"></i>
+
         <!-- Header:  -->
-        <h1 class="fw-bold text-white mb-3">Checkout <span class="text-ua-gold">Postponed</span></h1>
-        
+            <h1 class="fw-bold text-white mb-3">Checkout <span class="text-ua-gold">Postponed</span></h1>
+
         <!-- Body:  -->
-        <p class="text-white fs-5 mb-4 px-3">
-            Your transaction was not completed. No charges were made to your account. 
-            The <strong class="text-ua-gold">Pro Quant</strong> features remain locked.
-        </p>
-        
+            <p class="text-white fs-5 mb-4 px-3">
+                Your transaction was not completed. No charges were made to your account.
+                The <strong class="text-ua-gold">Pro Quant</strong> features remain locked.
+            </p>
+
         <!-- Action Row -->
-        <div class="d-grid gap-3 d-sm-flex justify-content-sm-center border-top pt-4">
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center border-top pt-4">
             <!-- Primary: -->
-            <a href="{% url 'subscription' %}" class="btn btn-ua-gold btn-lg px-4 shadow-sm fw-bold">
-                <i class="fa-solid fa-rotate-left me-2"></i>Try Again
-            </a>
+                <a href="{% url 'subscription' %}" class="btn btn-ua-gold btn-lg px-4 shadow-sm fw-bold">
+                    <i class="fa-solid fa-rotate-left me-2"></i>Try Again
+                </a>
             <!-- Secondary:  -->
-            <a href="{% url 'dashboard' %}" class="btn btn-outline-light btn-lg px-4 fw-bold">
-                Back to Dashboard
-            </a>
+                <a href="{% url 'dashboard' %}" class="btn btn-outline-light btn-lg px-4 fw-bold">
+                    Back to Dashboard
+                </a>
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}

@@ -5,43 +5,43 @@
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
 {% block content %}
-<div class="container py-5 mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-    <div class="card shadow-lg border-0 card-access-dark p-4">
-        <div class="text-center mb-4">
+    <div class="container py-5 mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card shadow-lg border-0 card-access-dark p-4">
+                    <div class="text-center mb-4">
             <!-- Swapped orange for gold for 91% Accessibility -->
-            <h1 class="text-ua-gold fw-bold h3">
-                <i class="fa-solid fa-chart-line me-2"></i>IRSQUANT
-            </h1>
+                        <h1 class="text-ua-gold fw-bold h3">
+                            <i class="fa-solid fa-chart-line me-2"></i>IRSQUANT
+                        </h1>
             <!-- Swapped white-50 for off-white for contrast -->
-            <p class="text-white small opacity-75">Enter your credentials to access the terminal.</p>
-        </div>
+                        <p class="text-white small opacity-75">Enter your credentials to access the terminal.</p>
+                    </div>
 
-        <form class="login" method="POST" action="{% url 'account_login' %}">
-            {% csrf_token %}
-            
+                    <form class="login" method="POST" action="{% url 'account_login' %}">
+                        {% csrf_token %}
+
             {# Force labels to be white via a parent wrapper #}
-            <div class="crispy-form-light">
-                {{ form|crispy }}
-            </div>
+                        <div class="crispy-form-light">
+                            {{ form|crispy }}
+                        </div>
 
-            <div class="d-grid gap-2 mt-4">
-                <button class="btn btn-ua-gold fw-bold w-100 py-2 shadow-sm" type="submit">
-                    <i class="fa-solid fa-right-to-bracket me-2"></i>{% trans "Sign In" %}
-                </button>
-            </div>
-        </form>
-                <div class="mt-4 text-center border-top border-secondary pt-3">
-                    <p class="small text-white mb-1">
-                        {% blocktranslate %}New to the terminal?{% endblocktranslate %}
-                    </p>
-                    <a href="{% url 'account_signup' %}" class="text-ua-gold fw-bold text-decoration-none">
-                        {% trans "Create a Free Account" %}
-                    </a>
+                        <div class="d-grid gap-2 mt-4">
+                            <button class="btn btn-ua-gold fw-bold w-100 py-2 shadow-sm" type="submit">
+                                <i class="fa-solid fa-right-to-bracket me-2"></i>{% trans "Sign In" %}
+                            </button>
+                        </div>
+                    </form>
+                    <div class="mt-4 text-center border-top border-secondary pt-3">
+                        <p class="small text-white mb-1">
+                            {% blocktranslate %}New to the terminal?{% endblocktranslate %}
+                        </p>
+                        <a href="{% url 'account_signup' %}" class="text-ua-gold fw-bold text-decoration-none">
+                            {% trans "Create a Free Account" %}
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

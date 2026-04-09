@@ -1,51 +1,51 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en" class="h-100">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}IRSQuant | Workspace{% endblock %}</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}IRSQuant | Workspace{% endblock %}</title>
 
-    <link rel="icon" type="image/png" href="{% static 'images/growth.png' %}">
+        <link rel="icon" type="image/png" href="{% static 'images/growth.png' %}">
 
     <!-- CSS Assets (Consolidated for Lighthouse score) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=2">
-</head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}?v=2">
+    </head>
 
-<body class="d-flex flex-column h-100 bg-light">
+    <body class="d-flex flex-column h-100 bg-light">
     <!-- Modular Navbar Extraction -->
-    {% include 'navbar.html' %}
+        {% include 'navbar.html' %}
 
     <!-- Message Alerts (Aligned with Navbar) -->
-    <div class="container-xxl mt-3 px-4">
-        {% if messages %}
-            {% for message in messages %}
-                <div id="msg" class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm border-0" role="alert">
-                    <i class="fa-solid fa-circle-check me-2"></i> {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>
+        <div class="container-xxl mt-3 px-4">
+            {% if messages %}
+                {% for message in messages %}
+                    <div id="msg" class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm border-0" role="alert">
+                        <i class="fa-solid fa-circle-check me-2"></i> {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
 
     <!-- Main Content Area -->
-    <main class="flex-shrink-0">
-        {% block content %}{% endblock %}
-    </main>
+        <main class="flex-shrink-0">
+            {% block content %}{% endblock %}
+        </main>
 
     <!-- Modular Footer Extraction -->
-    {% include 'footer.html' %}
+        {% include 'footer.html' %}
 
     <!-- Global Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        setTimeout(() => {
-            let messages = document.getElementById("msg");
-            if (messages) new bootstrap.Alert(messages).close();
-        }, 3000);
-    </script>
-    {% block extra_js %}{% endblock %}
-</body>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            setTimeout(() => {
+                let messages = document.getElementById("msg");
+                if (messages) new bootstrap.Alert(messages).close();
+            }, 3000);
+        </script>
+        {% block extra_js %}{% endblock %}
+    </body>
 </html>

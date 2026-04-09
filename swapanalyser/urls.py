@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.views.generic import TemplateView
 from django.contrib import admin
 from django.urls import path, include
@@ -21,24 +22,38 @@ from workspace import views
 from workspace import checkout_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('accounts/', include('allauth.urls')),
+    path("admin/", admin.site.urls),
+    path("accounts/", include("allauth.urls")),
     # Workspace Views
-    path('', views.dashboard, name='dashboard'),
-    path('blotter/', views.trade_blotter, name='blotter'),
-    path('analyser/', views.curve_analyser, name='analyser'),
-    path('refresh-data/', views.refresh_market_data, name='refresh_data'),
-    path('subscription/', checkout_views.subscription_plans, name='subscription'),
-    path('checkout/', checkout_views.create_checkout_session, name='create_checkout_session'),
-    path('payment-success/', checkout_views.payment_success, name='payment_success'),
-    path('payment-cancelled/', TemplateView.as_view(template_name='workspace/payment_cancelled.html'), name='payment_cancelled'),
-    path('add-trade/', views.add_trade, name='add_trade'),
-    path('edit-trade/<int:pk>/', views.edit_trade, name='edit_trade'),
-    path('delete-trade/<int:pk>/', views.delete_trade, name='delete_trade'),
-    path('analyser/', views.curve_analyser, name='analyser'),
-    path('term-structure/', views.forward_curve_view, name='curve_bars'),
-    path('distribution/', views.forward_rate_analysis, name='forward_rates'),
+    path("", views.dashboard, name="dashboard"),
+    path("blotter/", views.trade_blotter, name="blotter"),
+    path("analyser/", views.curve_analyser, name="analyser"),
+    path("refresh-data/", views.refresh_market_data, name="refresh_data"),
+    path(
+        "subscription/", checkout_views.subscription_plans, name="subscription"
+    ),
+    path(
+        "checkout/",
+        checkout_views.create_checkout_session,
+        name="create_checkout_session",
+    ),
+    path(
+        "payment-success/",
+        checkout_views.payment_success,
+        name="payment_success",
+    ),
+    path(
+        "payment-cancelled/",
+        TemplateView.as_view(template_name="workspace/payment_cancelled.html"),
+        name="payment_cancelled",
+    ),
+    path("add-trade/", views.add_trade, name="add_trade"),
+    path("edit-trade/<int:pk>/", views.edit_trade, name="edit_trade"),
+    path("delete-trade/<int:pk>/", views.delete_trade, name="delete_trade"),
+    path("analyser/", views.curve_analyser, name="analyser"),
+    path("term-structure/", views.forward_curve_view, name="curve_bars"),
+    path("distribution/", views.forward_rate_analysis, name="forward_rates"),
 ]
 # Custom Error Handlers
-handler404 = 'workspace.views.custom_404'
-handler500 = 'workspace.views.custom_500'
+handler404 = "workspace.views.custom_404"
+handler500 = "workspace.views.custom_500"

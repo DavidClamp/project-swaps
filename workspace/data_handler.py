@@ -14,12 +14,14 @@ def import_bluegamma_data(source="api"):
     # 1. Attempt LIVE API CALL
     if source == "api":
         try:
-            api_key = os.environ.get('BLUEGAMMA_API_KEY')
+            api_key = os.environ.get("BLUEGAMMA_API_KEY")
             # If no key is found, trigger the fallback immediately
             if not api_key:
                 raise ValueError("No API Key found")
             url = "https://www.bluegamma.io"
-            response = requests.get(url, headers={"X-API-Key": api_key}, timeout=5)
+            response = requests.get(
+                url, headers={"X-API-Key": api_key}, timeout=5
+            )
             response.raise_for_status()
             data = response.json()
             source_label = "Live API"
@@ -31,7 +33,9 @@ def import_bluegamma_data(source="api"):
     if source == "local":
         try:
             # Assume file is in project root
-            file_path = os.path.join(settings.BASE_DIR, 'market_data_test.json')
+            file_path = os.path.join(
+                settings.BASE_DIR, "market_data_test.json"
+            )
             with open(file_path) as f:
                 data = json.load(f)
             source_label = "Local Seed File"
@@ -42,9 +46,9 @@ def import_bluegamma_data(source="api"):
     if not data:
         return "No data to process."
 
-    df = pd.DataFrame(data['curve'])
-    val_date = data['valuation_date']
-    index = data['index']
+    df = pd.DataFrame(data["curve"])
+    val_date = data["valuation_date"]
+    index = data["index"]
 
     # 4. Prepare for Database (Bulk Create)
     rates_to_create = []
@@ -53,8 +57,8 @@ def import_bluegamma_data(source="api"):
             HistoricalRate(
                 date=val_date,
                 index_name=index,
-                tenor=row['tenor'],
-                rate=row['rate']
+                tenor=row["tenor"],
+                rate=row["rate"],
             )
         )
     # 5. Bulk Create to prevent duplicates

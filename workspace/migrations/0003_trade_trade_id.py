@@ -6,14 +6,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('workspace', '0002_profile'),
+        ("workspace", "0002_profile"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='trade',
-            name='trade_id',
-            field=models.CharField(default='TEMP-001', help_text='Custom Trade ID (e.g. TRD-001)', max_length=20, unique=True),
+            model_name="trade",
+            name="trade_id",
+            field=models.CharField(
+                default="TEMP-001",
+                help_text="Custom Trade ID (e.g. TRD-001)",
+                max_length=20,
+                unique=True,
+            ),
             preserve_default=False,
         ),
     ]

@@ -7,33 +7,42 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('workspace', '0004_trade_forward_start'),
+        ("workspace", "0004_trade_forward_start"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='trade',
-            name='fixed_rate',
+            model_name="trade",
+            name="fixed_rate",
             field=models.FloatField(default=4.0),
         ),
         migrations.AlterField(
-            model_name='trade',
-            name='notional',
-            field=models.DecimalField(decimal_places=2, default=10000000, max_digits=20, validators=[django.core.validators.MinValueValidator(0)]),
+            model_name="trade",
+            name="notional",
+            field=models.DecimalField(
+                decimal_places=2,
+                default=10000000,
+                max_digits=20,
+                validators=[django.core.validators.MinValueValidator(0)],
+            ),
         ),
         migrations.AlterField(
-            model_name='trade',
-            name='side',
-            field=models.CharField(choices=[('PAY', 'Pay Fixed'), ('REC', 'Rec Fixed')], default='PAY', max_length=3),
+            model_name="trade",
+            name="side",
+            field=models.CharField(
+                choices=[("PAY", "Pay Fixed"), ("REC", "Rec Fixed")],
+                default="PAY",
+                max_length=3,
+            ),
         ),
         migrations.AlterField(
-            model_name='trade',
-            name='tenor_years',
+            model_name="trade",
+            name="tenor_years",
             field=models.PositiveIntegerField(default=10),
         ),
         migrations.AlterField(
-            model_name='trade',
-            name='ticker',
-            field=models.CharField(default='USD-SOFR', max_length=20),
+            model_name="trade",
+            name="ticker",
+            field=models.CharField(default="USD-SOFR", max_length=20),
         ),
     ]

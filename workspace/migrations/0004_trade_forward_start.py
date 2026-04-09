@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('workspace', '0003_trade_trade_id'),
+        ("workspace", "0003_trade_trade_id"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='trade',
-            name='forward_start',
-            field=models.FloatField(blank=True, default=0.0, verbose_name='Start Delay (Years)'),
+            model_name="trade",
+            name="forward_start",
+            field=models.FloatField(
+                blank=True, default=0.0, verbose_name="Start Delay (Years)"
+            ),
         ),
     ]

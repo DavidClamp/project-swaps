@@ -4,72 +4,72 @@
 {% block title %}Subscription Plans | IRSQuant{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <div class="text-center mb-5">
-        <h1 class="display-5 fw-bold text-white">Select Your <span class="text-ua-gold">Terminal Tier</span></h1>
-        <p class="text-white-50 fs-5">Access institutional-grade SOFR analytics and portfolio re-pricing.</p>
-    </div>
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h1 class="display-5 fw-bold text-white">Select Your <span class="text-ua-gold">Terminal Tier</span></h1>
+            <p class="text-white-50 fs-5">Access institutional-grade SOFR analytics and portfolio re-pricing.</p>
+        </div>
 
-    <div class="row justify-content-center align-items-center g-4">
-        
+        <div class="row justify-content-center align-items-center g-4">
+
         <!-- Basic Tier (The "Anchor" Option) -->
         <!-- Styled as a 'Ghost' card to recede into the background -->
-        <div class="col-md-5 col-lg-4">
-            <div class="card h-100 shadow-sm bg-transparent" style="border: 1px solid #6c757d;">
-                <div class="card-body p-5 text-center">
-                    <h2 class="h4 fw-bold text-white-50">Basic</h2>
-                    <div class="display-4 fw-bold my-3 text-white">£0<span class="fs-6 text-white-50">/mo</span></div>
-                    
-                    <ul class="list-unstyled text-start my-4 text-white-50">
-                        <li class="mb-2"><i class="fa-solid fa-check text-white me-2"></i> Trade Blotter CRUD</li>
-                        <li class="mb-2"><i class="fa-solid fa-check text-white me-2"></i> Dashboard Overview</li>
+            <div class="col-md-5 col-lg-4">
+                <div class="card h-100 shadow-sm bg-transparent" style="border: 1px solid #6c757d;">
+                    <div class="card-body p-5 text-center">
+                        <h2 class="h4 fw-bold text-white-50">Basic</h2>
+                        <div class="display-4 fw-bold my-3 text-white">£0<span class="fs-6 text-white-50">/mo</span></div>
+
+                        <ul class="list-unstyled text-start my-4 text-white-50">
+                            <li class="mb-2"><i class="fa-solid fa-check text-white me-2"></i> Trade Blotter CRUD</li>
+                            <li class="mb-2"><i class="fa-solid fa-check text-white me-2"></i> Dashboard Overview</li>
                         <!-- Dimmed items to show what they are missing -->
-                        <li class="mb-2 opacity-50"><i class="fa-solid fa-xmark me-2"></i> Advanced Analyser</li>
-                        <li class="mb-2 opacity-50"><i class="fa-solid fa-xmark me-2"></i> Term Structure Charts</li>
-                    </ul>
-                    
+                            <li class="mb-2 opacity-50"><i class="fa-solid fa-xmark me-2"></i> Advanced Analyser</li>
+                            <li class="mb-2 opacity-50"><i class="fa-solid fa-xmark me-2"></i> Term Structure Charts</li>
+                        </ul>
+
                     <!-- Silver Button (Matches Logout/Secondary actions) -->
-                    <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary fw-bold w-100">
-                        Current Plan
-                    </a>
+                        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary fw-bold w-100">
+                            Current Plan
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
 
         <!-- Pro Tier (The "Hero" Option) -->
         <!-- Uses card-access-dark to match Login/Signup -->
-        <div class="col-md-5 col-lg-4">
-            <div class="card h-100 shadow-lg card-access-dark position-relative" 
-                 style="transform: scale(1.05); z-index: 2; border: 1px solid var(--ua-gold);">
-                
-                <!-- 'Most Popular' Badge -->
-                <div class="position-absolute top-0 start-50 translate-middle">
-                    <span class="badge bg-ua-gold text-ua-navy fw-bold px-3 py-2 shadow-sm">
-                        INSTITUTIONAL CHOICE
-                    </span>
-                </div>
+            <div class="col-md-5 col-lg-4">
+                <div class="card h-100 shadow-lg card-access-dark position-relative"
+                     style="transform: scale(1.05); z-index: 2; border: 1px solid var(--ua-gold);">
 
-                <div class="card-body p-5 text-center">
-                    <h2 class="h4 fw-bold text-ua-gold mt-2">Pro Quant</h2>
-                    <div class="display-4 fw-bold my-3 text-white">£29<span class="fs-6 text-white-50">/mo</span></div>
-                    
-                    <ul class="list-unstyled text-start my-4 text-white">
-                        <li class="mb-2"><i class="fa-solid fa-check text-ua-gold me-2"></i> <strong>Full Analyser</strong> access</li>
-                        <li class="mb-2"><i class="fa-solid fa-check text-ua-gold me-2"></i> Interactive Term Structure</li>
-                        <li class="mb-2"><i class="fa-solid fa-check text-ua-gold me-2"></i> 1Y Forward Distribution</li>
-                        <li class="mb-2"><i class="fa-solid fa-check text-ua-gold me-2"></i> Unlimited Re-pricing</li>
-                    </ul>
-                    
-                    <form action="{% url 'create_checkout_session' %}" method="POST">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-ua-gold btn-lg w-100 shadow fw-bold">
-                            <i class="fa-solid fa-unlock me-2"></i>Upgrade to Pro
-                        </button>
-                    </form>
+                <!-- 'Most Popular' Badge -->
+                    <div class="position-absolute top-0 start-50 translate-middle">
+                        <span class="badge bg-ua-gold text-ua-navy fw-bold px-3 py-2 shadow-sm">
+                            INSTITUTIONAL CHOICE
+                        </span>
+                    </div>
+
+                    <div class="card-body p-5 text-center">
+                        <h2 class="h4 fw-bold text-ua-gold mt-2">Pro Quant</h2>
+                        <div class="display-4 fw-bold my-3 text-white">£29<span class="fs-6 text-white-50">/mo</span></div>
+
+                        <ul class="list-unstyled text-start my-4 text-white">
+                            <li class="mb-2"><i class="fa-solid fa-check text-ua-gold me-2"></i> <strong>Full Analyser</strong> access</li>
+                            <li class="mb-2"><i class="fa-solid fa-check text-ua-gold me-2"></i> Interactive Term Structure</li>
+                            <li class="mb-2"><i class="fa-solid fa-check text-ua-gold me-2"></i> 1Y Forward Distribution</li>
+                            <li class="mb-2"><i class="fa-solid fa-check text-ua-gold me-2"></i> Unlimited Re-pricing</li>
+                        </ul>
+
+                        <form action="{% url 'create_checkout_session' %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-ua-gold btn-lg w-100 shadow fw-bold">
+                                <i class="fa-solid fa-unlock me-2"></i>Upgrade to Pro
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
-</div>
 {% endblock %}

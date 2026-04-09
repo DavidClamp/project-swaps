@@ -2,42 +2,42 @@
 {# Django template inheritance from central layout #}
 
 {% block content %}
-<div class="container py-5 mt-4">
+    <div class="container py-5 mt-4">
     <!-- 1. Main Card:  -->
-    <div class="card shadow-lg border-0 mx-auto card-edit-trade">
-        
+        <div class="card shadow-lg border-0 mx-auto card-edit-trade">
+
         <!-- 2. Header:  -->
-        <div class="card-header py-3 card-access-dark">
-            <h1 class="h5 mb-0 fw-bold text-ua-gold">
+            <div class="card-header py-3 card-access-dark">
+                <h1 class="h5 mb-0 fw-bold text-ua-gold">
                 {# Accessibility: H1 for SEO/Audit, styled as H5 for visual hierarchy #}
-                <i class="fa-solid fa-pen-to-square me-2"></i> 
-                Edit Trade Ticket: <span class="text-white">{{ trade.trade_id }}</span>
-            </h1>
-        </div>
-        
-        <div class="card-body p-4">
-            <form method="POST">
-                {% csrf_token %} {# Security: Cross-Site Request Forgery protection #}
-                
+                    <i class="fa-solid fa-pen-to-square me-2"></i>
+                    Edit Trade Ticket: <span class="text-white">{{ trade.trade_id }}</span>
+                </h1>
+            </div>
+
+            <div class="card-body p-4">
+                <form method="POST">
+                    {% csrf_token %} {# Security: Cross-Site Request Forgery protection #}
+
                 <!-- 3. Form Wrapper:  -->
-                <div class="trade-form-labels">
-                    {{ form.as_p }}
-                </div>
+                    <div class="trade-form-labels">
+                        {{ form.as_p }}
+                    </div>
 
                 <!-- 4. Action Row:  -->
-                <div class="d-grid gap-2 mt-4 pt-3 border-top">
+                    <div class="d-grid gap-2 mt-4 pt-3 border-top">
                     <!-- Primary Action: -->
-                    <button type="submit" class="btn btn-ua-gold fw-bold py-2 shadow-sm">
-                        <i class="fa-solid fa-check-double me-2"></i>Update & Re-price
-                    </button>
-                    
+                        <button type="submit" class="btn btn-ua-gold fw-bold py-2 shadow-sm">
+                            <i class="fa-solid fa-check-double me-2"></i>Update & Re-price
+                        </button>
+
                     <!-- Secondary Action:  -->
-                    <a href="{% url 'blotter' %}" class="btn btn-outline-dark fw-bold py-2">
-                        Cancel and Return
-                    </a>
-                </div>
-            </form>
+                        <a href="{% url 'blotter' %}" class="btn btn-outline-dark fw-bold py-2">
+                            Cancel and Return
+                        </a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}

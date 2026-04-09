@@ -3,118 +3,118 @@
 {% block title %}Forward Rate Analysis{% endblock %}
 
 {% block content %}
-<div class="container-fluid py-4">
-    <div class="row justify-content-center">
-        <div class="col-lg-10">
-            
+    <div class="container-fluid py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+
             <!-- TERMINAL CARD -->
-            <div class="card border border-secondary rounded-1 bg-white">
-                
+                <div class="card border border-secondary rounded-1 bg-white">
+
                 <!-- Header -->
-                <div class="card-header bg-white border-bottom py-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h1 class="h5 fw-bold text-black mb-0">
-                                <i class="fa-solid fa-clock-rotate-left text-primary me-2"></i>
-                                {{ title }} <span class="text-secondary">Distribution of 1Y/1Y Forward Rates</span>
-                            </h1>
-                            <span class="small text-secondary font-monospace">
-                                IMPLIED FROM: USD-SOFR (1Y & 2Y Swap Rates)
-                            </span>
+                    <div class="card-header bg-white border-bottom py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h1 class="h5 fw-bold text-black mb-0">
+                                    <i class="fa-solid fa-clock-rotate-left text-primary me-2"></i>
+                                    {{ title }} <span class="text-secondary">Distribution of 1Y/1Y Forward Rates</span>
+                                </h1>
+                                <span class="small text-secondary font-monospace">
+                                    IMPLIED FROM: USD-SOFR (1Y & 2Y Swap Rates)
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="card-body p-4">
+                    <div class="card-body p-4">
                     <!-- Chart Container -->
-                    <div id="chartContainer" style="position: relative; height:450px; width:100%">
-                        <canvas id="histChart"></canvas>
-                    </div>
+                        <div id="chartContainer" style="position: relative; height:450px; width:100%">
+                            <canvas id="histChart"></canvas>
+                        </div>
 
                     <!-- STATS MODULE: High Contrast -->
-                    <hr class="my-4 border-secondary opacity-50">
-                    
-                    <div class="row g-0 border border-secondary rounded-1 text-center bg-light">
+                        <hr class="my-4 border-secondary opacity-50">
+
+                        <div class="row g-0 border border-secondary rounded-1 text-center bg-light">
                         <!-- Count Stat -->
-                        <div class="col-6 border-end border-secondary p-3">
+                            <div class="col-6 border-end border-secondary p-3">
                             <!-- UPDATED: Changed 'text-secondary' to 'text-dark fw-bold' -->
-                            <span class="d-block text-dark fw-bold small text-uppercase mb-1">Observation Count</span>
-                            <span class="h3 fw-bold text-primary font-monospace mb-0">{{ sample_size }}</span>
-                        </div>
+                                <span class="d-block text-dark fw-bold small text-uppercase mb-1">Observation Count</span>
+                                <span class="h3 fw-bold text-primary font-monospace mb-0">{{ sample_size }}</span>
+                            </div>
                         <!-- Mean Stat -->
-                        <div class="col-6 p-3">
-                            <span class="d-block text-dark fw-bold small text-uppercase mb-1">Mean Forward Rate</span>
-                            <span class="h3 fw-bold text-primary font-monospace mb-0">{{ mean_val }}%</span>
+                            <div class="col-6 p-3">
+                                <span class="d-block text-dark fw-bold small text-uppercase mb-1">Mean Forward Rate</span>
+                                <span class="h3 fw-bold text-primary font-monospace mb-0">{{ mean_val }}%</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const ctx = document.getElementById('histChart').getContext('2d');
-        
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: {{ hist_labels|safe }},
-                datasets: [{
-                    label: 'Frequency',
-                    data: {{ hist_counts|safe }},
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const ctx = document.getElementById('histChart').getContext('2d');
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: {{ hist_labels|safe }},
+                    datasets: [{
+                        label: 'Frequency',
+                        data: {{ hist_counts|safe }},
                     // Theme: Solid Purple for visibility
-                    backgroundColor: '#6610f2', 
-                    borderColor: '#000000',     
-                    borderWidth: 1,
-                    borderRadius: 0,
+                        backgroundColor: '#6610f2',
+                        borderColor: '#000000',
+                        borderWidth: 1,
+                        borderRadius: 0,
                     // Make bars wider (take up 95% of the space)
-                    barPercentage: 0.95,
-                    categoryPercentage: 0.95
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { 
-                        beginAtZero: true,
-                        grid: { color: '#e9ecef' },
-                        title: { 
-                            display: true, 
-                            text: 'FREQUENCY (DAYS)', 
-                            color: '#000', // Absolute Black
-                            font: { weight: 'bold', family: 'monospace' } 
+                        barPercentage: 0.95,
+                        categoryPercentage: 0.95
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#e9ecef' },
+                            title: {
+                                display: true,
+                                text: 'FREQUENCY (DAYS)',
+                                color: '#000', // Absolute Black
+                                font: { weight: 'bold', family: 'monospace' }
+                            },
+                            ticks: {
+                                color: '#000', // Absolute Black
+                                font: { family: 'monospace' }
+                            }
                         },
-                        ticks: {
-                            color: '#000', // Absolute Black
-                            font: { family: 'monospace' }
-                        }
-                    },
-                    x: {
-                        grid: { display: false },
-                        title: { 
-                            display: true, 
-                            text: 'IMPLIED FORWARD RATE (%)', 
-                            color: '#000', // Absolute Black
-                            font: { weight: 'bold', family: 'monospace' } 
-                        },
-                        ticks: { 
-                            color: '#000', // Absolute Black
-                            font: { weight: 'bold', family: 'monospace' },
-                            maxRotation: 45,
-                            minRotation: 0
+                        x: {
+                            grid: { display: false },
+                            title: {
+                                display: true,
+                                text: 'IMPLIED FORWARD RATE (%)',
+                                color: '#000', // Absolute Black
+                                font: { weight: 'bold', family: 'monospace' }
+                            },
+                            ticks: {
+                                color: '#000', // Absolute Black
+                                font: { weight: 'bold', family: 'monospace' },
+                                maxRotation: 45,
+                                minRotation: 0
+                            }
                         }
                     }
                 }
-            }
+            });
         });
-    });
-</script>
+    </script>
 {% endblock %}

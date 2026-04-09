@@ -9,7 +9,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 @login_required
 def subscription_plans(request):
-    return render(request, 'workspace/plans.html')
+    return render(request, "workspace/plans.html")
 
 
 @login_required
@@ -22,17 +22,16 @@ def create_checkout_session(request):
     try:
         checkout_session = stripe.checkout.Session.create(
             customer_email=user_email,
-            payment_method_types=['card'],
-            line_items=[{'price': settings.STRIPE_PRICE_ID, 'quantity': 1}],
-            mode='subscription',
-            success_url=request.build_absolute_uri('/payment-success/'),
-            cancel_url=request.build_absolute_uri('/payment-cancelled/'),
-
+            payment_method_types=["card"],
+            line_items=[{"price": settings.STRIPE_PRICE_ID, "quantity": 1}],
+            mode="subscription",
+            success_url=request.build_absolute_uri("/payment-success/"),
+            cancel_url=request.build_absolute_uri("/payment-cancelled/"),
         )
         return redirect(checkout_session.url, code=303)
     except Exception as e:
         messages.error(request, f"Stripe Error: {str(e)}")
-        return redirect('subscription')
+        return redirect("subscription")
 
 
 @login_required
@@ -40,4 +39,4 @@ def payment_success(request):
     profile = request.user.profile
     profile.is_subscriber = True
     profile.save()
-    return render(request, 'workspace/payment_success.html')
+    return render(request, "workspace/payment_success.html")

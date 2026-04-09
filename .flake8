@@ -1,0 +1,14 @@
+[flake8]
+# MS4 Exclusion List
+exclude = 
+    migrations,
+    __pycache__,
+    manage.py,
+    settings.py,
+    env.py
+
+# Match Black's line length
+max-line-length = 79
+
+# Ignore conflict errors (Black handles these)
+ignore = W503, E203
