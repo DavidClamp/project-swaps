@@ -214,16 +214,16 @@ def dashboard(request):
     latest_rate = HistoricalRate.objects.filter(index_name='SOFR').order_by('-date').first()
     latest_date = latest_rate.date if latest_rate else "Data Pending"
 
-    # 4. Build KPI List (FIXED: Using 'text-dark')
+    # 4. Build KPI List 
     kpi_data = [
         # KPI 1: Portfolio NPV (Red/Green)
         ('Portfolio NPV', 'fa-scale-balanced', f"${total_npv:,.0f}", 
          'text-success' if total_npv >= 0 else 'text-danger'),
 
-        # KPI 2: Active Trades (Fixed: text-dark is safer than text-black)
+        # KPI 2: Active Trades 
         ('Active Trades', 'fa-file-invoice-dollar', trade_count, 'text-dark'),
 
-        # KPI 3: Index Focus (Fixed: text-dark is safer than text-black)
+        # KPI 3: Index Focus 
         ('Index Focus', 'fa-satellite-dish', 'USD SOFR', 'text-dark'),
     ]
 
