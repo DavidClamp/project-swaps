@@ -26,20 +26,20 @@
     </div>
   </div>
 
-  <!-- 2. KPI Row (Darker Text) -->
+  <!-- 2. KPI Row (Compact) -->
   <div class="row g-3 mb-4">
     {% for label, icon, value, color_class in kpi_data %}
     <div class="col-md-4">
-      <div class="card shadow-sm border-0 h-100 p-4 card-kpi-ua">
-        <div class="d-flex flex-column justify-content-center h-100">
+      <div class="card shadow-sm border-0 p-3 card-kpi-ua">
+        <div class="d-flex flex-column justify-content-center text-center">
           
-          <!-- LABEL: Changed text-secondary to text-dark -->
-          <h2 class="text-dark text-uppercase fw-bold mb-2 small" style="letter-spacing: 1px;">
+          <!-- LABEL -->
+          <h2 class="text-dark text-uppercase fw-bold mb-1" style="font-size: 0.75rem; letter-spacing: 1px;">
             {{ label }}
           </h2>
           
           <!-- VALUE -->
-          <div class="display-6 fw-bold {{ color_class }}">
+          <div class="h2 mb-0 fw-bold {{ color_class }}">
               {{ value }}
           </div>
 
@@ -48,7 +48,6 @@
     </div>
     {% endfor %}
   </div>
-
 
   <!-- 3. Main Content Row -->
   <div class="row">
@@ -78,14 +77,12 @@
             <tbody>
               {% for gid, data in strategies.items %}
               <tr class="border-bottom border-light">
-                <!-- GROUP ID: Darker Badge -->
                 <td class="ps-4">
                   <span class="badge bg-dark text-white border border-dark fw-bold font-monospace">
                     {{ gid }}
                   </span>
                 </td>
                 <td class="fw-bold text-dark">{{ data.strategy }}</td>
-                <!-- LEGS: Darker Badge -->
                 <td class="text-center">
                     <span class="badge bg-secondary text-white border border-secondary-subtle">
                         {{ data.count }}
@@ -111,12 +108,15 @@
       </div>
     </div>
 
-    <!-- 4. Subscription Card (Cleaned) -->
+    <!-- 4. Subscription Card (COMPRESSED SIZE) -->
     <div class="col-lg-4">
-      <div class="card shadow-sm border-0 card-access-dark p-4">
+      <!-- Reduced padding to p-3 -->
+      <div class="card shadow-sm border-0 card-access-dark p-3">
         
-        <div class="d-flex justify-content-between align-items-center mb-3 border-bottom border-secondary pb-2">
-          <h2 class="fw-bold mb-0 h5 text-white"> 
+        <!-- Tighter Header: mb-2 -->
+        <div class="d-flex justify-content-between align-items-center mb-2 border-bottom border-secondary pb-2">
+          <!-- Smaller Heading (h6) -->
+          <h2 class="fw-bold mb-0 h6 text-white"> 
               Account Access
           </h2>
           {% if user.profile.is_subscriber %}
@@ -127,22 +127,25 @@
         </div>
 
         {% if user.profile.is_subscriber %}
-        <div class="text-center py-3">
-            <i class="fa-solid fa-check-circle fa-3x text-success mb-3"></i>
-            <p class="text-white fw-bold mb-1">Unlimited Access</p>
-            <p class="small text-white mb-0">QuantLib Engine Enabled</p>
+        <div class="text-center py-2">
+            <i class="fa-solid fa-check-circle fa-2x text-success mb-2"></i>
+            <p class="text-white fw-bold mb-0 small">Unlimited Access</p>
+            <p class="text-white-50 mb-0" style="font-size: 0.75rem;">QuantLib Engine Enabled</p>
         </div>
         {% else %}
-        <div class="mb-4">
-            <!-- REMOVED: Description Text -->
-            <!-- KEPT: High Contrast Badge -->
-            <span class="badge bg-light text-dark fw-bold rounded-pill fs-6 mb-2 px-3 shadow-sm">
-                Basic Tier
-            </span>
+        
+        <!-- Tighter Layout for Basic Tier -->
+        <div class="d-flex flex-column gap-3 pt-2">
+            <div>
+                <span class="badge bg-light text-dark fw-bold rounded-pill shadow-sm border border-white">
+                    Basic Tier
+                </span>
+            </div>
+            <!-- Smaller Button (btn-sm) -->
+            <a href="{% url 'subscription' %}" class="btn btn-sm btn-ua-gold w-100 fw-bold text-dark shadow-sm">
+              <i class="fa-solid fa-gem me-2"></i> Upgrade to Pro
+            </a>
         </div>
-        <a href="{% url 'subscription' %}" class="btn btn-ua-gold w-100 fw-bold text-dark shadow-sm py-2">
-          <i class="fa-solid fa-gem me-2"></i> Upgrade to Pro
-        </a>
         {% endif %}
       </div>
     </div>
