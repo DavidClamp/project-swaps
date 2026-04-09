@@ -296,12 +296,27 @@ Most of your project's **Features** should already align with the **User Stories
 The application uses Django's built-in `unittest` framework to verify data integrity, view accessibility, and calculation logic.
 
 ### **Running Tests**
-To execute the automated test suite, run the following command in the terminal:
-```bash
+To execute the automated test suite, I ran the following command in the terminal:
+```powershell
 python manage.py test
 
+### **Automated Test Results**
+*Date: April 09, 2026*
 
-I have conducted a series of automated tests on my application.
+All core functionalities passed the `unittest` suite.
+
+```powershell
+python manage.py test
+Found 5 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.....
+----------------------------------------------------------------------
+Ran 5 tests in 4.610s
+
+OK
+```
+
 
 > [!NOTE]  
 > I fully acknowledge and understand that, in a real-world scenario, an extensive set of additional tests would be more comprehensive.
