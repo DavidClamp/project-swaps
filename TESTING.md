@@ -298,24 +298,28 @@ The application uses Django's built-in `unittest` framework to verify data integ
 ### **Running Tests**
 To execute the automated test suite, I ran the following command in the terminal:
 ```powershell
-python manage.py test
+python manage.py test workspace
 
-### **Automated Test Results**
+### **Automated Testing Results** ### 
 *Date: April 09, 2026*
 
-All core functionalities passed the `unittest` suite.
+The application's core logic was verified using Django's `unittest` suite. 
+All critical paths (Models, Views, Forms) passed successfully.
 
-```powershell
-python manage.py test
+**Command:**
+`python manage.py test workspace`
+
+**Output:**
+
 Found 5 test(s).
 Creating test database for alias 'default'...
 System check identified no issues (0 silenced).
-.....
-----------------------------------------------------------------------
-Ran 5 tests in 4.610s
+
+Ran 5 tests in 7.928s
 
 OK
 ```
+
 
 
 > [!NOTE]  
