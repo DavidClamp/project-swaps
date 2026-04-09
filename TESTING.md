@@ -290,6 +290,17 @@ Most of your project's **Features** should already align with the **User Stories
 
 ## Automated Testing
 
+## Testing Documentation
+
+## 1. Automated Testing (Django & Unittest)
+The application uses Django's built-in `unittest` framework to verify data integrity, view accessibility, and calculation logic.
+
+### **Running Tests**
+To execute the automated test suite, run the following command in the terminal:
+```bash
+python manage.py test
+
+
 I have conducted a series of automated tests on my application.
 
 > [!NOTE]  

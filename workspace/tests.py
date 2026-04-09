@@ -79,3 +79,70 @@ class SignalAutomationTests(TestCase):
         
         # Verify reverse lookup capability
         self.assertEqual(profile.user.username, 'vip_user')
+
+
+### 
+
+
+
+# from django.test import TestCase, Client
+# from django.urls import reverse
+# from django.contrib.auth.models import User
+# from .models import Trade
+# import datetime
+
+# class TradingSystemTests(TestCase):
+
+#     def setUp(self):
+#         # 1. Create a Test User
+#         self.user = User.objects.create_user(username='trader', password='password123')
+#         self.client = Client()
+        
+#     def test_login_required(self):
+#         """Test that dashboard requires login"""
+#         response = self.client.get(reverse('dashboard'))
+#         # Should redirect (302) to login page
+#         self.assertEqual(response.status_code, 302)
+
+#     def test_dashboard_load(self):
+#         """Test that dashboard loads for logged in user"""
+#         self.client.login(username='trader', password='password123')
+#         response = self.client.get(reverse('dashboard'))
+#         self.assertEqual(response.status_code, 200)
+#         self.assertTemplateUsed(response, 'workspace/dashboard.html')
+
+#     def test_book_trade(self):
+#         """Test creating a trade via the model"""
+#         trade = Trade.objects.create(
+#             user=self.user,
+#             trade_id="TRD-TEST-001",
+#             strategy="OUTRIGHT",
+#             ticker="USD Swap 5Y",
+#             direction="Pay Fixed",
+#             notional=10000000,
+#             fixed_rate=3.5,
+#             tenor=5
+#         )
+#         # Check if it was saved
+#         self.assertEqual(Trade.objects.count(), 1)
+#         self.assertEqual(trade.ticker, "USD Swap 5Y")
+
+#     def test_blotter_view(self):
+#         """Test that the new trade appears in the blotter"""
+#         self.client.login(username='trader', password='password123')
+        
+#         # Create a trade first
+#         Trade.objects.create(
+#             user=self.user,
+#             trade_id="TRD-VIEW-001",
+#             strategy="OUTRIGHT",
+#             ticker="Test Swap",
+#             notional=5000000,
+#             fixed_rate=4.0,
+#             tenor=2
+#         )
+
+#         response = self.client.get(reverse('blotter'))
+#         self.assertEqual(response.status_code, 200)
+#         # Check if the trade ID appears in the HTML content
+#         self.assertContains(response, "TRD-VIEW-001")
