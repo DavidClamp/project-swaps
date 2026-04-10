@@ -178,17 +178,16 @@ I've tested my deployed project using the Lighthouse Audit tool to check for any
 
 | Page | Mobile | Desktop | Notes |
 | --- | --- | --- | --- |
-| Register | ![screenshot](documentation/lighthouse/mobile_login.png) | ![screenshot](documentation/lighthouse/desktop_login.png) ||
 | Login | ![screenshot](documentation/lighthouse/mobile_login.png) | ![screenshot](documentation/lighthouse/desktop_login.png) ||
 | Logout| ![screenshot](documentation/lighthouse/mobile_signout.png) | ![screenshot](documentation/lighthouse/desktop_signout.png) ||
-| Dashboard |[screenshot](documentation/lighthouse/mobile_dashboard.png) | ![screenshot](documentation/lighthouse/desktop_dashboard.png) ||
+| Dashboard|![screenshot](documentation/lighthouse/desktop_dashboard.png) | ![screenshot](documentation/lighthouse/desktop_dashboard.png) ||
 | Blotter | ![screenshot](documentation/lighthouse/mobile_blotter.png) | ![screenshot](documentation/lighthouse/desktop_blotter.png) | Performance 88:Score impacted by Heroku Eco Dyno "Wake up" time|
-| Analyser | ![screenshot](documentation/lighthouse/mobile_analyser.png) | ![screenshot](documentation/lighthouse/desktop_analyser.png ||
+| Analyser | ![screenshot](documentation/lighthouse/mobile_analyser.png) | ![screenshot](documentation/lighthouse/desktop_analyser.png) ||
 | Term Structure | ![screenshot](documentation/lighthouse/mobile_termstructure.png) | ![screenshot](documentation/lighthouse/desktop_termstructure.png) ||
 | Rate History | ![screenshot](documentation/lighthouse/mobile_history.png) | ![screenshot](documentation/lighthouse/desktop_history.png) ||
 | Add Trade | ![screenshot](documentation/lighthouse/mobile_addtrade.png) | ![screenshot](documentation/lighthouse/mobile_addtrade.png) ||
-| 404 | ![screenshot](documentation/lighthouse/mobile-404.png) | ![screenshot](documentation/lighthouse/desktop-404.png) ||
-| 500 | ![screenshot](documentation/lighthouse/mobile-404.png) | ![screenshot](documentation/lighthouse/desktop-404.png) ||
+| 404 | ![screenshot](documentation/lighthouse/mobile_404.png) | ![screenshot](documentation/lighthouse/desktop_404.png) |Tested using trap door URL|
+| 500 | ![screenshot](documentation/lighthouse/mobile_500.png) | ![screenshot](documentation/lighthouse/desktop_500.png) |Tested using trap door URL|
 ---
 ## 5. Defensive Programming
 
