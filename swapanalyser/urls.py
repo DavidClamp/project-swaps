@@ -18,7 +18,6 @@ Including another URLconf
 from django.views.generic import TemplateView
 from django.contrib import admin
 from django.urls import path, include
-from django.views.defaults import page_not_found, server_error
 from workspace import views
 from workspace import checkout_views
 
@@ -54,8 +53,6 @@ urlpatterns = [
     path("analyser/", views.curve_analyser, name="analyser"),
     path("term-structure/", views.forward_curve_view, name="curve_bars"),
     path("distribution/", views.forward_rate_analysis, name="forward_rates"),
-    path('test-404/', page_not_found, {'exception': Exception("Test 404")}),
-    path('test-500/', server_error),
 ]
 # Custom Error Handlers
 handler404 = "workspace.views.custom_404"
