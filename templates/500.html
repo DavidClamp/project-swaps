@@ -8,14 +8,15 @@
     <!-- Static Icon: Navy Circle with Gold Gears -->
         <div class="p-4 rounded-circle mb-4 shadow-lg d-flex align-items-center justify-content-center"
              style="background-color: var(--ua-navy); width: 120px; height: 120px;">
-            <i class="fa-solid fa-gears fa-4x" style="color: var(--ua-gold);"></i>
+            <!-- ACCESSIBILITY FIX: aria-hidden added -->
+            <i class="fa-solid fa-gears fa-4x" style="color: var(--ua-gold);" aria-hidden="true"></i>
         </div>
 
     <!-- Header: Uses your Navy Var -->
         <h1 class="display-1 fw-bold" style="color: var(--ua-navy);">500</h1>
         <h2 class="fw-bold mb-3 text-uppercase" style="color: var(--ua-navy);">System Recalibrating</h2>
 
-        <p class="text-muted mb-5 fs-5" style="max-width: 600px;">
+        <p class="text-dark mb-5 fs-5" style="max-width: 600px;">
             The <strong>Quant Engine</strong> encountered an unexpected variance.
             Engineering has been automatically notified.
         </p>
@@ -23,15 +24,15 @@
     <!-- Navigation Safety Net -->
         <div class="d-grid gap-3 d-sm-flex justify-content-sm-center w-100">
         <!-- Primary: Gold -->
-            <a href="{% url 'dashboard' %}" class="btn btn-ua-gold btn-lg px-5 shadow-sm">
-                <i class="fa-solid fa-rotate me-2"></i>Retry Dashboard
+            <a href="{% url 'dashboard' %}" class="btn btn-ua-gold btn-lg px-5 fw-bold">
+                <i class="fa-solid fa-rotate me-2" aria-hidden="true"></i>Retry Dashboard
             </a>
 
         <!-- Secondary: Dark Outline  -->
             <a href="https://github.com/DavidClamp/project-swaps/issues"
                target="_blank" rel="noopener"
-               class="btn btn-outline-dark btn-lg px-5">
-                <i class="fa-brands fa-github me-2"></i>Report Issue
+               class="btn btn-dark btn-lg px-5 fw-bold">
+                <i class="fa-brands fa-github me-2" aria-hidden="true"></i>Report Issue
             </a>
         </div>
     </div>
