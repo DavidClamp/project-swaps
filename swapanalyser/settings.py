@@ -148,22 +148,28 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 # --- ACCOUNT CONFIGURATION (ALLAUTH) ---
 
-# 1. How users log in
+# 1. Login Method
 ACCOUNT_LOGIN_METHODS = {'email'}
 
-# 2. What fields are in the signup form
+# 2. Signup Fields 
+ACCOUNT_SIGNUP_FIELDS = [
+    "email*",        # Mandatory
+    "first_name",    # Optional (Add * if you want it required)
+    "last_name",     # Optional
+]
 
-ACCOUNT_EMAIL_REQUIRED = True 
+# 3. Username Handling
 ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_SIGNUP_FIELDS = ['email', 'first_name', 'last_name']
 
-# Local Development of Production environment
+# 4. Email Uniqueness
+ACCOUNT_UNIQUE_EMAIL = True
+
+# 5. Verification Logic
 if DEBUG:
-    # Local Development:
     ACCOUNT_EMAIL_VERIFICATION = 'optional' 
 else:
-    # Production:
     ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
 
 # --- INTERNATIONALIZATION ---
 
