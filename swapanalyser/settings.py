@@ -148,15 +148,14 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 # --- ACCOUNT CONFIGURATION (ALLAUTH) ---
 
-# 1. Email is MANDATORY 
-ACCOUNT_EMAIL_REQUIRED = True
+# 1. How users log in
+ACCOUNT_LOGIN_METHODS = {'email'}
 
-# 2. Email must be UNIQUE 
-ACCOUNT_UNIQUE_EMAIL = True
+# 2. What fields are in the signup form
 
-# 3. Login with Email 
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True 
 ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_SIGNUP_FIELDS = ['email', 'first_name', 'last_name']
 
 # Local Development of Production environment
 if DEBUG:
@@ -165,8 +164,6 @@ if DEBUG:
 else:
     # Production:
     ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-
-
 
 # --- INTERNATIONALIZATION ---
 
