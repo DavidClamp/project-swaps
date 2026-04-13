@@ -3,69 +3,78 @@
 {% block title %}Subscription Plans | IRSQuant{% endblock %}
 
 {% block content %}
-
-<div class="w-100 min-vh-100 d-flex align-items-center bg-white">
+<!-- WRAPPER: Clean Light Background (Matches Dashboard/Signup Outer) -->
+<div class="w-100 min-vh-100 d-flex align-items-center bg-light">
     
     <div class="container py-5">
+        
+        <!-- BRAND HEADER -->
         <div class="text-center mb-5">
-            <h1 class="display-5 fw-bold text-dark">Select Your <span class="text-decoration-underline decoration-ua-gold">Terminal Tier</span></h1>
-            <p class="text-dark fs-5">Access SOFR analytics and portfolio re-pricing.</p>
+            <h2 class="text-dark fw-bold display-6">
+                <i class="fa-solid fa-chart-line me-2 text-ua-gold"></i>IRSQUANT
+            </h2>
+            <p class="text-dark fw-bold text-uppercase letter-spacing-2">Select Terminal Access</p>
         </div>
 
         <div class="row justify-content-center align-items-center g-4">
 
-        <!-- Basic Tier -->
+        <!-- OPTION 1: BASIC TIER -->
+        
             <div class="col-md-5 col-lg-4">
-                <div class="card h-100 shadow-sm bg-white" style="border: 1px solid #dee2e6;">
+                
+                <div class="card h-100 shadow-sm border-0" style="background-color: #161b22; border: 1px solid #444;">
                     <div class="card-body p-5 text-center">
-                        <h2 class="h4 fw-bold text-dark">Basic</h2>
-                        <div class="display-4 fw-bold my-3 text-dark">£0<span class="fs-6 text-dark">/mo</span></div>
+                        
+                        <!-- Header -->
+                        <h3 class="h4 fw-bold text-secondary">Basic</h3>
+                        <div class="display-4 fw-bold my-3 text-white">£0<span class="fs-6 text-secondary">/mo</span></div>
 
-                        <ul class="list-unstyled text-start my-4 text-dark">
-                            <li class="mb-2"><i class="fa-solid fa-check text-dark me-2"></i> Trade Blotter</li>
-                            <li class="mb-2"><i class="fa-solid fa-check text-dark me-2"></i> Dashboard Overview</li>
+                        <!-- List -->
+                        <ul class="list-unstyled text-start my-4 text-secondary">
+                            <li class="mb-2"><i class="fa-solid fa-check text-white me-2"></i> Trade Blotter</li>
+                            <li class="mb-2"><i class="fa-solid fa-check text-white me-2"></i> Dashboard Overview</li>
                             <li class="mb-2 opacity-50"><i class="fa-solid fa-xmark me-2"></i> Advanced Analyser</li>
                             <li class="mb-2 opacity-50"><i class="fa-solid fa-xmark me-2"></i> Term Structure Charts</li>
                         </ul>
 
-                        <a href="{% url 'dashboard' %}" class="btn btn-outline-dark fw-bold w-100">
+                        <!-- Button: Outline Light -->
+                        <a href="{% url 'dashboard' %}" class="btn btn-outline-light fw-bold w-100 py-2">
                             Current Plan
                         </a>
                     </div>
                 </div>
             </div>
 
-        <!-- Pro Tier (Hero Card) -->
+        <!-- OPTION 2: PRO QUANT -->
+        
             <div class="col-md-5 col-lg-4">
-                <!-- Gold Border carries the branding, not the text -->
-                <div class="card h-100 shadow-lg position-relative bg-white"
-                     style="transform: scale(1.05); z-index: 2; border: 3px solid #d4af37;">
+                <div class="card h-100 shadow-lg position-relative"
+                     style="background-color: #161b22; transform: scale(1.05); z-index: 2; border: 2px solid var(--ua-gold);">
 
+                    <!-- Badge -->
                     <div class="position-absolute top-0 start-50 translate-middle">
-                        <!-- Gold Badge with BLACK text -->
-                        <span class="badge bg-warning text-dark fw-bold px-3 py-2 shadow-sm">
+                        <span class="badge bg-ua-gold text-dark fw-bold px-3 py-2 shadow-sm">
                             MOST POPULAR
                         </span>
                     </div>
 
                     <div class="card-body p-5 text-center">
-                        <!-- Header is Dark, Icons are Gold -->
-                        <h2 class="h4 fw-bold text-dark mt-2">Pro Quant</h2>
-                        <div class="display-4 fw-bold my-3 text-dark">£29<span class="fs-6 text-dark">/mo</span></div>
+                        
+                        <!-- Header: -->
+                        <h3 class="h4 fw-bold mt-2" style="color: var(--ua-gold);">Pro Quant</h3>
+                        <div class="display-4 fw-bold my-3 text-white">£29<span class="fs-6 text-secondary">/mo</span></div>
 
-                        <ul class="list-unstyled text-start my-4 text-dark">
-                            <!-- Used text-warning (darker gold) or custom style for icons if needed -->
-                            <li class="mb-2"><i class="fa-solid fa-check text-dark me-2" style="color: #b8860b !important;"></i> <strong>Full Analyser</strong> access</li>
-                            <li class="mb-2"><i class="fa-solid fa-check text-dark me-2" style="color: #b8860b !important;"></i> Interactive Term Structure</li>
-                            <li class="mb-2"><i class="fa-solid fa-check text-dark me-2" style="color: #b8860b !important;"></i> 1Y Forward Distribution</li>
-                            <li class="mb-2"><i class="fa-solid fa-check text-dark me-2" style="color: #b8860b !important;"></i> Unlimited Re-pricing</li>
+                        <!-- List: -->
+                        <ul class="list-unstyled text-start my-4 text-white">
+                            <li class="mb-2"><i class="fa-solid fa-check text-ua-gold me-2"></i> <strong>Full Analyser</strong> access</li>
+                            <li class="mb-2"><i class="fa-solid fa-check text-ua-gold me-2"></i> Interactive Term Structure</li>
+                            <li class="mb-2"><i class="fa-solid fa-check text-ua-gold me-2"></i> 1Y Forward Distribution</li>
+                            <li class="mb-2"><i class="fa-solid fa-check text-ua-gold me-2"></i> Unlimited Re-pricing</li>
                         </ul>
 
                         <form action="{% url 'create_checkout_session' %}" method="POST">
                             {% csrf_token %}
-                            <!-- Button: Gold Background, Black Text (AAA Contrast) -->
-                            <button type="submit" class="btn btn-lg w-100 shadow fw-bold text-dark" 
-                                    style="background-color: #d4af37; border: none;">
+                            <button type="submit" class="btn btn-ua-gold btn-lg w-100 shadow fw-bold text-dark py-2">
                                 <i class="fa-solid fa-unlock me-2"></i>Upgrade to Pro
                             </button>
                         </form>
@@ -74,6 +83,13 @@
             </div>
 
         </div>
+        
+        <!-- Footer Links -->
+        <div class="text-center mt-5">
+            <span class="text-dark small">Need enterprise access?</span>
+            <a href="#" class="text-dark small fw-bold text-decoration-underline ms-1">Contact Sales</a>
+        </div>
+
     </div>
 </div>
 {% endblock %}
