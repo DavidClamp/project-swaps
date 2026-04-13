@@ -11,8 +11,10 @@
 
             <!-- Brand Header -->
                 <div class="text-center mb-4">
-                    <h2 class="text-ua-gold fw-bold"><i class="fa-solid fa-chart-line me-2"></i>IRSQUANT</h2>
-                    <p class="text-secondary fw-bold">Access Request</p>
+                    <h2 class="text-dark fw-bold">
+                        <i class="fa-solid fa-chart-line me-2 text-ua-gold"></i>IRSQUANT
+                    </h2>
+                    <p class="text-dark fw-bold">Secure Terminal Access</p>
                 </div>
 
             <!-- Card -->
@@ -32,8 +34,8 @@
                             {% endif %}
 
                             <div class="d-grid gap-2 mt-4">
-                                <button class="btn btn-ua-gold py-2 fw-bold" type="submit">
-                                    <i class="fa-solid fa-user-shield me-2"></i>{% trans "Initialize Terminal" %}
+                                <button class="btn btn-ua-gold text-dark py-2 fw-bold" type="submit">
+                                    <i class="fa-solid fa-user-shield me-2"></i>{% trans "Initialise Terminal" %}
                                 </button>
                             </div>
                         </form>
@@ -43,9 +45,8 @@
 
             <!-- Footer Links -->
                 <div class="text-center">
-                    <!-- FIX 3: Changed 'text-muted' to 'text-dark' for max readability -->
                     <span class="text-dark small">Already have credentials?</span>
-                    <a class="text-ua-gold small fw-bold text-decoration-none ms-1" href="{% url 'account_login' %}">Log In</a>
+                    <a class="text-dark small fw-bold text-decoration-underline ms-1" href="{% url 'account_login' %}">Log In</a>
                 </div>
 
             </div>

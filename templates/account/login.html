@@ -11,8 +11,8 @@
 
             <!-- Brand Header -->
                 <div class="text-center mb-4">
-                    <h2 class="text-ua-gold fw-bold"><i class="fa-solid fa-chart-line me-2"></i>IRSQUANT</h2>
-                    <p class="text-secondary fw-bold">Secure Terminal Access</p>
+                    <h2 class="text-dark fw-bold"><i class="fa-solid fa-chart-line me-2 text-ua-gold"></i>IRSQUANT</h2>
+                    <p class="text-dark fw-bold">Secure Terminal Access</p>
                 </div>
 
             <!-- Card: Navy Background -->
@@ -42,7 +42,7 @@
                             
                             <!-- Forgot Password Link -->
                             <div class="text-center mt-3">
-                                <a class="small text-white-50 text-decoration-none" href="{% url 'account_reset_password' %}">
+                                <a class="small text-light text-decoration-none" href="{% url 'account_reset_password' %}">
                                     {% trans "Forgot Password?" %}
                                 </a>
                             </div>
@@ -52,14 +52,10 @@
                 </div>
 
             <!-- Footer Links -->
-                <div class="text-center">
-                    <span class="text-dark small">New to the terminal?</span>
-                    <a class="text-ua-gold small fw-bold text-decoration-none ms-1" href="{% url 'account_signup' %}">
-                        Request Access
-                    </a>
-                </div>
-
+            <div class="text-center">
+                <span class="text-dark small">New to the terminal?</span>
+                <a class="text-dark small fw-bold text-decoration-underline ms-1" href="{% url 'account_signup' %}">
+                    Request Access
+                </a>
             </div>
-        </div>
-    </div>
 {% endblock %}
