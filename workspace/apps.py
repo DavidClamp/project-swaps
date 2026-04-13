@@ -1,7 +1,9 @@
 from django.apps import AppConfig
 
 
-class SwapsConfig(AppConfig):
+class WorkspaceConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "workspace"
-    label = "workspace"
+
+    def ready(self):
+        import workspace.signals

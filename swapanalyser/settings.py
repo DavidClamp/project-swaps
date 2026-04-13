@@ -69,7 +69,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     # Local Apps
-    "workspace",
+    "workspace.apps.WorkspaceConfig",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -151,23 +151,23 @@ AUTH_PASSWORD_VALIDATORS = [
 # 1. Login Method
 ACCOUNT_LOGIN_METHODS = {'email'}
 
-# 2. Signup Fields 
+# 2. Signup Fields
+
 ACCOUNT_SIGNUP_FIELDS = [
     "email*",        # Mandatory
-    "first_name",    # Optional (Add * if you want it required)
+    "first_name",    # Optional 
     "last_name",     # Optional
 ]
 
-# 3. Username Handling
-ACCOUNT_USERNAME_REQUIRED = False
-
-# 4. Email Uniqueness
+# 3. Email Uniqueness
 ACCOUNT_UNIQUE_EMAIL = True
 
-# 5. Verification Logic
+# 4. Verification Logic
 if DEBUG:
-    ACCOUNT_EMAIL_VERIFICATION = 'optional' 
+    # Local (Dev): No emails, no codes. Just log in.
+    ACCOUNT_EMAIL_VERIFICATION = 'none' 
 else:
+    # Production (Heroku): MUST verify email.
     ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 
