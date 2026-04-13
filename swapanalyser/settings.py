@@ -146,8 +146,27 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+# --- ACCOUNT CONFIGURATION (ALLAUTH) ---
 
-ACCOUNT_EMAIL_VERIFICATION = "none"
+# 1. Email is MANDATORY 
+ACCOUNT_EMAIL_REQUIRED = True
+
+# 2. Email must be UNIQUE 
+ACCOUNT_UNIQUE_EMAIL = True
+
+# 3. Login with Email 
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USERNAME_REQUIRED = False
+
+# Local Development of Production environment
+if DEBUG:
+    # Local Development:
+    ACCOUNT_EMAIL_VERIFICATION = 'optional' 
+else:
+    # Production:
+    ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+
 
 # --- INTERNATIONALIZATION ---
 
