@@ -160,6 +160,18 @@ This section verifies the "BlueGamma" inspired market data logic.
 *   **Outcome:** Link opened safely in new tab. Original app remained open.
 *   **Status:** ✅ PASS
 
+## 5. Business Logic & Data Privacy
+
+**Objective:** Verify that the Dashboard correctly aggregates financial data WITHOUT leaking information between users.
+
+| Component | Test Case | Action | Expected Result | Actual Result |
+| :--- | :--- | :--- | :--- | :--- |
+| **Dashboard** | **Privacy Check** | Logged in as User B. Checked Total NPV. | Should NOT include User A's trades. | **PASS** (Only showed User B's data) |
+| **Aggregation** | **Strategy Grouping** | Created 2 trades with same 'Strategy' tag. | Dashboard should group them into one row. | **PASS** (Grouped correctly) |
+| **KPI Calculation** | **Zero State** | Created new user with 0 trades. | NPV should be $0, no crashes. | **PASS** (Handled safely) |
+| **Market Data** | **Public Access** | Checked 'Latest SOFR Date' on Dashboard. | Should show date regardless of user. | **PASS** (Global data is accessible) |
+
+
 ---
 
 ## 4. Lighthouse Audit
