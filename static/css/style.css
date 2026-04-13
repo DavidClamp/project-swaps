@@ -125,5 +125,10 @@ nav.navbar.navbar-dark .nav-link,
     padding: 10px;
     border: 1px solid rgba(255,255,255,0.1);
 }
-
-
+/* --- Fix Faint Password Text for MS4--- */
+.card-access-dark .form-text, 
+.card-access-dark .help-block, 
+.card-access-dark ul {
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
