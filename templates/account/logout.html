@@ -1,28 +1,56 @@
 {% extends "base.html" %}
 {% load i18n %}
 
+<!-- Title Block -->
+{% block title %}Sign Out | IRSQuant{% endblock %}
+
 {% block content %}
-    <div class="container py-5 mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-5">
-                <div class="card shadow-lg border-0 card-access-dark p-5 text-center">
-                    <h1 class="brand-orange fw-bold h3 mb-4">{% trans "Sign Out" %}</h1>
-                    <p class="text-white-50 mb-4">{% trans "Are you sure you want to sign out of the terminal?" %}</p>
+    <div class="container h-100">
+        
+        <div class="row h-100 justify-content-center align-items-center" style="min-height: 80vh;">
+            <div class="col-md-6 col-lg-5">
 
-                    <form method="post" action="{% url 'account_logout' %}">
-                        {% csrf_token %}
-                        {% if redirect_field_value %}
-                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-                        {% endif %}
-                        <button type="submit" class="btn brand-orange btn-outline-danger fw-bold w-100 py-2">
-                            {% trans "Confirm Sign Out" %}
-                        </button>
-                    </form>
+            <!-- Brand Header -->
+                <div class="text-center mb-4">
+                    <h2 class="text-ua-gold fw-bold"><i class="fa-solid fa-power-off me-2"></i>IRSQUANT</h2>
+                    <p class="text-secondary fw-bold">Secure Session Termination</p>
+                </div>
 
-                    <a href="{% url 'dashboard' %}" class="btn btn-link text-white-50 mt-3 text-decoration-none">
-                        Cancel and Return
+            <!-- Card: Navy Background -->
+                <div class="card card-access-dark shadow-lg border-0">
+                    <div class="card-body p-5 text-center">
+                        
+                        <h3 class="fw-bold mb-3" style="color: var(--ua-gold);">
+                            {% trans "Sign Out" %}
+                        </h3>
+
+                        <p class="text-light mb-4">
+                            {% trans "Are you sure you want to close your trading session?" %}
+                        </p>
+
+                        <form method="post" action="{% url 'account_logout' %}">
+                            {% csrf_token %}
+                            {% if redirect_field_value %}
+                                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                            {% endif %}
+                            
+                            <div class="d-grid gap-2 mt-4">
+                                <button type="submit" class="btn btn-ua-gold py-2 fw-bold">
+                                    <i class="fa-solid fa-lock me-2"></i>{% trans "Confirm Sign Out" %}
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            <!-- Cancel Link -->
+                <div class="text-center mt-3">
+                    <a href="{% url 'dashboard' %}" class="text-decoration-none text-secondary fw-bold">
+                        <i class="fa-solid fa-xmark me-1"></i> Cancel and Return
                     </a>
                 </div>
+
             </div>
         </div>
     </div>
