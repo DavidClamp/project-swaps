@@ -99,28 +99,12 @@ I've tested my deployed project to check for responsiveness issues.
 | Analyser | ![screenshot](documentation/responsiveness/mobile_analyser.png) | ![screenshot](documentation/responsiveness//laptop_analyser.png) | ![screenshot](documentation/responsiveness/desktop_analyser.png) | Works as expected |
 | Term Structure | ![screenshot](documentation/responsiveness/laptop_term.png) | ![screenshot](documentation/responsiveness/laptop_term.png) | ![screenshot](documentation/responsiveness/desktop_term.png) | Work as expected |
 | Rate History | ![screenshot](documentation/responsiveness/mobile_history.png) | ![screenshot](documentation/responsiveness/laptop_history.png) | ![screenshot](documentation/responsiveness/desktop_history.png) | Work as expected |
-(documentation/responsiveness/desktop-product-details.png) | Works as expected |
 | Add Trade| ![screenshot](documentation/responsiveness/mobile_addtrade.png) | ![screenshot](documentation/responsiveness/laptop_addtrade.png) | ![screenshot](documentation/responsiveness/desktop_addtrade.png) | Works as expected |
-| Delete Trade| ![screenshot](documentation/responsiveness/mobile-bag.png) | ![screenshot](documentation/responsiveness/tablet-bag.png) | ![screenshot](documentation/responsiveness/desktop-bag.png) | Works as expected |
+| Edit Trade| ![screenshot](documentation/responsiveness/mobile_edittrade.png) | ![screenshot](documentation/responsiveness/laptop_edittrade.png) | ![screenshot](documentation/responsiveness/desktop_edittrade.png) | Works as expected |
+| Delete Trade| ![screenshot](documentation/responsiveness/mobile_confirmdelete.png) | ![screenshot](documentation/responsiveness/laptop_confirmdelete.png) | ![screenshot](documentation/responsiveness/mobile_confirmdelete.png) | Works as expected |
 | 404 | ![screenshot](documentation/responsiveness/mobile_404.png) | ![screenshot](documentation/responsiveness/laptop_404.png) | ![screenshot](documentation/responsiveness/desktop_404.png) | Works as expected |
 | 500 | ![screenshot](documentation/responsiveness/mobile_500.png) | ![screenshot](documentation/responsiveness/laptop_500.png) | ![screenshot](documentation/responsiveness/desktop_500.png) | Works as expected |
 
-### The "Hybrid Navbar" Audit
-A critical UX requirement was implementing a "Hybrid" navigation system that behaves like a Financial Terminal on Desktop but a standard App on Mobile.
-
-| Device | Width | Expected Behavior | Actual Outcome |
-| :--- | :--- | :--- | :--- |
-| **Desktop Monitor** | >1200px | Full horizontal menu. "Login" is Ghost Gold, "Sign Up" is Solid Gold. No Hamburger icon. | ✅ PASS |
-| **Laptop** | 992px - 1200px | Layout scales. Links remain inline. User Name sits next to Logout. | ✅ PASS |
-| **Tablet** | 768px - 991px | **Break Point Triggered.** Menu collapses behind "Gold" Hamburger. Toggling reveals menu. | ✅ PASS |
-| **Mobile** | <768px | Full vertical stack. "Logout" button becomes full width (`d-block`) for thumb-accessibility. <br> **Visual Separation:** A divider line appears between "Tools" and "Auth" links. | ✅ PASS |
-
-### Theme Consistency Check
-*   **Gold Variables:** Verified `var(--ua-gold)` renders consistently (#FFDD00) on all buttons, borders, and active states.
-*   **Ghost Buttons:** Hover states on "Login" correctly invert from Transparent → Gold Background / Navy Text.
-*   **Auth Pages:** Confirmed `login.html` and `signup.html` extend `base.html` (Navy background) rather than flashing a default white page.
-
----
 
 ## 3. Browser Compatibility
 
@@ -129,15 +113,16 @@ I've tested my deployed project on multiple browsers to check for compatibility 
 
 | Page | Chrome | Firefox | Edge | Notes |
 | --- | --- | --- | --- | --- |
-| Register | ![screenshot](documentation/browsers/chrome-register.png) | ![screenshot](documentation/browsers/firefox-register.png) | ![screenshot](documentation/browsers/safari-register.png) | Works as expected |
-| Login | ![screenshot](documentation/browsers/chrome-login.png) | ![screenshot](documentation/browsers/firefox-login.png) | ![screenshot](documentation/browsers/safari-login.png) | Works as expected |
-| Dashboard ![screenshot](documentation/browsers/chrome-profile.png) | ![screenshot](documentation/browsers/firefox-profile.png) | ![screenshot](documentation/browsers/safari-profile.png) | Works as expected |
-| Blotter | ![screenshot](documentation/browsers/chrome-home.png) | ![screenshot](documentation/browsers/firefox-home.png) | ![screenshot](documentation/browsers/safari-home.png) | Works as expected |
-| Analyser | ![screenshot](documentation/browsers/chrome-products.png) | ![screenshot](documentation/browsers/firefox-products.png) | ![screenshot](documentation/browsers/safari-products.png) | Works as expected |
-| Term Structure | ![screenshot](documentation/browsers/chrome-product-details.png) | ![screenshot](documentation/browsers/firefox-product-details.png) | ![screenshot](documentation/browsers/safari-product-details.png) | Works as expected |
-| Add Trade | ![screenshot](documentation/browsers/chrome-bag.png) | ![screenshot](documentation/browsers/firefox-bag.png) | ![screenshot](documentation/browsers/safari-bag.png) | Works as expected |
-| 404 | ![screenshot](documentation/browsers/chrome-bag.png) | ![screenshot](documentation/browsers/firefox-bag.png) | ![screenshot](documentation/browsers/safari-bag.png) | Works as expected |
-| 500 | ![screenshot](documentation/browsers/chrome-bag.png) | ![screenshot](documentation/browsers/firefox-bag.png) | ![screenshot](documentation/browsers/safari-bag.png) | Works as expected |
+| Sign in | ![screenshot](documentation/responsiveness/desktop_signin.png) | ![screenshot](documentation/browser/firefox_signin.png) | ![screenshot](documentation/browser/edge_signin.png) | Works as expected |
+| sign out | ![screenshot](documentation/responsiveness/desktop_signout.png) | ![screenshot](documentation/browser/firefox_signout.png) | ![screenshot](documentation/browser/edge_signout.png) | Works as expected |
+| Dashboard | ![screenshot](documentation/responsiveness/desktop_dashboard.png) | ![screenshot](documentation/browser/firefox_dashboard.png) | ![screenshot](documentation/browser/edge_dashboard.png) | Works as expected |
+| Blotter | ![screenshot](documentation/responsiveness/desktop_blotter.png) | ![screenshot](documentation/browser/firefox_blotter.png) | ![screenshot](documentation/browser/edge_blotter.png) | Works as expected |
+| Analyser | ![screenshot](documentation/responsiveness/desktop_analyser.png) | ![screenshot](documentation/browser/firefox_analysis.png) | ![screenshot](documentation/browser/edge_analyser.png) | Works as expected |
+| Term Structure | ![screenshot](documentation/responsiveness/desktop_term.png) | ![screenshot](documentation/browser/firefox_term.png) | ![screenshot](documentation/browser/edge_term.png) | Works as expected |
+| Rates History | ![screenshot](documentation/responsiveness/desktop_history.png) | ![screenshot](documentation/browser/firefox_rate.png) | ![screenshot](documentation/browser/edge_rate.png) | Works as expected |
+| Add Trade | ![screenshot](documentation/responsiveness/desktop_addtrade.png) | ![screenshot](documentation/browser/firefox_addtrade.png) | ![screenshot](documentation/browser/edge_addtrade.png) | Works as expected |
+| 404 | ![screenshot](documentation/responsiveness/desktop_404.png) | ![screenshot](documentation/browsers/firefox-bag.png) | ![screenshot](documentation/browsers/safari-bag.png) | Works as expected |
+| 500 | ![screenshot](documentation/responsiveness/desktop_500.png) | ![screenshot](documentation/browsers/firefox-bag.png) | ![screenshot](documentation/browsers/safari-bag.png) | Works as expected |
 
 
 ## 4. Data Integrity & Logic Testing

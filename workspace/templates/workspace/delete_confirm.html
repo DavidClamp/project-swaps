@@ -1,34 +1,48 @@
-<div class="container py-5 mt-5">
-    <div class="card shadow-lg border-0 mx-auto" style="max-width: 500px; border-top: 5px solid var(--bs-pnl-red);">
-        <div class="card-body text-center p-5">
-            <!-- 1. High-Contrast Icon  -->
-            <i class="fa-solid fa-triangle-exclamation fa-4x mb-4 text-pnl-negative"></i>
+{% extends 'base.html' %}
+{# Django template inheritance from central layout #}
 
-            <!-- 2. Semantic Heading -->
-            <h1 class="h3 fw-bold text-dark mb-3">Confirm Deletion</h1>
+{% block content %}
+<!-- WRAPPER: -->
+<div class="w-100 min-vh-100 d-flex align-items-center bg-light">
 
-            <!-- 3. Safe Contrast Body Text -->
-            <p class="text-dark mb-4 px-3">
-                Are you sure you want to delete trade
-                <strong class="text-pnl-negative">{{ trade.trade_id }}</strong>?
-                <br>
-                <span class="small opacity-75">This action will permanently remove it from strategy NPV aggregations.</span>
-            </p>
+    <div class="container">
+        <!-- 1. Main Card: -->
+        <div class="card shadow-lg mx-auto text-white" 
+             style="max-width: 500px; background-color: var(--ua-navy); border: 1px solid #444; border-top: 5px solid #dc3545;">
+            
+            <div class="card-body text-center p-5">
+                <!-- 2. Warning Icon -->
+                <i class="fa-solid fa-triangle-exclamation fa-4x mb-4 text-danger"></i>
 
-            <!-- 4. High-Contrast Button Row -->
-            <form method="POST" class="d-flex justify-content-center gap-3">
-                {% csrf_token %}
-                <!-- Red Button using your Section 4 CSS -->
-                <button type="submit" class="btn btn-outline-danger fw-bold px-4 py-2">
-                    <i class="fa-solid fa-trash-can me-2"></i>Yes, Delete
-                </button>
+                <!-- 3. Heading -->
+                <h1 class="h3 fw-bold mb-3">Confirm Deletion</h1>
 
-                <!-- Navy Button matching your Section 3 Branding -->
-                <a href="{% url 'blotter' %}" class="btn px-4 py-2 fw-bold"
-                   style="border: 2px solid var(--ua-navy); color: var(--ua-navy);">
-                    Cancel
-                </a>
-            </form>
+                <!-- 4. Body Text -->
+                <p class="mb-5 px-3" style="font-size: 1.1rem; color: #ccc;">
+                    Are you sure you want to delete trade
+                    <strong style="color: var(--ua-gold); font-size: 1.2em;">{{ trade.trade_id }}</strong>?
+                    <br>
+                    <span class="small opacity-75 d-block mt-2">
+                        This action will permanently remove it from strategy NPV aggregations.
+                    </span>
+                </p>
+
+                <!-- 5. Action Row -->
+                <form method="POST" class="d-flex justify-content-center gap-3">
+                    {% csrf_token %}
+                    
+                    <!-- Primary Action: -->
+                    <button type="submit" class="btn btn-danger fw-bold px-4 py-2 shadow-sm">
+                        <i class="fa-solid fa-trash-can me-2"></i>Yes, Delete
+                    </button>
+
+                    <!-- Secondary Action: -->
+                    <a href="{% url 'blotter' %}" class="btn btn-outline-dark fw-bold px-4 py-2 shadow-sm">
+                        Cancel
+                    </a>
+                </form>
+            </div>
         </div>
     </div>
 </div>
+{% endblock %}
