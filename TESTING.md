@@ -91,17 +91,19 @@ I've tested my deployed project to check for responsiveness issues.
 
 | Page | Mobile | Tablet | Desktop | Notes |
 | --- | --- | --- | --- | --- |
-| login | ![screenshot](documentation/responsiveness/mobile-register.png) | ![screenshot](documentation/responsiveness/tablet-register.png) | ![screenshot](documentation/responsiveness/desktop-register.png) | Works as expected |
-| signin | ![screenshot](documentation/responsiveness/mobile-login.png) | ![screenshot](documentation/responsiveness/tablet-login.png) | ![screenshot](documentation/responsiveness/desktop-login.png) | Works as expected |
-| signout | ![screenshot](documentation/responsiveness/mobile-login.png) | ![screenshot](documentation/responsiveness/tablet-login.png) | ![screenshot](documentation/responsiveness/desktop-login.png) | Works as expected |
-| Dashboard| ![screenshot](documentation/responsiveness/mobile-profile.png) | ![screenshot](documentation/responsiveness/tablet-profile.png) | ![screenshot](documentation/responsiveness/desktop-profile.png) | Works as expected |
-| Blotter | ![screenshot](documentation/responsiveness/mobile-home.png) | ![screenshot](documentation/responsiveness/tablet-home.png) | ![screenshot](documentation/responsiveness/desktop-home.png) | Works as expected |
-| Analyser | ![screenshot](documentation/responsiveness/mobile-products.png) | ![screenshot](documentation/responsiveness/tablet-products.png) | ![screenshot](documentation/responsiveness/desktop-products.png) | Works as expected |
-| Term Structure | ![screenshot](documentation/responsiveness/mobile-product-details.png) | ![screenshot](documentation/responsiveness/tablet-product-details.png) | ![screenshot](documentation/responsiveness/desktop-product-details.png) | Works as expected |
-| Add Trade| ![screenshot](documentation/responsiveness/mobile-bag.png) | ![screenshot](documentation/responsiveness/tablet-bag.png) | ![screenshot](documentation/responsiveness/desktop-bag.png) | Works as expected |
-| Add Trade| ![screenshot](documentation/responsiveness/mobile-bag.png) | ![screenshot](documentation/responsiveness/tablet-bag.png) | ![screenshot](documentation/responsiveness/desktop-bag.png) | Works as expected |
-| 404 | ![screenshot](documentation/responsiveness/mobile-404.png) | ![screenshot](documentation/responsiveness/tablet-404.png) | ![screenshot](documentation/responsiveness/desktop-404.png) | Works as expected |
-| 500 | ![screenshot](documentation/responsiveness/mobile-404.png) | ![screenshot](documentation/responsiveness/tablet-404.png) | ![screenshot](documentation/responsiveness/desktop-404.png) | Works as expected |
+| Sign in | ![screenshot](documentation/responsiveness/mobile_signin.png) | ![screenshot](documentation/responsiveness/laptop_signin.png) | ![screenshot](documentation/responsiveness/desktop_signin.png) | Works as expected |
+| Sign out | ![screenshot](documentation/responsiveness/mobile_signout.png) | ![screenshot](documentation/responsiveness/laptop_signout.png) | ![screenshot](documentation/responsiveness/desktop_signout.png) | Works as expected |
+| Subscription | ![screenshot](documentation/responsiveness/mobile_subscription.png) | ![screenshot](documentation/responsiveness/laptop_subscription.png) | ![screenshot](documentation/responsiveness/desktop_subscription.png) | Works as expected |
+| Dashboard| ![screenshot](documentation/responsiveness/mobile_dashboard.png) | ![screenshot](documentation/responsiveness/laptop_dashboard.png) | ![screenshot](documentation/responsiveness/desktop_dashboard.png) | Works as expected |
+| Blotter | ![screenshot](documentation/responsiveness/mobile_blotter.png) | ![screenshot](documentation/responsiveness/laptop_blotter.png) | ![screenshot](documentation/responsiveness/desktop_blotter.png) | Works as expected |
+| Analyser | ![screenshot](documentation/responsiveness/mobile_analyser.png) | ![screenshot](documentation/responsiveness//laptop_analyser.png) | ![screenshot](documentation/responsiveness/desktop_analyser.png) | Works as expected |
+| Term Structure | ![screenshot](documentation/responsiveness/laptop_term.png) | ![screenshot](documentation/responsiveness/laptop_term.png) | ![screenshot](documentation/responsiveness/desktop_term.png) | Work as expected |
+| Rate History | ![screenshot](documentation/responsiveness/mobile_history.png) | ![screenshot](documentation/responsiveness/laptop_history.png) | ![screenshot](documentation/responsiveness/desktop_history.png) | Work as expected |
+(documentation/responsiveness/desktop-product-details.png) | Works as expected |
+| Add Trade| ![screenshot](documentation/responsiveness/mobile_addtrade.png) | ![screenshot](documentation/responsiveness/laptop_addtrade.png) | ![screenshot](documentation/responsiveness/desktop_addtrade.png) | Works as expected |
+| Delete Trade| ![screenshot](documentation/responsiveness/mobile-bag.png) | ![screenshot](documentation/responsiveness/tablet-bag.png) | ![screenshot](documentation/responsiveness/desktop-bag.png) | Works as expected |
+| 404 | ![screenshot](documentation/responsiveness/mobile_404.png) | ![screenshot](documentation/responsiveness/laptop_404.png) | ![screenshot](documentation/responsiveness/desktop_404.png) | Works as expected |
+| 500 | ![screenshot](documentation/responsiveness/mobile_500.png) | ![screenshot](documentation/responsiveness/laptop_500.png) | ![screenshot](documentation/responsiveness/desktop_500.png) | Works as expected |
 
 ### The "Hybrid Navbar" Audit
 A critical UX requirement was implementing a "Hybrid" navigation system that behaves like a Financial Terminal on Desktop but a standard App on Mobile.
