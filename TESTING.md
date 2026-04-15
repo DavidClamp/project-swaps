@@ -124,7 +124,6 @@ I've tested my deployed project on multiple browsers to check for compatibility 
 | 404 | ![screenshot](documentation/responsiveness/desktop_404.png) | ![screenshot](documentation/browsers/firefox-bag.png) | ![screenshot](documentation/browsers/safari-bag.png) | Works as expected |
 | 500 | ![screenshot](documentation/responsiveness/desktop_500.png) | ![screenshot](documentation/browsers/firefox-bag.png) | ![screenshot](documentation/browsers/safari-bag.png) | Works as expected |
 
-
 ## 4. Data Integrity & Logic Testing
 
 This section verifies the "BlueGamma" inspired market data logic.
