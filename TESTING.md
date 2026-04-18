@@ -76,37 +76,40 @@ I have used the [W3C Jigsaw Validator](https://jigsaw.w3.org/css-validator/) to 
 
 | Directory | File | Status | Screenshot | Notes |
 | --- | --- | --- | --- | --- |
-| static | [style.css](https://github.com/DavidClamp/project-swaps/blob/main/static/css/style.css) | ✅ PASS | ![screenshot](documentation/validation/css-static-style.png) | Validated Root Variables (`--ua-gold`) and vendor prefixes. |
+| static | [style.css](https://github.com/DavidClamp/project-swaps/blob/main/static/css/style.css) | ✅ PASS | ![screenshot](documentation/validation/css-static-style.png) | All root variables and vendor prefixes validated successfully vendor prefixes. |
 
 
 ### Python Validation
 All Python code was checked using the **CI Python Linter** (PEP8 standard).
 
-**IMPORTANT**: `E501 line too long` errors
+**NOTE**: `E501 line too long` 
 
-I have strived to fix all Python lines that are too long (>80 characters). In some cases I cannot break the lines [*without breaking the functionality*].
+Where possible, long lines were refactored. Some Django‑generated or settings‑related lines cannot be shortened without breaking functionality.
+
 
 | Directory | File | URL | Screenshot | Status | Notes |
 | --- | --- | --- | --- | --- | --- |
 | 
-| Root | [manage.py](https://github.com/DavidClamp/project-swaps/blob/main/manage.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/manage.py) | ![screenshot](documentation/validation/py--manage.png) | ⚠️ Notes (if applicable) |
-| swapanalyser | [settings.py](https://github.com/DavidClamp/project-swaps/blob/main/swapanalyser/settings.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/swapanalyser/settings.py) | ![screenshot](documentation/validation/py-swapanalyser-settings.png) | Ignored "Line too long" for AUTH_PASSWORD_VALIDATORS (Standard Django Exception). |
-| swapanalyser | [urls.py](https://github.com/DavidClamp/project-swaps/blob/main/swapanalyser/urls.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/swapanalyser/urls.py) | ![screenshot](documentation/validation/py-swapanalyser-urls.png) | ⚠️ Notes (if applicable) |
-| workspace | [admin.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/admin.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/admin.py) | ![screenshot](documentation/validation/py-workspace-admin.png) | ⚠️ Notes (if applicable) |
-| workspace | [checkout_views.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/checkout_views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/checkout_views.py) | ![screenshot](documentation/validation/py-workspace-checkout_views.png) | ⚠️ Notes (if applicable) |
-| workspace | [choices.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/choices.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/choices.py) | ![screenshot](documentation/validation/py-workspace-choices.png) | ⚠️ Notes (if applicable) |
-| workspace | [data_handler.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/data_handler.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/data_handler.py) | ![screenshot](documentation/validation/py-workspace-data_handler.png) | ⚠️ Notes (if applicable) |
-| workspace | [forms.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/forms.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/forms.py) | ![screenshot](documentation/validation/py-workspace-forms.png) | ⚠️ Notes (if applicable) |
-| workspace | [models.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/models.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/models.py) | ![screenshot](documentation/validation/py-workspace-models.png) | ⚠️ Notes (if applicable) |
-| workspace | [tests.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/tests.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/tests.py) | ![screenshot](documentation/validation/py-workspace-tests.png) | ⚠️ Notes (if applicable) |
-| workspace | [utils.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/utils.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/utils.py) | ![screenshot](documentation/validation/py-workspace-utils.png) | ⚠️ Notes (if applicable) |
-| workspace | [views.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/views.py) | ![screenshot](documentation/validation/py-workspace-views.png) | ⚠️ Notes (if applicable) |
+| Root | [manage.py](https://github.com/DavidClamp/project-swaps/blob/main/manage.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/manage.py) | ![screenshot](documentation/validation/py--manage.png) | ⚠️ | Minor warnings |
+| swapanalyser | [settings.py](https://github.com/DavidClamp/project-swaps/blob/main/swapanalyser/settings.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/swapanalyser/settings.py) | ![screenshot](documentation/validation/py-swapanalyser-settings.png) | ⚠️| Long lines in AUTH_PASSWORD_VALIDATORS (standard Django exception) |
+| swapanalyser | [urls.py](https://github.com/DavidClamp/project-swaps/blob/main/swapanalyser/urls.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/swapanalyser/urls.py) | ![screenshot](documentation/validation/py-swapanalyser-urls.png) | ⚠️ | Minor warnings |
+| workspace | [admin.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/admin.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/admin.py) | ![screenshot](documentation/validation/py-workspace-admin.png) | ⚠️ | Minor warnings |
+| workspace | [checkout_views.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/checkout_views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/checkout_views.py) | ![screenshot](documentation/validation/py-workspace-checkout_views.png) | ⚠️ | Minor warnings |
+| workspace | [choices.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/choices.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/choices.py) | ![screenshot](documentation/validation/py-workspace-choices.png) | ⚠️| Minor warnings |
+| workspace | [data_handler.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/data_handler.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/data_handler.py) | ![screenshot](documentation/validation/py-workspace-data_handler.png) | ⚠️ | Minor warnings |
+| workspace | [forms.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/forms.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/forms.py) | ![screenshot](documentation/validation/py-workspace-forms.png) | ⚠️ | Minor warnings |
+| workspace | [models.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/models.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/models.py) | ![screenshot](documentation/validation/py-workspace-models.png) | ⚠️ | Minor warnings |
+| workspace | [tests.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/tests.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/tests.py) | ![screenshot](documentation/validation/py-workspace-tests.png) | ⚠️ | Minor warnings |
+| workspace | [utils.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/utils.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/utils.py) | ![screenshot](documentation/validation/py-workspace-utils.png) | ⚠️ | Minor warnings |
+| workspace | [views.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/views.py) | ![screenshot](documentation/validation/py-workspace-views.png) | ⚠️ | Minor warnings |
 
 ---
 
 ## 2. Responsive & Theme Testing
 
 ### Responsiveness
+
+Responsiveness was tested across mobile, tablet and desktop breakpoints.
 I've tested my deployed project to check for responsiveness issues.
 
 | Page | Mobile | Tablet | Desktop | Notes |
@@ -128,8 +131,7 @@ I've tested my deployed project to check for responsiveness issues.
 
 ## 3. Browser Compatibility
 
-
-I've tested my deployed project on multiple browsers to check for compatibility issues.
+The deployed project was tested across the three major browsers to ensure consistent rendering, layout stability, and functional parity.
 
 | Page | Chrome | Firefox | Edge | Notes |
 | --- | --- | --- | --- | --- |
@@ -144,9 +146,11 @@ I've tested my deployed project on multiple browsers to check for compatibility 
 | 404 | ![screenshot](documentation/responsiveness/desktop_404.png) | ![screenshot](documentation/browsers/firefox-bag.png) | ![screenshot](documentation/browsers/safari-bag.png) | Works as expected |
 | 500 | ![screenshot](documentation/responsiveness/desktop_500.png) | ![screenshot](documentation/browsers/firefox-bag.png) | ![screenshot](documentation/browsers/safari-bag.png) | Works as expected |
 
+No browser‑specific issues were identified. All pages behaved consistently across Chrome, Firefox, and Edge.
+
 ## 4. Data Integrity & Logic Testing
 
-This section verifies the "BlueGamma" inspired market data logic.
+This section verifies the correctness, safety, and resilience of the “BlueGamma‑inspired” market data logic used throughout IRSQuant.
 
 ### Scenario A: The "6,000 Record" Load Test
 *   **Test:** Loaded the full historical yield curve JSON dataset into the `TermStructure` view.
@@ -155,34 +159,35 @@ This section verifies the "BlueGamma" inspired market data logic.
 *   **Status:** ✅ PASS
 
 ### Scenario B: The "KeyError" Safety Net
-*   **Test:** Intentionally introduced a JSON record with a missing `mid_rate` key to simulate a feed outage.
-*   **Logic:** The Django template filter `|default:"N/A"` intercepted the error.
-*   **Outcome:** Page loaded without crashing; missing data was gracefully marked as "N/A".
+*   **Test:** Intentionally introduced a JSON record with a missing `mid_rate` key.
+*   **Logic:** The Django template filter `|default:"N/A"` prevented a crash.
+*   **Outcome:** Page loaded normally; missing values displayed as "N/A".
 *   **Status:** ✅ PASS
 
 ### Scenario C: Attribution Links (Legal)
-*   **Test:** Clicked "BlueGamma" link in Footer.
-*   **Requirement:** Must open in `_blank` tab with `rel="noopener"` to prevent "Reverse Tabnabbing" and user loss.
-*   **Outcome:** Link opened safely in new tab. Original app remained open.
+*   **Test:** Clicked "BlueGamma" attribution link in the footer.
+*   **Requirement:** Must open in a new tab with `rel="noopener"` to prevent "Reverse Tabnabbing".
+*   **Outcome:** Link opened safely in new tab. Original app remained active.
 *   **Status:** ✅ PASS
 
 ## 5. Business Logic & Data Privacy
 
-**Objective:** Verify that the Dashboard correctly aggregates financial data WITHOUT leaking information between users.
+These tests ensure that IRSQuant correctly isolates user data, aggregates financial metrics, and handles zero‑state scenarios safely.
+
 
 | Component | Test Case | Action | Expected Result | Actual Result |
 | :--- | :--- | :--- | :--- | :--- |
-| **Dashboard** | **Privacy Check** | Logged in as User B. Checked Total NPV. | Should NOT include User A's trades. | **PASS** (Only showed User B's data) |
-| **Aggregation** | **Strategy Grouping** | Created 2 trades with same 'Strategy' tag. | Dashboard should group them into one row. | **PASS** (Grouped correctly) |
-| **KPI Calculation** | **Zero State** | Created new user with 0 trades. | NPV should be $0, no crashes. | **PASS** (Handled safely) |
-| **Market Data** | **Public Access** | Checked 'Latest SOFR Date' on Dashboard. | Should show date regardless of user. | **PASS** (Global data is accessible) |
+| **Dashboard** | **Privacy Check** | Logged in as User B| Should NOT show User A's trades. | ✅ PASS |
+| **Aggregation** | **Strategy Grouping** | Created 2 trades with same strategy | Should group into one row. | ✅ PASS |
+| **KPI Calculation** | **Zero State** | New user with 0 trades | NPV should be $0, no errors. | ✅ PASS |
+| **Market Data** | **Public Access** | Viewed 'Latest SOFR Date' | Should be visable to all usera. | ✅ PASS |
 
 ---
-
 ## 4. Lighthouse Audit
 
 
-I've tested my project using the Lighthouse Audit tool to test Performance, Accessibility, Best Practices, and SEO. Some warnings are outside of my control, and mobile results tend to be lower than desktop.
+Lighthouse was used to test Performance, Accessibility, Best Practices, and SEO on both mobile and desktop.
+Mobile scores are naturally lower due to Heroku Eco dyno cold‑start behaviour.
 
 | Page | Mobile | Desktop | Notes |
 | --- | --- | --- | --- |
@@ -200,61 +205,56 @@ I've tested my project using the Lighthouse Audit tool to test Performance, Acce
 ---
 ## 5. Defensive Programming
 
-⚠️ INSTRUCTIONS ⚠️
-
-Defensive programming (defensive design) is extremely important! When building projects that accept user inputs or forms, you should always test the level of security for each form field. Examples of this could include (but not limited to):
-
-
-- **Expected**: "Feature is expected to do X when the user does Y."
-- **Testing**: "Tested the feature by doing Y."
-- (either) **Result**: "The feature behaved as expected, and it did Y."
-- (or) **Result**: "The feature did not respond to A, B, or C."
-- **Fix**: "I did Z to the code because something was missing."
-
-Use the table below as a basic start, and expand on it using the logic above.
-
-⚠️ --- END --- ⚠️
-
-Defensive programming was manually tested with the below user acceptance testing:
+Defensive programming ensures that the application handles invalid input, unexpected user behaviour, and system errors safely.
 
 | Page | Expectation | Test | Result | Screenshot |
 | --- | --- | --- | --- | --- |
-| 404 Error Page | Feature is expected to display a 404 error page for non-existent pages. | Navigated to an invalid URL (e.g., `/test`). | A custom 404 error page was displayed as expected. | ![screenshot](documentation/defensive/404.png) |
-| 500 Error Page | Feature is expected to display a 404 error page for non-existent pages. | Navigated to an invalid URL (e.g., `/test`). | A custom 404 error page was displayed as expected. | ![screenshot](documentation/defensive/404.png) |
+| 404 Error Page | Should display custom 404 page for invalid URLs | Navigated to ``/test`` | Custom 404 displayed | screenshot |
+| 500 Error Page | Should display custom 500 page on server error | Triggered via trap‑door URL | Custom 500 displayed | screenshot |
+
 
 ## 6. User Story Testing
 
 ### Features Mapped to User Stories ###
 
-The table below demonstrates how each implemented feature fulfils specific user needs identified in the User Stories section.
-| Target | Expectation | Outcome | Screenshot |
-| --- | --- | --- | ---|
-| User | I want to register an account so that I can access platform features | Users can create an account using Django Allauth, enabling access to authenticated areas ||
-| User | I want to securely log in and out so that my data is protected | Authentication system ensures secure session management||
-| User | Stripe Subscription |As a user, I want to upgrade to Pro so that I can access advanced features | Stripe integration enables Stripe-powered subscription payments |
-| Pro User |Payment Confirmation Email | As a Pro user, I want confirmation of my payment so that I have a record | Automated email is triggered after successful Stripe transaction |
-| Pro User | I want a central dashboard so that I can quickly access key features | Dashboard provides an overview of analytics, navigation, and account status ||
-| Pro User | I want to view yield curve charts so that I can analyse the swaps market | Analysis board displays current market zero and par curves ||
-| Pro User |Implied Forward Rate Curve Visualisation | As a user, I want to view forward yield curve to analyse implied path | Interactive charts display current implied path of 1-year rates |
-| Pro User | Rate Distribution Charts | As a user, I want to view historical distributions so that I can understand market behaviour | Histogram charts present historical rate data clearly  |
-| Pro User |Trade Blotter | As a Pro user, I want to view all my trades so that I can manage my portfolio | Displays all user trades with key metrics such as MTM |
-| Pro User | Add Trade Functionality | As a Pro user, I want to add trades so that I can build a portfolio | Users can input trade details via validated forms |
-| Pro User | I want to see MTM values so that I can track performance | Backend calculations provide dynamically calculated portfolio valuation based on current dataset |
-| Pro User | I want exclusive access to advanced tools | Subscription status controls access to restricted features |
-| Site Owner | I want to manage users and trades so that I can manage users and trade data | Django admin panel allows full database management                                       |
-| User | I want clear 404 and 500 error pages so that I can recover from issues | Custom error pages improve user experience during failures                               |
----
+Each implemented feature was tested against the original User Stories to ensure that the application meets the needs of its intended users. The table below maps each user story to the corresponding feature and outcome.
+
+| Target | Expectation (User Story) | Outcome | Screenshot |
+| --- | --- | --- | --- |
+| User | I want to register an account so that I can access platform features | Users can register via Django Allauth and gain access to authenticated areas | — |
+| User | I want to securely log in and out so that my data is protected | Django Allauth provides secure session‑based authentication | — |
+| User | I want to upgrade to Pro so that I can access advanced features | Stripe subscription system enables secure payments and upgrades | — |
+| Pro User | I want a payment confirmation email so that I have a record | Automated confirmation email sent after successful Stripe transaction | — |
+| Pro User | I want a central dashboard so that I can quickly access key features | Dashboard displays analytics, navigation shortcuts, and account status | — |
+| Pro User | I want to view yield curve charts so that I can analyse the swaps market | Analysis board displays current zero and par curves | — |
+| Pro User | I want to view implied forward curves to analyse future expectations | Interactive charts show implied 1‑year forward rate paths | — |
+| Pro User | I want to view historical rate distributions | Histogram charts display historical rate behaviour | — |
+| Pro User | I want to view all my trades so that I can manage my portfolio | Blotter lists all user trades with MTM and key metrics | — |
+| Pro User | I want to add trades so that I can build a portfolio | Validated forms allow users to input new trades | — |
+| Pro User | I want to see MTM values so that I can track performance | Backend logic calculates MTM dynamically using current market data | — |
+| Pro User | I want exclusive access to advanced tools | Subscription status controls access to restricted features | — |
+| Site Owner | I want to manage users and trades | Django Admin provides full CRUD access to all models | — |
+| User | I want clear 404 and 500 pages so that I can recover from issues | Custom error pages improve UX during failures | — |
 
 
-## Automated Testing
 
-## Testing Documentation
+## 7. Automated Testing
 
-## 1. Automated Testing (Django & Unittest)
-The application uses Django's built-in `unittest` framework to verify data integrity, view accessibility, and calculation logic.
+### 7.1 Django Unittest Framework
+
+Automated tests were written using Django’s built‑in unittest framework to verify:
+
+- Model behaviour
+
+- View accessibility
+
+- Form validation
+
+- Calculation logic
+
 
 ### **Running Tests**
-To execute the automated test suite, I ran the following command in the terminal:
+
 ```powershell
 python manage.py test workspace
 
@@ -277,44 +277,32 @@ Ran 5 tests in 7.928s
 
 OK
 ```
-
-> [!NOTE]  
-> I fully acknowledge and understand that, in a real-world scenario, an extensive set of additional tests would be more comprehensive.
-
-### 7. Python (Unit Testing)
+These tests confirm that the core logic of the application behaves as expected.
+In a production environment, a more extensive suite would be implemented.
 
 
-I have used Django's built-in unit testing framework to test the application functionality. In order to run the tests, I ran the following command in the terminal each time:
+### 7.2 Coverage Testing
 
-- `python manage.py test name-of-app`
+Coverage was used to measure how much of the codebase is executed during testing.
 
-To create the coverage report, I would then run the following commands:
+pip3 install coverage
+pip3 freeze --local > requirements.txt
+coverage run --omit="*/site-packages/*,*/migrations/*,*/__init__.py,env.py,.env" manage.py test
+coverage report
+coverage html
+python -m http.server
 
-- `pip3 install coverage`
-- `pip3 freeze --local > requirements.txt`
-- `coverage run --omit="*/site-packages/*,*/migrations/*,*/__init__.py,env.py,.env" manage.py test`
-- `coverage report`
 
-To see the HTML version of the reports, and find out whether some pieces of code were missing, I ran the following commands:
-
-- `coverage html`
-- `python -m http.server`
-
-Below are the results from the full coverage report on my application that I've tested:
+Below are the results from the full coverage report.
 
 ![screenshot](documentation/automation/html-coverage.png)
 
-#### Unit Test Issues
-
-⚠️ INSTRUCTIONS ⚠️
-
-Use this section to list any known issues you ran into while writing your Python unit tests. Remember to include screenshots (where possible), and a solution to the issue (if known). This can be used for both "fixed" and "unresolved" issues. Remove this sub-section entirely if you somehow didn't run into any issues while working with your tests.
-
-⚠️ --- END --- ⚠️
 
 ## 8. Known Bugs & Fixes
 
-### Fixed Bugs
+
+
+### 8.1 Fixed Bugs
 
 [![GitHub issue custom search](https://img.shields.io/github/issues-search/DavidClamp/project-swaps?query=is%3Aissue%20is%3Aclosed%20label%3Abug&label=Fixed%20Bugs&color=green)](https://www.github.com/DavidClamp/project-swaps/issues?q=is%3Aissue+is%3Aclosed+label%3Abug)
 
@@ -326,17 +314,17 @@ All previously closed/fixed bugs can be tracked [here](https://www.github.com/Da
 
 
 ### The "Phantom Border" Bug
-*   **Issue:** A faint white line appeared between "Login" and "Sign Up" buttons on Desktop screens.
-*   **Cause:** I initially used `border-top` on the mobile menu container for separation, and tried to remove it with `border-lg-0`. Bootstrap **does not** have a `border-lg-0` class, so the border remained visible on Desktop.
-*   **Fix:** Removed the border classes entirely. I implemented a `<hr class="d-lg-none">` element. This divider line is explicitly hidden on large screens using display utilities, ensuring it **only** appears on mobile.
+*   **Issue:** A faint white line appeared between "Login" and "Sign Up" buttons on Desktop.
+*   **Cause:**  `border-top` was applied on mobile, but `border-lg-0` does not exist in Bootstrap.
+*   **Fix:** Removed border classes entirely and replaced with `<hr class="d-lg-none">` to show divider only on mobile.
 *   **Status:** ✅ **FIXED**
 
 ### Chart.js Resize Jitter
-*   **Issue:** On resizing the window, the Yield Curve chart would momentarily "wobble."
-*   **Fix:** Added a container `div` with `position: relative; height: 450px; width: 100%;` to constrain the canvas aspect ratio.
+*   **Issue:** Yield Curve chart “wobbled” during window resize.
+*   **Fix:** Wrapped canvas in a fixed‑size container `position: relative; height: 450px; width: 100%;`.
 *   **Status:** ✅ **FIXED**
 
-### Unfixed Bugs
+### 8.2 Unfixed Bugs
 
 [![GitHub issue custom search](https://img.shields.io/github/issues-search/DavidClamp/project-swaps?query=is%3Aissue%2Bis%3Aopen%2Blabel%3Abug&label=Unfixed%20Bugs&color=red)](https://www.github.com/DavidClamp/project-swaps/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 
@@ -344,10 +332,11 @@ Any remaining open issues can be tracked [here](https://www.github.com/DavidClam
 
 ![screenshot](documentation/bugs/gh-issues-open.png)
 
-### Known Issues
+### 8.3  Known Issues
 
 | Issue | Screenshot |
 | --- | --- |
+| No known issues at this time| |
 
-> [!IMPORTANT]  
-> There are no remaining bugs that I am aware of, though, even after thorough testing, I cannot rule out the possibility.
+Although no issues are currently known, further testing may reveal additional edge cases.
+
