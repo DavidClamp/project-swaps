@@ -3,53 +3,73 @@
 > [!NOTE]  
 > Return back to the [README.md](README.md) file.
 
-## Testing Strategy & Methodology
 
-The testing strategy for **IRSQuant** utilises a "Hybrid" approach, combining automated unit tests for critical financial calculations (Data Integrity) with rigorous manual usability testing for the UI/UX (Responsiveness).
+## 1. Testing Strategy & Methodology
 
-**Testing Phases:**
-1.  **Validator Auditing:** Ensuring strict code compliance (W3C HTML, Jigsaw CSS, CI Python Linter).
-2.  **Responsive Stress Testing:** Verifying the "Hybrid Navbar" behavior across 4 specific breakpoints.
-3.  **Logical Data Testing:** Verifying the "BlueGamma" data cleaning protocols and trade capture logic.
-4.  **Lighthouse Auditing:** Performance and Accessibility scoring (targeting WCAG 2.1 AA standards).
+The testing strategy for IRSQuant follows a hybrid approach, combining automated unit tests for financial logic with extensive manual testing for UI/UX, responsiveness, and defensive programming.
+
+### Testing Phases
+
+1. **Validator Auditing:**  W3C HTML, Jigsaw CSS, CI Python Linter
+
+2.  **Responsive Stress Testing:** Hybrid Navbar + 4 breakpoints (PEP8)
+
+3. **Logical Data Testing:** BlueGamma‑inspired data cleaning and validation, and numerical integrity checks
+
+4. **Lighthouse Auditing:** Performance, Accessibility, SEO
+
+5. **Defensive Programming:** Form validation, access control, error handling and user‑flow protection
+ 
+6. **User Story Testing:** Verifying each user story is fully satisfied by implemented features
+
+7. **Automated Testing:** Django unittest suite + Coverage reporting
 
 ---
 
 ## 1. Code Validation
 
 ### HTML Validation
+
 I have used the [HTML W3C Validator](https://validator.w3.org) to validate all of my HTML files.
 
-**Methodology:**
-Since the project uses Django Template Language (Jinja syntax like `{% url %}`), direct URI validation fails on protected pages. I utilized the **"View Source"** method:
-1.  Navigate to the rendered page in the browser.
-2.  Right-click > "View Page Source".
-3.  Copy the raw compiled HTML.
-4.  Paste into the W3C Validator (Validate by Input).
+Because Django templates contain {% tags %} and {{ variables }}, validation was performed using:
+
+1. Open rendered page
+
+2. View Page Source
+
+3. Copy compiled HTML
+
+4. Validate via “Validate by Input”
+
+
 
 | Directory | File | Status | Screenshot | Notes |
 | --- | --- | --- | --- | --- |
-| templates | [base.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/footer.html) | ✅ PASS  | ![screenshot](documentation/validation/html-templates-footer.png) | ⚠️ Notes (if applicable) |
-| templates | [footer.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/footer.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-footer.png) | ⚠️ Notes (if applicable) |
-| templates | [navbar.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/navbar.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-navbar.png) | ⚠️ Notes (if applicable) |
-| workspace | [404.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/404.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-404.png) | ⚠️ Notes (if applicable) |
-| workspace | [500.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/500.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-500.png) | ⚠️ Notes (if applicable) |
-| workspace | [add_trade.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/add_trade.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-add_trade.png) | ⚠️ Notes (if applicable) |
-| workspace | [analyser.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/analyser.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-analyser.png) | ⚠️ Notes (if applicable) |
-| workspace | [blotter.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/blotter.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-blotter.png) | ⚠️ Notes (if applicable) |
-| workspace | [curve_bars.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/curve_bars.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-curve_bars.png) | ⚠️ Notes (if applicable) |
-| workspace | [dashboard.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/dashboard.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-dashboard.png) | ⚠️ Notes (if applicable) |
-| workspace | [delete_confirm.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/delete_confirm.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-delete_confirm.png) | ⚠️ Notes (if applicable) |
-| workspace | [edit_trade.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/edit_trade.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-edit_trade.png) | ⚠️ Notes (if applicable) |
-| workspace | [histogram.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/histogram.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-histogram.png) | ⚠️ Notes (if applicable) |
-| workspace | [payment_cancelled.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/payment_cancelled.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-payment_cancelled.png) | ⚠️ Notes (if applicable) |
-| workspace | [payment_success.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/payment_success.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-payment_success.png) | ⚠️ Notes (if applicable) |
-| workspace | [plans.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/plans.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-workspace-plans.png) | ⚠️ Notes (if applicable) |
-| account | [login.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/account/login.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-login.png) | ⚠️ Notes (if applicable) |
-| account | [logout.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/account/logout.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-logout.png) | ⚠️ Notes (if applicable) |
-| account | [password_reset.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/account/password_reset.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-password_reset.png) | ⚠️ Notes (if applicable) |
-| account | [signup.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/account/signup.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-signup.png) | ⚠️ Notes (if applicable) |
+| templates | [base.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/footer.html) | ✅ PASS  | ![screenshot](documentation/validation/html-templates-footer.png) | No issues |
+| templates | [footer.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/footer.html) | ⚠️Minor | ![screenshot](documentation/validation/html-templates-footer.png) | Minor warnings (template tags ignored by validator) || templates | [navbar.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/navbar.html) | ⚠️Minor | ![screenshot](documentation/validation/html-templates-footer.png) | Minor warnings |
+Templates | [navbar.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/navbar.html) | ⚠️Minor | ![screenshot](documentation/validation/html-templates-navbar.png) | Minor Warnings |
+| workspace | [404.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/404.html) | ⚠️ Minor| ![screenshot](documentation/validation/html-workspace-404.png) | Template‑tag related warnings |
+| workspace | [500.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/500.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-500.png) | Template‑tag related warnings |
+| workspace | [add_trade.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/add_trade.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-add_trade.png) | Minor warnings |
+| workspace | [analyser.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/analyser.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-analyser.png) | Minor warnings |
+| workspace | [blotter.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/blotter.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-blotter.png) | Minor warnings |
+| workspace | [curve_bars.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/curve_bars.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-curve_bars.png) | Minor warnings |
+| workspace | [dashboard.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/dashboard.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-dashboard.png) | Minor warnings |
+| workspace | [delete_confirm.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/delete_confirm.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-delete_confirm.png) | Minor warnings |
+| workspace | [edit_trade.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/edit_trade.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-edit_trade.png) | Minor warnings |
+| workspace | [histogram.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/histogram.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-histogram.png) | Minor warnings |
+| workspace | [payment_cancelled.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/payment_cancelled.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-payment_cancelled.png) | Minor warnings |
+| workspace | [payment_success.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/payment_success.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-payment_success.png) | Minor warnings |
+| workspace | [plans.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/plans.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-plans.png) | Minor warnings |
+| account | [login.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/account/login.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-templates-login.png) | Minor warnings |
+| account | [logout.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/account/logout.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-templates-logout.png) | Minor warnings |
+| account | [password_reset.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/account/password_reset.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-templates-password_reset.png) | Minor warnings |
+| account | [signup.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/account/signup.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-templates-signup.png) | Minor warnings |
 
+All warnings were related to Django template syntax and not actual HTML errors.
+
+---
 
 ### CSS Validation
 I have used the [W3C Jigsaw Validator](https://jigsaw.w3.org/css-validator/) to validate my custom CSS.
