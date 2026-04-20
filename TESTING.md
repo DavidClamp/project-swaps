@@ -46,26 +46,27 @@ Because Django templates contain {% tags %} and {{ variables }}, validation was 
 
 | Directory | File | Status | Screenshot | Notes |
 | --- | --- | --- | --- | --- |
-| templates | [base.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/base.html) | ✅ PASS  | ![screenshot](documentation/validation/html-templates-footer.png) | No issues |
-| templates | [footer.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/footer.html) | ⚠️Minor | ![screenshot](documentation/validation/html-templates-footer.png) | Minor warnings (template tags ignored by validator) || templates | [navbar.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/navbar.html) | ⚠️Minor | ![screenshot](documentation/validation/html-templates-footer.png) | Minor warnings |
-Templates | [navbar.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/navbar.html) | ⚠️Minor | ![screenshot](documentation/validation/html-templates-navbar.png) | Minor Warnings |
-| workspace | [404.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/404.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-404.png) | Template‑tag related warnings |
-| workspace | [500.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/500.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-500.png) | Template‑tag related warnings |
-| workspace | [add_trade.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/add_trade.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-add_trade.png) | Minor warnings |
-| workspace | [analyser.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/analyser.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-analyser.png) | Minor warnings |
-| workspace | [blotter.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/blotter.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-blotter.png) | Minor warnings |
-| workspace | [curve_bars.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/curve_bars.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-curve_bars.png) | Minor warnings |
-| workspace | [dashboard.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/dashboard.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-dashboard.png) | Minor warnings |
-| workspace | [delete_confirm.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/delete_confirm.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-delete_confirm.png) | Minor warnings |
-| workspace | [edit_trade.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/edit_trade.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-edit_trade.png) | Minor warnings |
-| workspace | [histogram.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/histogram.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-histogram.png) | Minor warnings |
-| workspace | [payment_cancelled.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/payment_cancelled.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-payment_cancelled.png) | Minor warnings |
-| workspace | [payment_success.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/payment_success.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-payment_success.png) | Minor warnings |
-| workspace | [plans.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/plans.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-plans.png) | Minor warnings |
-| account | [login.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/account/login.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-templates-login.png) | Minor warnings |
-| account | [logout.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/account/logout.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-templates-logout.png) | Minor warnings |
-| account | [password_reset.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/account/password_reset.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-templates-password_reset.png) | Minor warnings |
-| account | [signup.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/account/signup.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-templates-signup.png) | Minor warnings |
+| templates | [base.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/base.html) | ⚠️Minor   | ![screenshot](documentation/validation/w3cvalidation_base.png) | Minor warnings (template tags ignored by validator) |
+| templates | [footer.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/footer.html) | ⚠️Minor | ![screenshot](documentation/validation/w3cvalidation_footer.png) | Minor warnings| 
+|templates | [navbar.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/navbar.html) | ⚠️Minor | ![screenshot](documentation/validation/w3cvalidation_edittrade.png) | Minor warnings |
+ templates | [navbar.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/navbar.html) | ⚠️Minor | ![screenshot](documentation/validation/w3cvalidation_navbar.png) | Minor Warnings |
+| workspace | [404.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/404.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_404.png) | Minor related warnings |
+| workspace | [500.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/500.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_500.png) | Minor warnings |
+| workspace | [add_trade.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/add_trade.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_addtrade.png) | Minor warnings |
+| workspace | [analyser.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/analyser.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_analyser.png) | Minor warnings |
+| workspace | [blotter.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/blotter.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_blotter.png) | Minor warnings |
+| workspace | [curve_bars.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/curve_bars.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_curvebars.png) | Minor warnings |
+| workspace | [dashboard.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/dashboard.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_dashboard.png) | Minor warnings |
+| workspace | [delete_confirm.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/delete_confirm.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_deleteconfirm.png) | Minor warnings |
+| workspace | [edit_trade.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/edit_trade.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_edittrade.png) | Minor warnings |
+| workspace | [histogram.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/histogram.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_histogram.png) | Minor warnings |
+| workspace | [payment_cancelled.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/payment_cancelled.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_paymentcancelled.png) | Minor warnings |
+| workspace | [payment_success.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/payment_success.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_paymentsuccess.png) | Minor warnings |
+| workspace | [plans.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/plans.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_plans.png) | Minor warnings |
+| account | [login.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/account/login.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_login.png) | Minor warnings |
+| account | [logout.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/account/logout.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_logout.png) | Minor warnings |
+| account | [password_reset.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/account/password_reset.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_passwordreset.png) | Minor warnings |
+| account | [signup.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/account/signup.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_signup.png) | Minor warnings |
 
 All warnings were related to Django template syntax and not actual HTML errors.
 
@@ -76,7 +77,7 @@ I have used the [W3C Jigsaw Validator](https://jigsaw.w3.org/css-validator/) to 
 
 | Directory | File | Status | Screenshot | Notes |
 | --- | --- | --- | --- | --- |
-| static | [style.css](https://github.com/DavidClamp/project-swaps/blob/main/static/css/style.css) | ✅ PASS | ![screenshot](documentation/validation/css-static-style.png) | All root variables and vendor prefixes validated successfully vendor prefixes. |
+| static | [style.css](https://github.com/DavidClamp/project-swaps/blob/main/static/css/style.css) | ✅ PASS | ![screenshot](documentation/validation/w3ccssvalidation.png) | All root variables and vendor prefixes validated successfully vendor prefixes. |
 
 
 ### Python Validation
