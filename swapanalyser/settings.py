@@ -155,7 +155,7 @@ ACCOUNT_LOGIN_METHODS = {'email'}
 
 ACCOUNT_SIGNUP_FIELDS = [
     "email*",        # Mandatory
-    "first_name",    # Optional 
+    "first_name",    # Optional
     "last_name",     # Optional
 ]
 
@@ -165,7 +165,7 @@ ACCOUNT_UNIQUE_EMAIL = True
 # 4. Verification Logic
 if DEBUG:
     # Local (Dev): No emails, no codes. Just log in.
-    ACCOUNT_EMAIL_VERIFICATION = 'none' 
+    ACCOUNT_EMAIL_VERIFICATION = 'none'
 else:
     # Production (Heroku): MUST verify email.
     ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
@@ -215,4 +215,3 @@ else:
     EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
     EMAIL_HOST_PASS = os.environ.get("EMAIL_HOST_PASS")
     DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER")
-    

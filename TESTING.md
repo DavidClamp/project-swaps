@@ -88,21 +88,21 @@ All Python code was checked using the **CI Python Linter** (PEP8 standard).
 Where possible, long lines were refactored. Some Django‑generated or settings‑related lines cannot be shortened without breaking functionality.
 
 
-| Directory | File | URL | Screenshot | Status | Notes |
+| Directory | File | URL | Status | Screenshot | Notes |
 | --- | --- | --- | --- | --- | --- |
 | 
-| Root | [manage.py](https://github.com/DavidClamp/project-swaps/blob/main/manage.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/manage.py) | ![screenshot](documentation/validation/py--manage.png) | ⚠️ | Minor warnings |
-| swapanalyser | [settings.py](https://github.com/DavidClamp/project-swaps/blob/main/swapanalyser/settings.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/swapanalyser/settings.py) | ![screenshot](documentation/validation/py-swapanalyser-settings.png) | ⚠️| Long lines in AUTH_PASSWORD_VALIDATORS (standard Django exception) |
-| swapanalyser | [urls.py](https://github.com/DavidClamp/project-swaps/blob/main/swapanalyser/urls.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/swapanalyser/urls.py) | ![screenshot](documentation/validation/py-swapanalyser-urls.png) | ⚠️ | Minor warnings |
-| workspace | [admin.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/admin.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/admin.py) | ![screenshot](documentation/validation/py-workspace-admin.png) | ⚠️ | Minor warnings |
-| workspace | [checkout_views.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/checkout_views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/checkout_views.py) | ![screenshot](documentation/validation/py-workspace-checkout_views.png) | ⚠️ | Minor warnings |
-| workspace | [choices.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/choices.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/choices.py) | ![screenshot](documentation/validation/py-workspace-choices.png) | ⚠️| Minor warnings |
-| workspace | [data_handler.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/data_handler.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/data_handler.py) | ![screenshot](documentation/validation/py-workspace-data_handler.png) | ⚠️ | Minor warnings |
-| workspace | [forms.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/forms.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/forms.py) | ![screenshot](documentation/validation/py-workspace-forms.png) | ⚠️ | Minor warnings |
-| workspace | [models.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/models.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/models.py) | ![screenshot](documentation/validation/py-workspace-models.png) | ⚠️ | Minor warnings |
-| workspace | [tests.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/tests.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/tests.py) | ![screenshot](documentation/validation/py-workspace-tests.png) | ⚠️ | Minor warnings |
-| workspace | [utils.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/utils.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/utils.py) | ![screenshot](documentation/validation/py-workspace-utils.png) | ⚠️ | Minor warnings |
-| workspace | [views.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/views.py) | ![screenshot](documentation/validation/py-workspace-views.png) | ⚠️ | Minor warnings |
+| Root | [manage.py](https://github.com/DavidClamp/project-swaps/blob/main/manage.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/manage.py) | ✅ PASS |![screenshot](documentation/linter/linter_manage.png) | All clear, no errors found|
+| swapanalyser | [settings.py](https://github.com/DavidClamp/project-swaps/blob/main/swapanalyser/settings.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/swapanalyser/settings.py) | ✅ PASS |![screenshot](documentation/linter/linter_settings.png) | E501 lines too long > 79 characters |
+| swapanalyser | [urls.py](https://github.com/DavidClamp/project-swaps/blob/main/swapanalyser/urls.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/swapanalyser/urls.py) | ✅ PASS |![screenshot](documentation/linter//linter_url.png) | All clear, no errors found |
+| workspace | [admin.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/admin.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/admin.py) |  ✅ PASS |![screenshot](documentation/linter/linter_admin.png) | All clear, no errors found |
+| workspace | [checkout_views.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/checkout_views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/checkout_views.py) |  ✅ PASS |![screenshot](documentation/linter/linter_checkout.png) | All clear, no errors found | 
+| workspace | [choices.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/choices.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/choices.py) |  ✅ PASS |![screenshot](documentation/linter/linter_choices.png) | All clear, no errors found |
+| workspace | [data_handler.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/data_handler.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/data_handler.py) |  ✅ PASS |![screenshot](documentation/linter/linter_datahandler.png) | E501 line too long > 79 characters |
+| workspace | [forms.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/forms.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/forms.py) |  ✅ PASS |![screenshot](documentation/linter/linter_forms.png) | E501 lines too long > 79 characters |
+| workspace | [models.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/models.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/models.py) |  ✅ PASS |![screenshot](documentation/linter/linter_models.png) | All clear, no errors found |![screenshot](documentation/validation/py-workspace-models.png) | ⚠️ | Minor warnings |
+| workspace | [tests.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/tests.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/tests.py) | ✅ PASS |![screenshot](documentation/linter/linter_tests.png) |E501 lines too long > 79 characters |
+| workspace | [utils.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/utils.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/utils.py) |  ✅ PASS |![screenshot](documentation/linter/linter_utils.png) | All clear, no errors found |
+| workspace | [views.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/views.py) | ✅ PASS |![screenshot](documentation/linter/linter_views.png) | All clear, no errors found |
 
 ---
 
@@ -171,6 +171,18 @@ This section verifies the correctness, safety, and resilience of the “BlueGamm
 *   **Outcome:** Link opened safely in new tab. Original app remained active.
 *   **Status:** ✅ PASS
 
+### Scenario D: Trade Capture Validation (Defensive Programming)
+
+This table verifies that the IRSQuant terminal rejects logically impossible financial data.
+
+
+| Test Case | Input Action| Expected Logic Result | Actual Result |
+| --- | --- | --- | --- |
+| Negative Notional | Enter -1,000,000 in Notional field. |	Form validation error: "Notional must be a positive value."	| ✅ PASS
+| Future Settlement | Enter a maturity date before the effective date. |Logic check triggers: "Maturity cannot precede Effective Date." | ✅ PASS
+| String Injection |Enter "Ten Million" instead of 10000000. | Django DecimalField raises a Type Error; prevents DB crash. | ✅ PASS
+| Currency Normalization | Enter usd (lowercase). |	BlueGamma backend script converts to USD for DB consistency. | ✅ PASS
+
 ## 5. Business Logic & Data Privacy
 
 These tests ensure that IRSQuant correctly isolates user data, aggregates financial metrics, and handles zero‑state scenarios safely.
@@ -210,9 +222,11 @@ Defensive programming ensures that the application handles invalid input, unexpe
 
 | Page | Expectation | Test | Result | Screenshot |
 | --- | --- | --- | --- | --- |
-| 404 Error Page | Should display custom 404 page for invalid URLs | Navigated to ``/test`` | Custom 404 displayed | screenshot |
-| 500 Error Page | Should display custom 500 page on server error | Triggered via trap‑door URL | Custom 500 displayed | screenshot |
-
+| 404 Error Page | Should display custom 404 page for invalid URLs. | Navigated to ``/test`` | Custom 404 displayed | screenshot |
+| 500 Error Page | Should display custom 500 page on server error. | Triggered via trap‑door URL | Custom 500 displayed | screenshot |
+ Unauthorized Redirect | Restricted pages should redirect anonymous users to login | Attempted to access /workspace/dashboard while logged out | Redirected to login with next parameter | [screenshot] |
+| CRUD Protection |	Users should not be able to edit/delete trades they do own. | Manually entered URL for Trade ID belonging to another user |	System returned 403 Forbidden or redirected with warning |	[Screenshot]
+| Admin Panel |	Only superusers should access the /admin interface. | Attempted login to admin with a standard 'Trader' account | Access denied; redirected to login/home |	[Screenshot]
 
 ## 6. User Story Testing
 
