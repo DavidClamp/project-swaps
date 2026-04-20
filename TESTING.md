@@ -46,11 +46,11 @@ Because Django templates contain {% tags %} and {{ variables }}, validation was 
 
 | Directory | File | Status | Screenshot | Notes |
 | --- | --- | --- | --- | --- |
-| templates | [base.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/footer.html) | ✅ PASS  | ![screenshot](documentation/validation/html-templates-footer.png) | No issues |
+| templates | [base.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/base.html) | ✅ PASS  | ![screenshot](documentation/validation/html-templates-footer.png) | No issues |
 | templates | [footer.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/footer.html) | ⚠️Minor | ![screenshot](documentation/validation/html-templates-footer.png) | Minor warnings (template tags ignored by validator) || templates | [navbar.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/navbar.html) | ⚠️Minor | ![screenshot](documentation/validation/html-templates-footer.png) | Minor warnings |
 Templates | [navbar.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/navbar.html) | ⚠️Minor | ![screenshot](documentation/validation/html-templates-navbar.png) | Minor Warnings |
-| workspace | [404.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/404.html) | ⚠️ Minor| ![screenshot](documentation/validation/html-workspace-404.png) | Template‑tag related warnings |
-| workspace | [500.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/500.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-500.png) | Template‑tag related warnings |
+| workspace | [404.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/404.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-404.png) | Template‑tag related warnings |
+| workspace | [500.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/500.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-500.png) | Template‑tag related warnings |
 | workspace | [add_trade.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/add_trade.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-add_trade.png) | Minor warnings |
 | workspace | [analyser.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/analyser.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-analyser.png) | Minor warnings |
 | workspace | [blotter.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/blotter.html) | ⚠️ Minor | ![screenshot](documentation/validation/html-workspace-blotter.png) | Minor warnings |
@@ -312,17 +312,11 @@ All previously closed/fixed bugs can be tracked [here](https://www.github.com/Da
 
 ![screenshot](documentation/bugs/gh-issues-closed.png)
 
-
-### The "Phantom Border" Bug
-*   **Issue:** A faint white line appeared between "Login" and "Sign Up" buttons on Desktop.
-*   **Cause:**  `border-top` was applied on mobile, but `border-lg-0` does not exist in Bootstrap.
-*   **Fix:** Removed border classes entirely and replaced with `<hr class="d-lg-none">` to show divider only on mobile.
-*   **Status:** ✅ **FIXED**
-
-### Chart.js Resize Jitter
-*   **Issue:** Yield Curve chart “wobbled” during window resize.
-*   **Fix:** Wrapped canvas in a fixed‑size container `position: relative; height: 450px; width: 100%;`.
-*   **Status:** ✅ **FIXED**
+| Issue | Resolution|
+| --- | --- |
+| A faint white line appeared between "Login" and "Sign Up" buttons on Desktop. | Removed border classes entirely and replaced with `<hr class="d-lg-none">` to show divider only on mobile.|
+| Yield Curve chart “wobbled” during window resize. | Wrapped canvas in a fixed‑size container `position: relative; height: 450px; width: 100%;`. |
+| Heading Level Skip |	Validator flagged an h6 following an h1. Corrected hierarchy to use h2 with .h6 styling for accessibility compliance.|
 
 ### 8.2 Unfixed Bugs
 
