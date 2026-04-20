@@ -1,24 +1,19 @@
 {% extends 'base.html' %}
-{# Django template inheritance from central layout #}
 
 {% block content %}
-<!-- WRAPPER: -->
 <div class="w-100 min-vh-100 d-flex align-items-center bg-light">
-
     <div class="container py-5">
-        <!-- 1. Main Card: -->
+        <!-- 1. Main Card -->
         <div class="card shadow-lg border-0 mx-auto card-edit-trade text-white" 
              style="max-width: 600px; background-color:var(--ua-navy); border: 1px solid #444;">
-
-            <!-- 2. Header: -->
+            
+            <!-- 2. Header -->
             <div class="card-header py-4 text-center" 
                  style="background-color: var(--ua-blue); border-bottom: 1px solid #444;">
-                
                 <h1 class="h4 mb-0 fw-bold" style="color: var(--ua-gold);">
                     <i class="fa-solid fa-pen-to-square me-2"></i>
                     Edit Trade Ticket
                 </h1>
-                <!-- Trade ID Badge -->
                 <span class="badge bg-light text-dark mt-2 shadow-sm">
                     ID: {{ trade.trade_id }}
                 </span>
@@ -27,54 +22,21 @@
             <div class="card-body p-5">
                 <form method="POST">
                     {% csrf_token %}
-
-                    <!-- 3. Form Wrapper:  -->
                     <div class="trade-form-labels text-white">
                         {{ form.as_p }}
                     </div>
 
-                    <!-- 4. Action Row -->
                     <div class="d-grid gap-3 mt-5 pt-3" style="border-top: 1px solid #444;">
-                        
-                        <!-- Primary Action: -->
                         <button type="submit" class="btn btn-ua-gold fw-bold py-3 w-100 text-dark">
                             <i class="fa-solid fa-check-double me-2"></i>Update & Re-price
                         </button>
-
-                        <!-- Secondary Action: -->
-                        <!-- FIX: Changed from 'btn-outline-dark' to 'btn-outline-light' -->
                         <a href="{% url 'blotter' %}" class="btn btn-ua-gold fw-bold w-100 py-2">
                             Cancel and Return
                         </a>
                     </div>
                 </form>
             </div>
-        </div>
+        </div> <!-- Card ends here -->
     </div>
 </div>
-
-<style>
-    /* LOCAL OVERRIDE: Ensure form inputs look good on Dark Card */
-    
-    /* 1. Force labels to be white */
-    .trade-form-labels label {
-        color: #ffffff !important;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-    }
-
-    /* 2. Add spacing between fields */
-    .trade-form-labels p {
-        margin-bottom: 1.5rem;
-    }
-
-    /* 3. (Optional) Style the input boxes slightly if they are default bootstrap */
-    .trade-form-labels input, 
-    .trade-form-labels select, 
-    .trade-form-labels textarea {
-        background-color: #f8f9fa; /* Off-white inputs for high contrast */
-        border: 1px solid #ced4da;
-        color: #212529;
-    }
-</style>
 {% endblock %}

@@ -125,10 +125,28 @@ nav.navbar.navbar-dark .nav-link,
     padding: 10px;
     border: 1px solid rgba(255,255,255,0.1);
 }
-/* --- Fix Faint Password Text for MS4--- */
+/* ---Faint Password Text--- */
 .card-access-dark .form-text, 
 .card-access-dark .help-block, 
 .card-access-dark ul {
     color: #ffffff !important;
     opacity: 1 !important;
+}
+/* --- 7. TRADE FORM SPECIFICS --- */
+.trade-form-labels label {
+    color: #ffffff !important;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.trade-form-labels p {
+    margin-bottom: 1.5rem;
+}
+
+.trade-form-labels input, 
+.trade-form-labels select, 
+.trade-form-labels textarea {
+    background-color: #f8f9fa; 
+    border: 1px solid #ced4da;
+    color: #212529;
 }
