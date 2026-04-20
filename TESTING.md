@@ -92,6 +92,7 @@ Where possible, long lines were refactored. Some Django‑generated or settings�
 | --- | --- | --- | --- | --- | --- |
 | 
 | Root | [manage.py](https://github.com/DavidClamp/project-swaps/blob/main/manage.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/manage.py) | ✅ PASS |![screenshot](documentation/linter/linter_manage.png) | All clear, no errors found|
+| swapanalyser | [signals.py](https://github.com/DavidClamp/project-swaps/blob/main/swapanalyser/signals.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/swapanalyser/signals.py) | ✅ PASS |![screenshot](documentation/linter/linter_signals.png) | All clear, no errors found |
 | swapanalyser | [settings.py](https://github.com/DavidClamp/project-swaps/blob/main/swapanalyser/settings.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/swapanalyser/settings.py) | ✅ PASS |![screenshot](documentation/linter/linter_settings.png) | E501 lines too long > 79 characters |
 | swapanalyser | [urls.py](https://github.com/DavidClamp/project-swaps/blob/main/swapanalyser/urls.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/swapanalyser/urls.py) | ✅ PASS |![screenshot](documentation/linter//linter_url.png) | All clear, no errors found |
 | workspace | [admin.py](https://github.com/DavidClamp/project-swaps/blob/main/workspace/admin.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/DavidClamp/project-swaps/main/workspace/admin.py) |  ✅ PASS |![screenshot](documentation/linter/linter_admin.png) | All clear, no errors found |
@@ -151,6 +152,8 @@ No browser‑specific issues were identified. All pages behaved consistently acr
 
 ## 4. Data Integrity & Logic Testing
 
+### 4.1 Market Data Logic
+
 This section verifies the correctness, safety, and resilience of the “BlueGamma‑inspired” market data logic used throughout IRSQuant.
 
 ### Scenario A: The "6,000 Record" Load Test
@@ -171,7 +174,7 @@ This section verifies the correctness, safety, and resilience of the “BlueGamm
 *   **Outcome:** Link opened safely in new tab. Original app remained active.
 *   **Status:** ✅ PASS
 
-### Scenario D: Trade Capture Validation (Defensive Programming)
+### 4.2 Trade Capture Validation
 
 This table verifies that the IRSQuant terminal rejects logically impossible financial data.
 
@@ -179,9 +182,23 @@ This table verifies that the IRSQuant terminal rejects logically impossible fina
 | Test Case | Input Action| Expected Logic Result | Actual Result |
 | --- | --- | --- | --- |
 | Negative Notional | Enter -1,000,000 in Notional field. |	Form validation error: "Notional must be a positive value."	| ✅ PASS
+| No Commas Notional | Enter 10000000 in the Notional field | Output $10,000,000 with commas and currency symbol.| ✅ PASS
 | Future Settlement | Enter a maturity date before the effective date. |Logic check triggers: "Maturity cannot precede Effective Date." | ✅ PASS
 | String Injection |Enter "Ten Million" instead of 10000000. | Django DecimalField raises a Type Error; prevents DB crash. | ✅ PASS
 | Currency Normalization | Enter usd (lowercase). |	BlueGamma backend script converts to USD for DB consistency. | ✅ PASS
+| Duplicate Rate Entry | Attempt to save two SOFR rates for the same date/tenor. |	IntegrityError triggered; database prevents duplicate record creation.	| ✅ PASS
+
+
+### 4.3 Automated Profile Syncing (Django Signals)
+
+The application utilises post_save signals to automate user profile creation, ensuring that every authenticated user has a corresponding "Trader Profile" in the database.
+
+| Feature |	Action	| Expected Logic Result	| Status |
+| --- |--- |--- |--- |
+| Profile Creation | Register a new user via signup.html. |	Signal triggers: Profile object is automatically created and linked to the User ID.	| ✅ PASS
+| Profile Persistence |	Update User model (e.g., change email).	| Signal triggers: save_profile ensures the linked Profile remains in sync. | ✅ PASS
+| Data Integrity | Delete a User from the Django Admin. | models.CASCADE (if set) removes the Profile; orphaned profiles are prevented.	| ✅ PASS
+
 
 ## 5. Business Logic & Data Privacy
 
@@ -193,10 +210,23 @@ These tests ensure that IRSQuant correctly isolates user data, aggregates financ
 | **Dashboard** | **Privacy Check** | Logged in as User B| Should NOT show User A's trades. | ✅ PASS |
 | **Aggregation** | **Strategy Grouping** | Created 2 trades with same strategy | Should group into one row. | ✅ PASS |
 | **KPI Calculation** | **Zero State** | New user with 0 trades | NPV should be $0, no errors. | ✅ PASS |
-| **Market Data** | **Public Access** | Viewed 'Latest SOFR Date' | Should be visable to all usera. | ✅ PASS |
+| **Market Data** | **Public Access** | Viewed 'Latest SOFR Date' | Should be visable to all users. | ✅ PASS |
+
+## 6. Defensive Programming
+
+Defensive programming ensures that the application handles invalid input, unexpected user behaviour, and system errors safely.
+
+| Page | Expectation | Test | Result | Screenshot |
+| --- | --- | --- | --- | --- |
+| 404 Error Page | Should display custom 404 page for invalid URLs. | Navigated to ``/test`` | Custom 404 displayed | screenshot |
+| 500 Error Page | Should display custom 500 page on server error. | Triggered via trap‑door URL | Custom 500 displayed | screenshot |
+| Unauthorised Redirect | Restricted pages should redirect anonymous users to login | Attempted to access /workspace/dashboard while logged out | Redirected to login with next parameter | [screenshot] |
+| CRUD Protection |	Users should not be able to edit/delete trades they do not own. | Manually entered URL for Trade ID belonging to another user |	System returned 403 Forbidden or redirected with warning |	[Screenshot]
+| Admin Panel |	Only superusers should access the /admin interface. | Attempted login to admin with a standard 'Trader' account | Access denied; redirected to login/home |	[Screenshot]
+
 
 ---
-## 4. Lighthouse Audit
+## 7. Lighthouse Audit
 
 
 Lighthouse was used to test Performance, Accessibility, Best Practices, and SEO on both mobile and desktop.
@@ -216,19 +246,9 @@ Mobile scores are naturally lower due to Heroku Eco dyno cold‑start behaviour.
 | 404 | ![screenshot](documentation/lighthouse/mobile_404.png) | ![screenshot](documentation/lighthouse/desktop_404.png) |Tested using trap door URL|
 | 500 | ![screenshot](documentation/lighthouse/mobile_500.png) | ![screenshot](documentation/lighthouse/desktop_500.png) |Tested using trap door URL|
 ---
-## 5. Defensive Programming
 
-Defensive programming ensures that the application handles invalid input, unexpected user behaviour, and system errors safely.
 
-| Page | Expectation | Test | Result | Screenshot |
-| --- | --- | --- | --- | --- |
-| 404 Error Page | Should display custom 404 page for invalid URLs. | Navigated to ``/test`` | Custom 404 displayed | screenshot |
-| 500 Error Page | Should display custom 500 page on server error. | Triggered via trap‑door URL | Custom 500 displayed | screenshot |
- Unauthorized Redirect | Restricted pages should redirect anonymous users to login | Attempted to access /workspace/dashboard while logged out | Redirected to login with next parameter | [screenshot] |
-| CRUD Protection |	Users should not be able to edit/delete trades they do own. | Manually entered URL for Trade ID belonging to another user |	System returned 403 Forbidden or redirected with warning |	[Screenshot]
-| Admin Panel |	Only superusers should access the /admin interface. | Attempted login to admin with a standard 'Trader' account | Access denied; redirected to login/home |	[Screenshot]
-
-## 6. User Story Testing
+## 8. User Story Testing
 
 ### Features Mapped to User Stories ###
 
@@ -236,26 +256,26 @@ Each implemented feature was tested against the original User Stories to ensure 
 
 | Target | Expectation (User Story) | Outcome | Screenshot |
 | --- | --- | --- | --- |
-| User | I want to register an account so that I can access platform features | Users can register via Django Allauth and gain access to authenticated areas | — |
-| User | I want to securely log in and out so that my data is protected | Django Allauth provides secure session‑based authentication | — |
-| User | I want to upgrade to Pro so that I can access advanced features | Stripe subscription system enables secure payments and upgrades | — |
-| Pro User | I want a payment confirmation email so that I have a record | Automated confirmation email sent after successful Stripe transaction | — |
-| Pro User | I want a central dashboard so that I can quickly access key features | Dashboard displays analytics, navigation shortcuts, and account status | — |
-| Pro User | I want to view yield curve charts so that I can analyse the swaps market | Analysis board displays current zero and par curves | — |
-| Pro User | I want to view implied forward curves to analyse future expectations | Interactive charts show implied 1‑year forward rate paths | — |
-| Pro User | I want to view historical rate distributions | Histogram charts display historical rate behaviour | — |
-| Pro User | I want to view all my trades so that I can manage my portfolio | Blotter lists all user trades with MTM and key metrics | — |
-| Pro User | I want to add trades so that I can build a portfolio | Validated forms allow users to input new trades | — |
-| Pro User | I want to see MTM values so that I can track performance | Backend logic calculates MTM dynamically using current market data | — |
-| Pro User | I want exclusive access to advanced tools | Subscription status controls access to restricted features | — |
-| Site Owner | I want to manage users and trades | Django Admin provides full CRUD access to all models | — |
-| User | I want clear 404 and 500 pages so that I can recover from issues | Custom error pages improve UX during failures | — |
+| User | I want to register an account so that I can access platform features | Users can register via Django Allauth and gain access to authenticated areas | ![screenshot](documentation/responsiveness/desktop_signin.png) |
+| User | I want to securely log in and out so that my data is protected | Django Allauth provides secure session‑based authentication |![screenshot](documentation/responsiveness/desktop_signin.png) |
+| User | I want to upgrade to Pro so that I can access advanced features | Stripe subscription system enables secure payments and upgrades | ![screenshot](documentation/responsiveness/desktop_subscription.png) |
+| Pro User | I want a payment confirmation email so that I have a record | Automated confirmation email sent after successful Stripe transaction |![screenshot](documentation/responsiveness/desktop_nin.png) |
+| Pro User | I want a central dashboard so that I can quickly access key features | Dashboard displays analytics, navigation shortcuts, and account status | ![screenshot](documentation/responsiveness/desktop_dashboard.png) |
+| Pro User | I want to view yield curve charts so that I can analyse the swaps market | Analysis board displays current zero and par curves |![screenshot](documentation/responsiveness/desktop_analyser.png) |
+| Pro User | I want to view implied forward curves to analyse future expectations | Interactive charts show implied 1‑year forward rate paths | ![screenshot](documentation/responsiveness/laptop_analyser.png) |
+| Pro User | I want to view historical rate distributions | Histogram charts display historical rate behaviour | ![screenshot](documentation/responsiveness/desktop_history.png) |
+| Pro User | I want to view all my trades so that I can manage my portfolio | Blotter lists all user trades with MTM and key metrics | ![screenshot](documentation/responsiveness/desktop_blotter.png) |
+| Pro User | I want to add trades so that I can build a portfolio | Validated forms allow users to input new trades | ![screenshot](documentation/responsiveness/desktop_addtrade.png)|
+| Pro User | I want to see MTM values so that I can track performance | Backend logic calculates MTM dynamically using current market data |![screenshot](documentation/responsiveness/desktop_dashboard.png) |
+| Pro User | I want exclusive access to advanced tools | Subscription status controls access to restricted features | ![screenshot](documentation/responsiveness/desktop_dashboard.png) |
+| Site Owner | I want to manage users and trades | Django Admin provides full CRUD access to all models |![screenshot](documentation/responsiveness/desktop_signin.png) |
+| User | I want clear 404 and 500 pages so that I can recover from issues | Custom error pages improve UX during failures | ![screenshot](documentation/responsiveness/desktop_404.png) |
+||||![screenshot](documentation/responsiveness/desktop_500.png)|
 
 
+## 9. Automated Testing
 
-## 7. Automated Testing
-
-### 7.1 Django Unittest Framework
+### 9.1 Django Unittest Framework
 
 Automated tests were written using Django’s built‑in unittest framework to verify:
 
@@ -296,7 +316,7 @@ These tests confirm that the core logic of the application behaves as expected.
 In a production environment, a more extensive suite would be implemented.
 
 
-### 7.2 Coverage Testing
+### 9.2 Coverage Testing
 
 Coverage was used to measure how much of the codebase is executed during testing.
 
@@ -313,11 +333,11 @@ Below are the results from the full coverage report.
 ![screenshot](documentation/automation/html-coverage.png)
 
 
-## 8. Known Bugs & Fixes
+## 10. Known Bugs & Fixes
 
 
 
-### 8.1 Fixed Bugs
+### 10.1 Fixed Bugs
 
 [![GitHub issue custom search](https://img.shields.io/github/issues-search/DavidClamp/project-swaps?query=is%3Aissue%20is%3Aclosed%20label%3Abug&label=Fixed%20Bugs&color=green)](https://www.github.com/DavidClamp/project-swaps/issues?q=is%3Aissue+is%3Aclosed+label%3Abug)
 
@@ -333,7 +353,7 @@ All previously closed/fixed bugs can be tracked [here](https://www.github.com/Da
 | Yield Curve chart “wobbled” during window resize. | Wrapped canvas in a fixed‑size container `position: relative; height: 450px; width: 100%;`. |
 | Heading Level Skip |	Validator flagged an h6 following an h1. Corrected hierarchy to use h2 with .h6 styling for accessibility compliance.|
 
-### 8.2 Unfixed Bugs
+### 10.2 Unfixed Bugs
 
 [![GitHub issue custom search](https://img.shields.io/github/issues-search/DavidClamp/project-swaps?query=is%3Aissue%2Bis%3Aopen%2Blabel%3Abug&label=Unfixed%20Bugs&color=red)](https://www.github.com/DavidClamp/project-swaps/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 
@@ -341,7 +361,7 @@ Any remaining open issues can be tracked [here](https://www.github.com/DavidClam
 
 ![screenshot](documentation/bugs/gh-issues-open.png)
 
-### 8.3  Known Issues
+### 10.3  Known Issues
 
 | Issue | Screenshot |
 | --- | --- |
