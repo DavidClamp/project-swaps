@@ -33,9 +33,16 @@ ALLOWED_HOSTS = [
     "localhost",
 ]
 
+# Heroku app URL
+CSRF_TRUSTED_ORIGINS = [
+    "https://project-swaps-app-52891839a6f0.herokuapp.com",
+    "https://*.herokuapp.com"
+]
+
+
 # --- SECURITY: PRODUCTION SETTINGS ---
 # This block ONLY runs on Heroku/Live (when DEBUG is False).
-# It fixes warnings W004, W008, W012, W016.
+
 if not DEBUG:
     # 1. Force HTTPS
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
@@ -213,5 +220,5 @@ else:
     EMAIL_PORT = 587
     EMAIL_HOST = "smtp.gmail.com"
     EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-    EMAIL_HOST_PASS = os.environ.get("EMAIL_HOST_PASS")
+    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASS")
     DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER")
