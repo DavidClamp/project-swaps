@@ -170,12 +170,10 @@ ACCOUNT_SIGNUP_FIELDS = [
 ACCOUNT_UNIQUE_EMAIL = True
 
 # 4. Verification Logic
-if DEBUG:
-    # Local (Dev): No emails, no codes. Just log in.
-    ACCOUNT_EMAIL_VERIFICATION = 'none'
-else:
-    # Production (Heroku): MUST verify email.
+if not DEBUG:
     ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+    ACCOUNT_EMAIL_REQUIRED = True
+    ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 
 
 # --- INTERNATIONALIZATION ---
