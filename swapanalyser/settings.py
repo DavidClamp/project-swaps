@@ -173,7 +173,7 @@ ACCOUNT_UNIQUE_EMAIL = True
 if not DEBUG:
     ACCOUNT_EMAIL_VERIFICATION = 'none'  # whilst testing UI
     ACCOUNT_EMAIL_REQUIRED = True
-    ACCOUNT_LOGIN_ON_SIGNUP = False 
+    ACCOUNT_LOGIN_ON_SIGNUP = True  # whilst testing UI
     ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
     ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
     ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
