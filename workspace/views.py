@@ -447,7 +447,11 @@ def forward_curve_view(request):
         messages.error(request, f"Calculation Error: {e}")
         return redirect("dashboard")
 
-@verified_email_required
+
+    #  --- @verified_email_required OFF whilst UI testing ---
+
+
+@login_required
 def dashboard(request):
     """
     Mandatory terminal gate. Blocks unverified sessions.

@@ -171,7 +171,7 @@ ACCOUNT_UNIQUE_EMAIL = True
 
 # 4. Verification Logic
 if not DEBUG:
-    ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+    ACCOUNT_EMAIL_VERIFICATION = 'none'  # whilst testing UI
     ACCOUNT_EMAIL_REQUIRED = True
     ACCOUNT_LOGIN_ON_SIGNUP = False 
     ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
