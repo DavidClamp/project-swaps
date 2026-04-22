@@ -170,13 +170,23 @@ ACCOUNT_SIGNUP_FIELDS = [
 ACCOUNT_UNIQUE_EMAIL = True
 
 # 4. Verification Logic
-if not DEBUG:
-    ACCOUNT_EMAIL_VERIFICATION = 'none'  # whilst testing UI
-    ACCOUNT_EMAIL_REQUIRED = True
-    ACCOUNT_LOGIN_ON_SIGNUP = True  # whilst testing UI
-    ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
-    ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
-    ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
+# if not DEBUG:
+#     ACCOUNT_EMAIL_VERIFICATION = 'none'  # whilst testing UI
+#     ACCOUNT_EMAIL_REQUIRED = True
+#     ACCOUNT_LOGIN_ON_SIGNUP = True 
+#     ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+#     ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
+#     ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
+
+# FORCE BYPASS FOR UI TESTING
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_LOGIN_METHODS = {'username', 'email'}  # Allow username login to bypass MFA
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_LOGIN_ON_SIGNUP = True
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
+
+# Disable the specific "Sign-in by Code" feature
+ACCOUNT_SIGNIN_BY_CODE_ENABLED = False 
 
 
 # --- INTERNATIONALIZATION ---
