@@ -192,6 +192,9 @@ This section verifies the correctness, safety, and resilience of the “BlueGamm
 *   **Outcome:** Link opened safely in new tab. Original app remained active.
 *   **Status:** ✅ PASS
 ---
+
+
+![screenshot](documentation/tests/test_bg.png)
 ### 4.2 Trade Capture Validation
 
 This table verifies that the IRSQuant terminal rejects logically impossible financial data.
@@ -208,16 +211,28 @@ This table verifies that the IRSQuant terminal rejects logically impossible fina
 
 ---
 
+### 4.3 Automated Profile Syncing
 
-### 4.3 Automated Profile Syncing (Django Signals)
+The application uses django-allauth to enforce secure terminal access. In production, this is paired with a mandatory email verification code to prevent unauthorised entry.
 
-The application utilises post_save signals to automate user profile creation, ensuring that every authenticated user has a corresponding "Trader Profile" in the database.
-
-| Feature |	Action	| Expected Logic Result	| Status |
+| Feature |	Action	| Expected Result | Status |
 | --- |--- |--- |--- |
-| Profile Creation | Register a new user via signup.html. |	Signal triggers: Profile object is automatically created and linked to the User ID.	| ✅ PASS
+| SMTP Relay Security | Configured Gmail SMTP with 2-Step Verification & App Passwords. | Emails sent securely via an encrypted 16-digit token rather than a primary account password. | ✅ PASS |
+| MFA Workflow | Mandatory 6-digit sign-in code sent to user email on login attempt. | Gmail SMTP relay successfully delivered the 16-digit verification code to the trader's inbox. | ✅ PASS |
+| Secure Authentication | Attempt to sign in with a new account | System triggers a verification email; user is blocked until code is entered. | ✅ PASS |
+| Email Delivery | Check inbox for dclamp@yahoo.com | Email arrives from dclamp101@gmail.com containing the 6-digit code. |	✅ PASS |
+| Code Validation | Enter incorrect/expired code |System rejects input and displays "Invalid code" warning. |	✅ PASS |
 | Profile Persistence |	Update User model (e.g., change email).	| Signal triggers: save_profile ensures the linked Profile remains in sync. | ✅ PASS
 | Data Integrity | Delete a User from the Django Admin. | models.CASCADE (if set) removes the Profile; orphaned profiles are prevented.	| ✅ PASS
+
+* **Manual Test:** Email Delivery Success
+
+- Trigger: Sign-in attempt for dclamp@yahoo.com.
+- Result: Verified that the Django-Allauth system successfully dispatched a verification email via the Gmail SMTP relay (dclamp101@gmail.com).
+
+**Screenshot Evidence:**
+- Insert Screenshot 1: ![screenshot](documentation/signin_code.png)The "Enter Sign-In Code" terminal interface.
+- Insert Screenshot 2: ![screenshot](documentation/tests/test_dataNA.png)The actual verification email in your Yahoo inbox.
 
 ---
 
@@ -250,6 +265,7 @@ Defensive programming ensures that the application handles invalid input, unexpe
 | Unauthorised Redirect | Restricted pages should redirect anonymous users to login | Attempted to access /workspace/dashboard while logged out | Redirected to login with next parameter | [screenshot] |
 | CRUD Protection |	Users should not be able to edit/delete trades they do not own. | Manually entered URL for Trade ID belonging to another user |	System returned 403 Forbidden or redirected with warning |	[Screenshot]
 | Admin Panel |	Only superusers should access the /admin interface. | Attempted login to admin with a standard 'Trader' account | Access denied; redirected to login/home |	[Screenshot]
+| Two-Step Verification	| Account should be inaccessible without email confirmation	| Attempted to bypass code screen. | System maintained redirect loop to "Enter Sign-In Code" page | [Screenshot]
 
 ---
 ## 7. Lighthouse Audit
@@ -282,7 +298,7 @@ Each implemented feature was tested against the original User Stories to ensure 
 
 | Target | Expectation (User Story) | Outcome | Screenshot |
 | --- | --- | --- | --- |
-| User | I want to register an account so that I can access platform features | Users can register via Django Allauth and gain access to authenticated areas | ![screenshot](documentation/responsiveness/desktop_signin.png) |
+| User | I want to register an account so that I can access platform features | Users can register via Django Allauth and gain access to authenticated areas | ![screenshot](documentation/responsiveness/desktop_signup.png) |
 | User | I want to securely log in and out so that my data is protected | Django Allauth provides secure session‑based authentication |![screenshot](documentation/responsiveness/desktop_signin.png) |
 | User | I want to upgrade to Pro so that I can access advanced features | Stripe subscription system enables secure payments and upgrades | ![screenshot](documentation/responsiveness/desktop_subscription.png) |
 | Pro User | I want a payment confirmation email so that I have a record | Automated confirmation email sent after successful Stripe transaction |![screenshot](documentation/responsiveness/desktop_nin.png) |
@@ -359,7 +375,7 @@ Below are the results from the full coverage report.
 ![screenshot](documentation/automation/html-coverage.png)
 
 
-## 10. Known Bugs & Fixes
+## 10. Known Bugs, Issues & Fixes
 
 
 
@@ -378,6 +394,9 @@ All previously closed/fixed bugs can be tracked [here](https://www.github.com/Da
 | A faint white line appeared between "Login" and "Sign Up" buttons on Desktop. | Removed border classes entirely and replaced with `<hr class="d-lg-none">` to show divider only on mobile.|
 | Yield Curve chart “wobbled” during window resize. | Wrapped canvas in a fixed‑size container `position: relative; height: 450px; width: 100%;`. |
 | Heading Level Skip |	Validator flagged an h6 following an h1. Corrected hierarchy to use h2 with .h6 styling for accessibility compliance.|
+|API Cost Barrier	Real-time API access is restricted to paid enterprise tiers.| Implemented a Local Seed Data mechanism using a high-density JSON file to simulate real-world yield curves without recurring costs.|
+| Integrity Error (duplicate key) on new user signup. |Refactored signals.py to use a single consolidated receiver with get_or_create logic to handle Allauth race conditions. |
+---
 
 ### 10.2 Unfixed Bugs
 
