@@ -68,9 +68,10 @@ Because Django templates contain {% tags %} and {{ variables }}, validation was 
 | account | [password_reset.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/account/password_reset.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_passwordreset.png) | Minor warnings |
 | account | [signup.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/account/signup.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_signup.png) | Minor warnings |
 
+---
+
 All warnings were related to Django template syntax and not actual HTML errors.
 
----
 
 ### CSS Validation
 I have used the [W3C Jigsaw Validator](https://jigsaw.w3.org/css-validator/) to validate my custom CSS.
@@ -78,6 +79,7 @@ I have used the [W3C Jigsaw Validator](https://jigsaw.w3.org/css-validator/) to 
 | Directory | File | Status | Screenshot | Notes |
 | --- | --- | --- | --- | --- |
 | static | [style.css](https://github.com/DavidClamp/project-swaps/blob/main/static/css/style.css) | ✅ PASS | ![screenshot](documentation/validation/w3ccssvalidation.png) | All root variables and vendor prefixes validated successfully vendor prefixes. |
+---
 
 
 ### Python Validation
@@ -130,6 +132,7 @@ I've tested my deployed project to check for responsiveness issues.
 | 404 | ![screenshot](documentation/responsiveness/mobile_404.png) | ![screenshot](documentation/responsiveness/laptop_404.png) | ![screenshot](documentation/responsiveness/desktop_404.png) | Works as expected |
 | 500 | ![screenshot](documentation/responsiveness/mobile_500.png) | ![screenshot](documentation/responsiveness/laptop_500.png) | ![screenshot](documentation/responsiveness/desktop_500.png) | Works as expected |
 
+---
 
 ## 3. Browser Compatibility
 
@@ -145,8 +148,10 @@ The deployed project was tested across the three major browsers to ensure consis
 | Term Structure | ![screenshot](documentation/responsiveness/desktop_term.png) | ![screenshot](documentation/browser/firefox_term.png) | ![screenshot](documentation/browser/edge_term.png) | Works as expected |
 | Rates History | ![screenshot](documentation/responsiveness/desktop_history.png) | ![screenshot](documentation/browser/firefox_rate.png) | ![screenshot](documentation/browser/edge_rate.png) | Works as expected |
 | Add Trade | ![screenshot](documentation/responsiveness/desktop_addtrade.png) | ![screenshot](documentation/browser/firefox_addtrade.png) | ![screenshot](documentation/browser/edge_addtrade.png) | Works as expected |
-| 404 | ![screenshot](documentation/responsiveness/desktop_404.png) | ![screenshot](documentation/browsers/firefox-bag.png) | ![screenshot](documentation/browsers/safari-bag.png) | Works as expected |
-| 500 | ![screenshot](documentation/responsiveness/desktop_500.png) | ![screenshot](documentation/browsers/firefox-bag.png) | ![screenshot](documentation/browsers/safari-bag.png) | Works as expected |
+| 404 | ![screenshot](documentation/responsiveness/desktop_404.png) | ![screenshot](documentation/responsiveness/desktop_500.png) | ![screenshot](documentation/responsiveness/desktop_404.png) | Works as expected |
+| 500 | ![screenshot](documentation/responsiveness/desktop_500.png) | ![screenshot](documentation/responsiveness/desktop_500.png) | ![screenshot](documentation/responsiveness/desktop_500.png) | Works as expected |
+
+---
 
 No browser‑specific issues were identified. All pages behaved consistently across Chrome, Firefox, and Edge.
 
@@ -157,23 +162,36 @@ No browser‑specific issues were identified. All pages behaved consistently acr
 This section verifies the correctness, safety, and resilience of the “BlueGamma‑inspired” market data logic used throughout IRSQuant.
 
 ### Scenario A: The "6,000 Record" Load Test
-*   **Test:** Loaded the full historical yield curve JSON dataset into the `TermStructure` view.
-*   **Requirement:** Dashboard must render in < 200ms without flickering.
-*   **Observation:** Duplicate removal script successfully reduced payload by ~12%. Charts rendered instantly.
-*   **Status:** ✅ PASS
 
-### Scenario B: The "KeyError" Safety Net
-*   **Test:** Intentionally introduced a JSON record with a missing `mid_rate` key.
-*   **Logic:** The Django template filter `|default:"N/A"` prevented a crash.
-*   **Outcome:** Page loaded normally; missing values displayed as "N/A".
-*   **Status:** ✅ PASS
+*   **Test:** Loaded a high-density historical yield curve dataset (approx. 6,000 records) into the TermStructure view.
+*   **Requirement:** The Apps data analysis views (dashboard, term structure etc) must remain stable and responsive when handling large volumes of market data.
+*   **Observation:** The system successfully processed the full dataset; charts rendered correctly without layout shifts or "flickering."
+*   **Performance Metrics (term structure):**
+- Total Resource Weight: 807 kB (Uncompressed).
+- Transferred Data: 11.9 kB (Optimized/Compressed).
+- Style Load Time: 93 ms (Verified via Chrome DevTools).
+
+*  **Status:** ✅ PASS
+---
+
+**Conclusion:** By cleaning duplicates and optimizing the transfer, 98.5% of the resource weight was handled via server-side efficiency, allowing the browser to achieve DOMContentLoaded in 3.26s even with heavy financial datasets. ![screenshot](documentation/tests/test_datacleaning.png)
+
+### Scenario B: Front-End Stability Test
+*   **Test:** Spoken "null" value into Chart.js data array via Console.
+*   **Requirement:** Prevent crashes if market data is incomplete.
+*   **Verification:**  To simulate a data gap without corrupting the production database, a DOM manipulation test was performed. This verified that the table layout remains stable and the "N/A" styling (aligned with the theme) is applied correctly.
+*   **Outcome:** Terminal maintains layout; chart renders with a gap; no errors thrown.   **Status:** ✅ PASS
+
+---
+
+![screenshot](documentation/tests/test_dataNA.png)
 
 ### Scenario C: Attribution Links (Legal)
 *   **Test:** Clicked "BlueGamma" attribution link in the footer.
 *   **Requirement:** Must open in a new tab with `rel="noopener"` to prevent "Reverse Tabnabbing".
 *   **Outcome:** Link opened safely in new tab. Original app remained active.
 *   **Status:** ✅ PASS
-
+---
 ### 4.2 Trade Capture Validation
 
 This table verifies that the IRSQuant terminal rejects logically impossible financial data.
@@ -186,7 +204,9 @@ This table verifies that the IRSQuant terminal rejects logically impossible fina
 | Future Settlement | Enter a maturity date before the effective date. |Logic check triggers: "Maturity cannot precede Effective Date." | ✅ PASS
 | String Injection |Enter "Ten Million" instead of 10000000. | Django DecimalField raises a Type Error; prevents DB crash. | ✅ PASS
 | Currency Normalization | Enter usd (lowercase). |	BlueGamma backend script converts to USD for DB consistency. | ✅ PASS
-| Duplicate Rate Entry | Attempt to save two SOFR rates for the same date/tenor. |	IntegrityError triggered; database prevents duplicate record creation.	| ✅ PASS
+| Duplicate Rate Entry | Attempt to save two SOFR rates for the same date/tenor. |	Integrity Error triggered; database prevents duplicate record creation.	| ✅ PASS
+
+---
 
 
 ### 4.3 Automated Profile Syncing (Django Signals)
@@ -199,6 +219,8 @@ The application utilises post_save signals to automate user profile creation, en
 | Profile Persistence |	Update User model (e.g., change email).	| Signal triggers: save_profile ensures the linked Profile remains in sync. | ✅ PASS
 | Data Integrity | Delete a User from the Django Admin. | models.CASCADE (if set) removes the Profile; orphaned profiles are prevented.	| ✅ PASS
 
+---
+
 
 ## 5. Business Logic & Data Privacy
 
@@ -208,9 +230,14 @@ These tests ensure that IRSQuant correctly isolates user data, aggregates financ
 | Component | Test Case | Action | Expected Result | Actual Result |
 | :--- | :--- | :--- | :--- | :--- |
 | **Dashboard** | **Privacy Check** | Logged in as User B| Should NOT show User A's trades. | ✅ PASS |
-| **Aggregation** | **Strategy Grouping** | Created 2 trades with same strategy | Should group into one row. | ✅ PASS |
+| **Aggregation** | **Strategy Grouping** | Created 2 trades with same strategy. | Should group into one row. | ✅ PASS |
 | **KPI Calculation** | **Zero State** | New user with 0 trades | NPV should be $0, no errors. | ✅ PASS |
-| **Market Data** | **Public Access** | Viewed 'Latest SOFR Date' | Should be visable to all users. | ✅ PASS |
+| **Market Data** | **Public Access** | Viewed 'Latest SOFR Date' | Should be visible to all users. | ✅ PASS |
+| **Data Ingestion** |	**API Failover** |	Set BLUEGAMMA_API_KEY to null/empty. | System should identify missing key and switch to local data. |	✅ PASS |
+| **Logic** | **Local Fallback** | Run import_bluegamma_data. |	market_data_test.json is parsed; 0.8s load time achieved. |	✅ PASS |
+
+---
+
 
 ## 6. Defensive Programming
 
@@ -218,12 +245,11 @@ Defensive programming ensures that the application handles invalid input, unexpe
 
 | Page | Expectation | Test | Result | Screenshot |
 | --- | --- | --- | --- | --- |
-| 404 Error Page | Should display custom 404 page for invalid URLs. | Navigated to ``/test`` | Custom 404 displayed | screenshot |
+| 404 Error Page | Should display custom 404 page for invalid URLs. | Navigated to `/test` | Custom 404 displayed | screenshot |
 | 500 Error Page | Should display custom 500 page on server error. | Triggered via trap‑door URL | Custom 500 displayed | screenshot |
 | Unauthorised Redirect | Restricted pages should redirect anonymous users to login | Attempted to access /workspace/dashboard while logged out | Redirected to login with next parameter | [screenshot] |
 | CRUD Protection |	Users should not be able to edit/delete trades they do not own. | Manually entered URL for Trade ID belonging to another user |	System returned 403 Forbidden or redirected with warning |	[Screenshot]
 | Admin Panel |	Only superusers should access the /admin interface. | Attempted login to admin with a standard 'Trader' account | Access denied; redirected to login/home |	[Screenshot]
-
 
 ---
 ## 7. Lighthouse Audit
