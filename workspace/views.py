@@ -4,6 +4,7 @@ from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from allauth.account.decorators import verified_email_required
 from django.core.management import call_command
 from datetime import date
 
@@ -445,3 +446,10 @@ def forward_curve_view(request):
         # Catch any other math errors (e.g., QuantLib interpolation failure)
         messages.error(request, f"Calculation Error: {e}")
         return redirect("dashboard")
+
+@verified_email_required
+def dashboard(request):
+    """
+    Mandatory terminal gate. Blocks unverified sessions.
+    """
+    return render(request, 'workspace/dashboard.html')
