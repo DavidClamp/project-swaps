@@ -53,7 +53,7 @@ class Trade(models.Model):
     )
 
     # --- Defaults Added for Usability ---
-    ticker = models.CharField(max_length=20, choices=INDEX_CHOICES, default="USD-SOFR"
+    ticker = models.CharField(max_length=20, choices=HistoricalRate.INDEX_CHOICES, default="SOFR"
     )
     notional = models.DecimalField(
         max_digits=20,
