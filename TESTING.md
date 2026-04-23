@@ -408,14 +408,16 @@ All previously closed/fixed bugs can be tracked [here](https://www.github.com/Da
 
 ![screenshot](documentation/bugs/gh-issues-closed.png)
 
-| Issue | Resolution|
-| --- | --- |
-| A faint white line appeared between "Login" and "Sign Up" buttons on Desktop. | Removed border classes entirely and replaced with `<hr class="d-lg-none">` to show divider only on mobile.|
-| Yield Curve chart “wobbled” during window resize. | Wrapped canvas in a fixed‑size container `position: relative; height: 450px; width: 100%;`. |
-| Heading Level Skip |	Validator flagged an h6 following an h1. Corrected hierarchy to use h2 with .h6 styling for accessibility compliance.|
-|API Cost Barrier	Real-time API access is restricted to paid enterprise tiers.| Implemented a Local Seed Data mechanism using a high-density JSON file to simulate real-world yield curves without recurring costs.|
-| Integrity Error (duplicate key) on new user signup. |Refactored signals.py to use a single consolidated receiver with get_or_create logic to handle Allauth race conditions. |
----
+| Issue | Resolution| Status |
+| --- | --- | --- |
+| A faint white line appeared between "Login" and "Sign Up" buttons on Desktop. | Removed border classes entirely and replaced with `<hr class="d-lg-none">` to show divider only on mobile.|✅ FIXED|
+| Yield Curve chart “wobbled” during window resize. | Wrapped canvas in a fixed‑size container `position: relative; height: 450px; width: 100%;`. | ✅ FIXED|
+| Heading Level Skip |	Validator flagged an h6 following an h1. Corrected hierarchy to use h2 with .h6 styling for accessibility compliance.|✅ FIXED|
+|API Cost Barrier	Real-time API access is restricted to paid enterprise tiers.| Implemented a Local Seed Data mechanism using a high-density JSON file to simulate real-world yield curves without recurring costs.| ✅ FIXED|
+| Integrity Error (duplicate key) on new user signup. | Refactored signals.py to use a single consolidated receiver with get_or_create logic to handle Allauth race conditions. | ✅ FIXED |
+| Favicon.ico 404 error in Heroku logs.	| Explicitly linked growth.png as shortcut icon in base.html. |	✅ FIXED |
+| TemplateDoesNotExist during 500 errors. |	Moved error templates to the root templates/ directory to ensure global accessibility.|	✅ FIXED|
+--- 
 
 ### 10.2 Unfixed Bugs
 
