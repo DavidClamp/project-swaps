@@ -61,7 +61,10 @@ class Trade(models.Model):
         default=10_000_000,
     )
     forward_start = models.FloatField(
-        default=0.0, blank=True, verbose_name="Start Delay (Years)"
+        default=0.0,
+        validators=[MinValueValidator(0)],
+        blank=True,
+        verbose_name="Start Delay (Years)"
     )
     tenor_years = models.PositiveIntegerField(default=10)
     fixed_rate = models.FloatField(default=4.0)

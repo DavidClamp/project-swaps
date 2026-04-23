@@ -200,12 +200,11 @@ This table verifies that the IRSQuant terminal rejects logically impossible fina
 
 | Test Case | Action| Expected Result | Status |
 | --- | --- | --- | --- |
-| Negative Notional | Enter -1,000,000 in Notional field. |	Form validation error: "Ensure this value is greater than or equal to 0Notional must be a positive value."	| ✅ PASS
+| Negative Notional | Enter -1,000,000 in Notional field. |	Form validation error: "Ensure this value is greater than or equal to 0.01."	| ✅ PASS
+| Negative Start Delay | Enter -1 in Start Delay field. |	Form validation error: "Ensure this value is greater than or equal to 0"	| ✅ PASS
 | Duplicate Trade id | Enter a previously entered Trade id in Trade id field. |	Form validation error: "Trade with this Trade id already exists"	| ✅ PASS
 | No Commas Notional | Enter 10000000 in the Notional field | Output $10,000,000 with commas and currency symbol.| ✅ PASS
 | Future Settlement | Enter a maturity date before the effective date. |Logic check triggers: "Maturity cannot precede Effective Date." | ✅ PASS
-| String Injection |Enter "Ten Million" instead of 10000000. | Django DecimalField raises a Type Error; prevents DB crash. | ✅ PASS
-| Currency Normalisation | Enter usd (lowercase). |	BlueGamma backend script converts to USD for DB consistency. | ✅ PASS
 | Duplicate Rate Entry | Attempt to save two SOFR rates for the same date/tenor. |	Integrity Error triggered; database prevents duplicate record creation.	| ✅ PASS
 
 ---
