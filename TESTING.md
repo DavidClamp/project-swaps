@@ -198,14 +198,13 @@ This section verifies the correctness, safety, and resilience of the “BlueGamm
 This table verifies that the IRSQuant terminal rejects logically impossible financial data.
 
 
-| Test Case | Action| Expected Result | Status |
-| --- | --- | --- | --- |
-| Negative Notional | Enter -1,000,000 in Notional field. |	Form validation error: "Ensure this value is greater than or equal to 0.01."	| ✅ PASS
-| Negative Start Delay | Enter -1 in Start Delay field. |	Form validation error: "Ensure this value is greater than or equal to 0"	| ✅ PASS
-| Duplicate Trade id | Enter a previously entered Trade id in Trade id field. |	Form validation error: "Trade with this Trade id already exists"	| ✅ PASS
-| No Commas Notional | Enter 10000000 in the Notional field | Output $10,000,000 with commas and currency symbol.| ✅ PASS
-| Future Settlement | Enter a maturity date before the effective date. |Logic check triggers: "Maturity cannot precede Effective Date." | ✅ PASS
-| Duplicate Rate Entry | Attempt to save two SOFR rates for the same date/tenor. |	Integrity Error triggered; database prevents duplicate record creation.	| ✅ PASS
+| Test Case | Action| Expected Result | Actual Result | Status |
+| --- | --- | --- | --- | --- |
+| Negative Notional | Enter -1,000,000 in Notional field. |	Form validation error triggered. | "Ensure this value is greater than or equal to 0.01."	| ✅ PASS |
+| Negative Start Delay | Enter -1 in Start Delay field. |	Form validation error triggered | "Ensure this value is greater than or equal to 0".	| ✅ PASS |
+| Duplicate Trade id | Enter an existing Trade id. |  Database unique constraint prevents save. | "Trade with this Trade id already exists"	| ✅ PASS
+| Financial Formatting | Enter 10000000 in the Notional field | @property formats decimal for UI. | Output $10,000,000| ✅ PASS
+
 
 ---
 
