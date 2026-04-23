@@ -237,14 +237,15 @@ The application uses django-allauth to enforce secure terminal access. In produc
 
 These tests ensure that IRSQuant correctly isolates user data, aggregates financial metrics, and handles zero‑state scenarios safely.
 
-| Feature | Test Case | Action | Expected Result | Status |
-| :--- | :--- | :--- | :--- | :--- |
-| **Dashboard** | **Privacy Check** | Logged in as User B| Should NOT show User A's trades. | ✅ PASS |
-| **Aggregation** | **Strategy Grouping** | Created 2 trades with same strategy. | Should group into one row. | ✅ PASS |
-| **KPI Calculation** | **Zero State** | New user with 0 trades | NPV should be $0, no errors. | ✅ PASS |
-| **Market Data** | **Public Access** | Viewed 'Latest SOFR Date' | Should be visible to all users. | ✅ PASS |
-| **Data Ingestion** |	**API Failover** |	Set BLUEGAMMA_API_KEY to null/empty. | System should identify missing key and switch to local data. |	✅ PASS |
-| **Logic** | **Local Fallback** | Run import_bluegamma_data. |	market_data_test.json is parsed; 0.8s load time achieved. |	✅ PASS |
+| Feature | Action | Expected Result | Status |
+| :--- | :--- | :--- | :--- |
+| Privacy Check | Logged in as User B| Should NOT show User A's trades. | ✅ PASS |
+| Aggregation | | Created 2 trades with same strategy. | Should group into one row. | ✅ PASS |
+| Zero State | New user with 0 trades | NPV should be $0, no errors. | ✅ PASS |
+| Public Access | Viewed 'Latest SOFR Date' | Should be visible to all users. | ✅ PASS |
+| Data Ingestion| Set BLUEGAMMA_API_KEY to null/empty. | System should identify missing key and switch to local data. |	✅ PASS |
+| Local Fallback | Ingest 6k market records. | market_data_test.json parsed. |	~1.1s (Verified via PowerShell)	| ✅ PASS|
+| Portfolio Tagging | Outright Book ID | Added TRD-151 to two Outright trades.|Dashboard aggregates individual Outrights into a single portfolio row. |	✅ PASS |
 
 ---
 
@@ -253,16 +254,39 @@ These tests ensure that IRSQuant correctly isolates user data, aggregates financ
 
 Defensive programming ensures that the application handles invalid input, unexpected user behaviour, and system errors safely.
 
-| Page | Expectation | Test | Expected Result | Screenshot |
-| --- | --- | --- | --- | --- |
-| 404 Error Page | Should display custom 404 page for invalid URLs. | Navigated to `/test` | Custom 404 displayed | screenshot |
-| 500 Error Page | Should display custom 500 page on server error. | Triggered via trap‑door URL | Custom 500 displayed | screenshot |
-| Unauthorised Redirect | Restricted pages should redirect anonymous users to login | Attempted to access /workspace/dashboard while logged out | Redirected to login with next parameter | [screenshot] |
-| CRUD Protection |	Users should not be able to edit/delete trades they do not own. | Manually entered URL for Trade ID belonging to another user |	System returned 403 Forbidden or redirected with warning |	[Screenshot]
-| Admin Panel |	Only superusers should access the /admin interface. | Attempted login to admin with a standard 'Trader' account | Access denied; redirected to login/home |	[Screenshot]
-| Two-Step Verification	| Account should be inaccessible without email confirmation	| Attempted to bypass code screen. | System maintained redirect loop to "Enter Sign-In Code" page | [Screenshot]
+
+
+| Security Case	 | Action |	Actual Result |	Status |
+| --- | --- | --- | --- |
+| Invalid URL Handling | Navigated to /non-existent-link | Custom 404 template rendered with active navigation.| ✅ PASS|
+| Server Fault Handling | Triggered via internal test route | Custom 500 template prevented exposure of raw code. | ✅ PASS|
+| Unauthorised Access |	Visited Dashboard while logged out | Redirected: Anonymous session pushed to Login portal.|	✅ PASS|
+| Data Isolation (CRUD) | Attempted to Edit/Delete another user's Trade ID | Forbidden: Request rejected via user.trades filtering. | ✅ PASS|
+| Privileged Access	| Attempted /admin access with standard account	| Denied: Superuser credentials required for access.| ✅ PASS|
+| MFA Gatekeeping |	Attempted to bypass code screen via direct URL | Redirect Loop: Access denied until 6-digit code verified.|	✅ PASS|
+---
+
+## Section 6.1  Stripe Security & Resilience
+
+| Security Case	 | Action |	Actual Result |	Status |
+| --- | --- | --- | --- |
+| Signature Verification | Attempted to send a fake JSON payload to the Webhook URL. |	Rejected: System identified missing/invalid Stripe-Signature and returned a 400 error. |✅ PASS |
+| Session Isolation	| Attempted to manually navigate to /success/ without a valid Stripe session. |	Blocked: View requires a session_id and redirects to Dashboard with a warning.| ✅ PASS|
+| Webhook Failover | Simulated a server timeout during the payment callback. |	Resilient: Stripe retries the webhook; logic handles duplicate events via customer_id check.| ✅ PASS |
+| Metadata Integrity | Modified the 'Price ID' in the browser console before checkout. |	Secured: The price is defined server-side in settings.py; client-side overrides are ignored. | ✅ PASS |
+| Abandoned Checkout | Closed the payment tab before completing the transaction. | Handled: No is_subscriber flag updated; user remains on 'Basic' tier safely. | ✅ PASS |
 
 ---
+
+### Stripe Screenshots
+
+| Screenshot |	Purpose	| Where to get it|
+| --- | --- | ---|
+[Stripe Checkout]	| Proof of public key is connected. | The Stripe-hosted payment page showing your app's name. |
+| [Success Redirect] | Proof of the "Return URL" logic.	 | Apps "Success" page after a test payment. |
+| [Webhook 200 OK] | Critical Security Proof. |	The Stripe Dashboard (Test Mode) > Developers > Webhooks, showing a list of 200 status codes.|
+---
+
 ## 7. Lighthouse Audit
 
 
@@ -299,10 +323,10 @@ Each implemented feature was tested against the original User Stories to ensure 
 | Pro User | I want a payment confirmation email so that I have a record | Automated confirmation email sent after successful Stripe transaction |![screenshot](documentation/responsiveness/desktop_nin.png) |
 | Pro User | I want a central dashboard so that I can quickly access key features | Dashboard displays analytics, navigation shortcuts, and account status | ![screenshot](documentation/responsiveness/desktop_dashboard.png) |
 | Pro User | I want to view yield curve charts so that I can analyse the swaps market | Analysis board displays current zero and par curves |![screenshot](documentation/responsiveness/desktop_analyser.png) |
-| Pro User | I want to view implied forward curves to analyse future expectations | Interactive charts show implied 1‑year forward rate paths | ![screenshot](documentation/responsiveness/laptop_analyser.png) |
-| Pro User | I want to view historical rate distributions | Histogram charts display historical rate behaviour | ![screenshot](documentation/responsiveness/desktop_history.png) |
-| Pro User | I want to view all my trades so that I can manage my portfolio | Blotter lists all user trades with MTM and key metrics | ![screenshot](documentation/responsiveness/desktop_blotter.png) |
-| Pro User | I want to add trades so that I can build a portfolio | Validated forms allow users to input new trades | ![screenshot](documentation/responsiveness/desktop_addtrade.png)|
+| User | I want to view implied forward curves to analyse future expectations | Interactive charts show implied 1‑year forward rate paths | ![screenshot](documentation/responsiveness/laptop_analyser.png) |
+| User | I want to view historical rate distributions | Histogram charts display historical rate behaviour | ![screenshot](documentation/responsiveness/desktop_history.png) |
+| Pro User | I want to view all my trades so that I can manage my portfolio | Dashboard lists all user trades with MTM and key metrics | ![screenshot](documentation/responsiveness/desktop_dashboard.png) |
+| User | I want to add trades so that I can build a portfolio | Validated forms allow users to input new trades | ![screenshot](documentation/responsiveness/desktop_addtrade.png)|
 | Pro User | I want to see MTM values so that I can track performance | Backend logic calculates MTM dynamically using current market data |![screenshot](documentation/responsiveness/desktop_dashboard.png) |
 | Pro User | I want exclusive access to advanced tools | Subscription status controls access to restricted features | ![screenshot](documentation/responsiveness/desktop_dashboard.png) |
 | Site Owner | I want to manage users and trades | Django Admin provides full CRUD access to all models |![screenshot](documentation/responsiveness/desktop_signin.png) |

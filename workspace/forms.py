@@ -34,7 +34,7 @@ class TradeForm(forms.ModelForm):
             ),
             "group_id": forms.TextInput(
                 attrs={
-                    "placeholder": "e.g. STRAT-001 (Leave blank for Outright)",
+                    "placeholder": "e.g. STRAT-001",
                     "class": "text-uppercase",
                 }
             ),
@@ -46,7 +46,7 @@ class TradeForm(forms.ModelForm):
             "tenor_years": "Tenor (Years)",
             "fixed_rate": "Fixed Rate (%)",
             "ticker": "Benchmark Index",
-            "group_id": "Group ID (Optional for Outright)",
+            "group_id": "Group ID (Leave blank for Outright)",
         }
 
     def clean(self):
