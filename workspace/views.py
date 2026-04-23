@@ -225,11 +225,11 @@ def dashboard(request):
             strategies[gid] = {
                 "npv": 0.0,
                 "count": 0,
-                "strategy": t.strategy,
+                "strategy": t.get_strategy_display(),
                 "ticker": t.ticker,
             }
         # Add trade NPV (handle None as 0.0)
-        strategies[gid]["npv"] += t.last_npv or 0.0
+        strategies[gid]["npv"] += float(t.last_npv or 0.0)
         strategies[gid]["count"] += 1
 
     # 2. Calculate Global Totals
