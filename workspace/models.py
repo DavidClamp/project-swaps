@@ -57,7 +57,7 @@ class Trade(models.Model):
     notional = models.DecimalField(
         max_digits=20,
         decimal_places=2,
-        validators=[MinValueValidator(0)],
+        validators=[MinValueValidator(0.01)],
         default=10_000_000,
     )
     forward_start = models.FloatField(

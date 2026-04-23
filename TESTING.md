@@ -109,12 +109,11 @@ Where possible, long lines were refactored. Some Django‑generated or settings�
 
 ---
 
-## 2. Responsive & Theme Testing
+## 2. Responsive Testing
 
 ### Responsiveness
 
 Responsiveness was tested across mobile, tablet and desktop breakpoints.
-I've tested my deployed project to check for responsiveness issues.
 
 | Page | Mobile | Tablet | Desktop | Notes |
 | --- | --- | --- | --- | --- |
@@ -181,32 +180,32 @@ This section verifies the correctness, safety, and resilience of the “BlueGamm
 *   **Requirement:** Prevent crashes if market data is incomplete.
 *   **Verification:**  To simulate a data gap without corrupting the production database, a DOM manipulation test was performed. This verified that the table layout remains stable and the "N/A" styling (aligned with the theme) is applied correctly.
 *   **Outcome:** Terminal maintains layout; chart renders with a gap; no errors thrown.   **Status:** ✅ PASS
-
 ---
 
 ![screenshot](documentation/tests/test_dataNA.png)
 
-### Scenario C: Attribution Links (Legal)
+### Scenario C: Attribution Links 
 *   **Test:** Clicked "BlueGamma" attribution link in the footer.
 *   **Requirement:** Must open in a new tab with `rel="noopener"` to prevent "Reverse Tabnabbing".
 *   **Outcome:** Link opened safely in new tab. Original app remained active.
 *   **Status:** ✅ PASS
 ---
 
-
 ![screenshot](documentation/tests/test_bg.png)
+
 ### 4.2 Trade Capture Validation
 
 This table verifies that the IRSQuant terminal rejects logically impossible financial data.
 
 
-| Test Case | Input Action| Expected Logic Result | Actual Result |
+| Test Case | Action| Expected Result | Status |
 | --- | --- | --- | --- |
-| Negative Notional | Enter -1,000,000 in Notional field. |	Form validation error: "Notional must be a positive value."	| ✅ PASS
+| Negative Notional | Enter -1,000,000 in Notional field. |	Form validation error: "Ensure this value is greater than or equal to 0Notional must be a positive value."	| ✅ PASS
+| Duplicate Trade id | Enter a previously entered Trade id in Trade id field. |	Form validation error: "Trade with this Trade id already exists"	| ✅ PASS
 | No Commas Notional | Enter 10000000 in the Notional field | Output $10,000,000 with commas and currency symbol.| ✅ PASS
 | Future Settlement | Enter a maturity date before the effective date. |Logic check triggers: "Maturity cannot precede Effective Date." | ✅ PASS
 | String Injection |Enter "Ten Million" instead of 10000000. | Django DecimalField raises a Type Error; prevents DB crash. | ✅ PASS
-| Currency Normalization | Enter usd (lowercase). |	BlueGamma backend script converts to USD for DB consistency. | ✅ PASS
+| Currency Normalisation | Enter usd (lowercase). |	BlueGamma backend script converts to USD for DB consistency. | ✅ PASS
 | Duplicate Rate Entry | Attempt to save two SOFR rates for the same date/tenor. |	Integrity Error triggered; database prevents duplicate record creation.	| ✅ PASS
 
 ---
@@ -215,7 +214,7 @@ This table verifies that the IRSQuant terminal rejects logically impossible fina
 
 The application uses django-allauth to enforce secure terminal access. In production, this is paired with a mandatory email verification code to prevent unauthorised entry.
 
-| Feature |	Action	| Expected Result | Status |
+| Feature |	Action | Expected Result | Status |
 | --- |--- |--- |--- |
 | SMTP Relay Security | Configured Gmail SMTP with 2-Step Verification & App Passwords. | Emails sent securely via an encrypted 16-digit token rather than a primary account password. | ✅ PASS |
 | MFA Workflow | Mandatory 6-digit sign-in code sent to user email on login attempt. | Gmail SMTP relay successfully delivered the 16-digit verification code to the trader's inbox. | ✅ PASS |
@@ -236,13 +235,11 @@ The application uses django-allauth to enforce secure terminal access. In produc
 
 ---
 
-
 ## 5. Business Logic & Data Privacy
 
 These tests ensure that IRSQuant correctly isolates user data, aggregates financial metrics, and handles zero‑state scenarios safely.
 
-
-| Component | Test Case | Action | Expected Result | Actual Result |
+| Feature | Test Case | Action | Expected Result | Status |
 | :--- | :--- | :--- | :--- | :--- |
 | **Dashboard** | **Privacy Check** | Logged in as User B| Should NOT show User A's trades. | ✅ PASS |
 | **Aggregation** | **Strategy Grouping** | Created 2 trades with same strategy. | Should group into one row. | ✅ PASS |
@@ -258,7 +255,7 @@ These tests ensure that IRSQuant correctly isolates user data, aggregates financ
 
 Defensive programming ensures that the application handles invalid input, unexpected user behaviour, and system errors safely.
 
-| Page | Expectation | Test | Result | Screenshot |
+| Page | Expectation | Test | Expected Result | Screenshot |
 | --- | --- | --- | --- | --- |
 | 404 Error Page | Should display custom 404 page for invalid URLs. | Navigated to `/test` | Custom 404 displayed | screenshot |
 | 500 Error Page | Should display custom 500 page on server error. | Triggered via trap‑door URL | Custom 500 displayed | screenshot |
