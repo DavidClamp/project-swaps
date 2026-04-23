@@ -48,12 +48,12 @@ if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SECURE_SSL_REDIRECT = True
 
-    # 2. Secure Cookies (Prevents cookie theft)
+    # 2. Secure Cookies 
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 
     # 3. HSTS (Strict Transport Security)
-    SECURE_HSTS_SECONDS = 31536000  # 1 Year
+    SECURE_HSTS_SECONDS = 31536000 
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
 
@@ -88,7 +88,7 @@ LOGOUT_REDIRECT_URL = "/"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",  # Critical for Static Files on Heroku
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -161,35 +161,36 @@ ACCOUNT_LOGIN_METHODS = {'email'}
 # 2. Signup Fields
 
 ACCOUNT_SIGNUP_FIELDS = [
-    "email*",        # Mandatory
-    "first_name",    # Optional
-    "last_name",     # Optional
+    "email*",
+    "first_name",
+    "last_name",
 ]
 
 # 3. Email Uniqueness
 ACCOUNT_UNIQUE_EMAIL = True
 
 # 4. Verification Logic
-# if not DEBUG:
-#     ACCOUNT_EMAIL_VERIFICATION = 'none'  # whilst testing UI
-#     ACCOUNT_EMAIL_REQUIRED = True
-#     ACCOUNT_LOGIN_ON_SIGNUP = True 
-#     ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
-#     ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
-#     ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
+
+if not DEBUG:
+    ACCOUNT_EMAIL_VERIFICATION = 'mandatory' 
+    ACCOUNT_EMAIL_REQUIRED = True
+    ACCOUNT_LOGIN_ON_SIGNUP = True 
+    ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+    ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
+    ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 
 # FORCE BYPASS FOR UI TESTING
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_LOGIN_METHODS = {'username', 'email'}  # Allow username login to bypass MFA
-ACCOUNT_SIGNUP_FIELDS = ["email*", "first_name", "last_name"]
-ACCOUNT_LOGIN_ON_SIGNUP = True
-ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
+# ACCOUNT_EMAIL_VERIFICATION = 'none'
+# ACCOUNT_LOGIN_METHODS = {'username', 'email'}  # Allow username login to bypass MFA
+# ACCOUNT_SIGNUP_FIELDS = ["email*", "first_name", "last_name"]
+# ACCOUNT_LOGIN_ON_SIGNUP = True
+# ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 
 # Disable the specific "Sign-in by Code" feature
 ACCOUNT_SIGNIN_BY_CODE_ENABLED = False 
 
 
-# --- INTERNATIONALIZATION ---
+# --- INTERNATIONALISATION ---
 
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"

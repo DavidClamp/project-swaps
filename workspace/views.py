@@ -447,10 +447,7 @@ def forward_curve_view(request):
         messages.error(request, f"Calculation Error: {e}")
         return redirect("dashboard")
 
-
-    #  --- @verified_email_required OFF whilst UI testing ---
-
-
+@verified_email_required
 @login_required
 def dashboard(request):
     """

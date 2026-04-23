@@ -215,11 +215,11 @@ The application uses django-allauth to enforce secure terminal access. In produc
 | Feature |	Action | Expected Result | Status |
 | --- |--- |--- |--- |
 | SMTP Relay Security | Configured Gmail SMTP with 2-Step Verification & App Passwords. | Emails sent securely via an encrypted 16-digit token rather than a primary account password. | ✅ PASS |
-| MFA Workflow | Mandatory 6-digit sign-in code sent to user email on login attempt. | Gmail SMTP relay successfully delivered the 16-digit verification code to the trader's inbox. | ✅ PASS |
+| MFA Workflow | Mandatory 6-digit sign-in code sent to user email on login attempt. | Gmail SMTP relay successfully delivered the 6-digit verification code using the secure 16-digit App Password token. | ✅ PASS |
 | Secure Authentication | Attempt to sign in with a new account | System triggers a verification email; user is blocked until code is entered. | ✅ PASS |
 | Email Delivery | Check inbox for dclamp@yahoo.com | Email arrives from dclamp101@gmail.com containing the 6-digit code. |	✅ PASS |
 | Code Validation | Enter incorrect/expired code |System rejects input and displays "Invalid code" warning. |	✅ PASS |
-| Profile Persistence |	Update User model (e.g., change email).	| Signal triggers: save_profile ensures the linked Profile remains in sync. | ✅ PASS
+| Profile Persistence |	Update User model (e.g., change email).	| create_or_update_user_profile signal ensures the linked Profile remains in sync. | ✅ PASS
 | Data Integrity | Delete a User from the Django Admin. | models.CASCADE (if set) removes the Profile; orphaned profiles are prevented.	| ✅ PASS
 
 * **Manual Test:** Email Delivery Success

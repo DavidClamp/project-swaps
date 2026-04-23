@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from .models import Profile
 
+
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     """
@@ -11,7 +12,7 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:
         # This handles the "duplicate key" bug by checking if profile exists first
         Profile.objects.get_or_create(user=instance)
-    
+  
     # Safely save the profile if it exists
     if hasattr(instance, 'profile'):
         instance.profile.save()
