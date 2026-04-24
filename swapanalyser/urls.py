@@ -47,6 +47,7 @@ urlpatterns = [
         TemplateView.as_view(template_name="workspace/payment_cancelled.html"),
         name="payment_cancelled",
     ),
+    path("stripe/webhook/", checkout_views.stripe_webhook, name="stripe_webhook"),
     path("add-trade/", views.add_trade, name="add_trade"),
     path("edit-trade/<int:pk>/", views.edit_trade, name="edit_trade"),
     path("delete-trade/<int:pk>/", views.delete_trade, name="delete_trade"),

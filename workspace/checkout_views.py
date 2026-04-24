@@ -1,4 +1,7 @@
 import stripe
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from workspace.models import Profile
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -40,3 +43,36 @@ def payment_success(request):
     profile.is_subscriber = True
     profile.save()
     return render(request, "workspace/payment_success.html")
+
+
+@csrf_exempt
+def stripe_webhook(request):
+    payload = request.body
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
+    event = None
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, settings.STRIPE_WH_SECRET
+        )
+    except Exception as e:
+        return HttpResponse(status=400)
+
+    # Handle the successful checkout event
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+        
+        # This is where the magic happens:
+        customer_email = session.get('customer_email')
+        stripe_customer_id = session.get('customer')
+
+        if customer_email:
+            try:
+                profile = Profile.objects.get(user__email=customer_email)
+                profile.is_subscriber = True
+                profile.stripe_customer_id = stripe_customer_id
+                profile.save()
+            except Profile.DoesNotExist:
+                pass
+
+    return HttpResponse(status=200)
