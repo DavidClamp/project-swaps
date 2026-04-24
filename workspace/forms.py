@@ -46,7 +46,7 @@ class TradeForm(forms.ModelForm):
             "tenor_years": "Tenor (Years)",
             "fixed_rate": "Fixed Rate (%)",
             "ticker": "Benchmark Index",
-            "group_id": "Group ID (Leave blank for Outright)",
+            "group_id": "Group ID ( Can leave blank for Outright)",
         }
 
     def clean(self):
@@ -66,10 +66,10 @@ class TradeForm(forms.ModelForm):
             )
 
         # Logic Rule 2: Auto-Correction (Cleanup)
-        if strategy == "OUTRIGHT" and group_id:
-            cleaned_data["group_id"] = None
+        # if strategy == "OUTRIGHT" and group_id:
+        #     cleaned_data["group_id"] = None
 
-        return cleaned_data
+        # return cleaned_data
 
     def clean_forward_start(self):
         """
