@@ -113,15 +113,12 @@
         </div>
       </div>
 
-    <!-- 4. Subscription Card (Safe Mode) -->
+     <!-- 4. Subscription Card -->
     <div class="col-lg-4">
       <div class="card shadow-sm border-0 card-access-dark p-3">
-
         <!-- Header -->
         <div class="d-flex justify-content-between align-items-center mb-2 border-bottom border-secondary pb-2">
           <h2 class="fw-bold mb-0 h6 text-white">Account Access</h2>
-      
-          <!-- SAFE CHECK: Only show PRO if profile exists AND is_subscriber is True -->
           {% if user.profile and user.profile.is_subscriber %}
             <small class="text-warning fw-bold">
               <i class="fa-solid fa-crown me-1"></i>PRO
@@ -129,27 +126,28 @@
           {% endif %}
         </div>
 
-    <!-- Body Logic -->
-    {% if user.profile and user.profile.is_subscriber %}
-      <div class="text-center py-2">
-        <i class="fa-solid fa-check-circle fa-2x text-success mb-2"></i>
-        <p class="text-white fw-bold mb-0">Unlimited Access</p>
+        <!-- Body Logic -->
+        {% if user.profile and user.profile.is_subscriber %}
+          <div class="text-center py-2">
+            <i class="fa-solid fa-check-circle fa-2x text-success mb-2"></i>
+            <p class="text-white fw-bold mb-0">Unlimited Access</p>
+          </div>
+        {% else %}
+          <div class="d-flex flex-column gap-3 pt-2">
+            <div>
+              <span class="badge bg-light text-dark fw-bold rounded-pill shadow-sm border border-white">
+                Basic Tier
+              </span>
+            </div>
+            <a href="{% url 'subscription' %}" class="btn btn-sm btn-ua-gold w-100 fw-bold text-dark shadow-sm">
+              <i class="fa-solid fa-gem me-2"></i> Upgrade to Pro
+            </a>
+          </div>
+        {% endif %}
       </div>
-    {% else %}
-      <!-- Fallback for Basic Users OR Missing Profiles -->
-      <div class="d-flex flex-column gap-3 pt-2">
-        <div>
-          <span class="badge bg-light text-dark fw-bold rounded-pill shadow-sm border border-white">
-            Basic Tier
-          </span>
-        </div>
-        <a href="{% url 'subscription' %}" class="btn btn-sm btn-ua-gold w-100 fw-bold text-dark shadow-sm">
-          <i class="fa-solid fa-gem me-2"></i> Upgrade to Pro
-        </a>
-      </div>
-    {% endif %}
     </div>
-    </div>
+
   </div>
 </div>
 {% endblock %}
+  
