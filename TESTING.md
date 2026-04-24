@@ -228,8 +228,8 @@ The application uses django-allauth to enforce secure terminal access. In produc
 - Result: Verified that the Django-Allauth system successfully dispatched a verification email via the Gmail SMTP relay (dclamp101@gmail.com).
 
 **Screenshot Evidence:**
-- Insert Screenshot 1: ![screenshot](documentation/signin_code.png)The "Enter Sign-In Code" terminal interface.
-- Insert Screenshot 2: ![screenshot](documentation/tests/email_confirmationlogincode.png)The actual verification email in your Yahoo inbox.
+- Insert Screenshot 1: ![screenshot](documentation/signin_code.png) The "Enter Sign-In Code" terminal interface.
+- Insert Screenshot 2: ![screenshot](documentation/tests/email_confirmationlogincode.png) The actual verification email in your Yahoo inbox.
 
 ---
 
@@ -266,16 +266,29 @@ Defensive programming ensures that the application handles invalid input, unexpe
 | MFA Gatekeeping |	Attempted to bypass code screen via direct URL | Redirect Loop: Access denied until 6-digit code verified.|	✅ PASS|
 ---
 
-## Section 6.1  Stripe Security & Resilience
+## Section 6.1  Stripe Subscription & Webhook Integration
 
-| Security Case	 | Action |	Actual Result |	Status |
-| --- | --- | --- | --- |
-| Signature Verification | Attempted to send a fake JSON payload to the Webhook URL. |	Rejected: System identified missing/invalid Stripe-Signature and returned a 400 error. |✅ PASS |
-| Session Isolation	| Attempted to manually navigate to /success/ without a valid Stripe session. |	Blocked: View requires a session_id and redirects to Dashboard with a warning.| ✅ PASS|
-| Webhook Failover | Simulated a server timeout during the payment callback. |	Resilient: Stripe retries the webhook; logic handles duplicate events via customer_id check.| ✅ PASS |
-| Metadata Integrity | Modified the 'Price ID' in the browser console before checkout. |	Secured: The price is defined server-side in settings.py; client-side overrides are ignored. | ✅ PASS |
-| Abandoned Checkout | Closed the payment tab before completing the transaction. | Handled: No is_subscriber flag updated; user remains on 'Basic' tier safely. | ✅ PASS |
+This section verifies the secure handshake between the IRSQuant terminal and the Stripe API, ensuring that "Pro" tier features are only unlocked upon successful payment.
 
+| Security Case | Action| Expected Result |	Actual Result| 	Status |
+| --- | --- | --- | --- | --- |
+|Checkout Redirect | Click "Upgrade to Pro" button.	| System generates a Stripe Session and redirects to secure checkout. |	Redirected to ://stripe.com successfully. |	✅ PASS |
+| Successful Payment | Complete checkout with test card 4242. |	System redirects to the Success URL; Stripe triggers a webhook. | User returned to Dashboard with "Payment Successful" toast. |	✅ PASS |
+| Webhook Integrity | Stripe sends checkout.session.completed event. |	Backend validates the Stripe-Signature and updates the user Profile. |	is_subscriber set to True in Django Admin; Status 200. | ✅ PASS |
+| Gated Access | Attempt to view Strategies as a 'Basic' user.	Advanced analytics hidden behind a "Subscriber" logic block. |	Redirected to /plans/ or restricted view displayed.	| ✅ PASS |
+| Session Hijacking	| Attempt manual access to /success/ URL. |	View blocks access without a valid session_id from Stripe. | Redirected to Dashboard with "Access Denied" warning.	| ✅ PASS |
+---
+
+### Visual Evidence 
+- Fig 5.1: Stripe Secure Checkout Portal
+This proves your Public Key is active and the "USD-SOFR Professional" price is correctly fetched from the Stripe API.
+![screenshot](documentation/tests/stripe_subscription.png): The Stripe-hosted payment page showing your app name and the correct price.
+- Fig 5.2: Production Webhook Logs (200 OK)
+Shows that Heroku server successfully processed the signed message from Stripe and upgraded the user's database record.
+![screenshot](documentation/tests/stripe_eventhistory.png)
+- Fig 5.3: Pro-Tier Dashboard Access
+Verifies that the "is_subscriber" flag has successfully triggered the UI changes on your site.
+![screenshot](documentation/tests/stripe_invoicecompleted.png): Dashboard showing the "PRO" badge and the Active Strategies table.
 ---
 
 ### Stripe Screenshots
