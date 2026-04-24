@@ -210,6 +210,7 @@ def delete_trade(request, pk):
     return render(request, "workspace/delete_confirm.html", {"trade": trade})
 
 
+@verified_email_required
 @login_required
 def dashboard(request):
     """
@@ -446,11 +447,3 @@ def forward_curve_view(request):
         # Catch any other math errors (e.g., QuantLib interpolation failure)
         messages.error(request, f"Calculation Error: {e}")
         return redirect("dashboard")
-
-@verified_email_required
-@login_required
-def dashboard(request):
-    """
-    Mandatory terminal gate. Blocks unverified sessions.
-    """
-    return render(request, 'workspace/dashboard.html')
