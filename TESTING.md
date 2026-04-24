@@ -228,9 +228,9 @@ The application uses django-allauth to enforce secure terminal access. In produc
 - Result: Verified that the Django-Allauth system successfully dispatched a verification email via the Gmail SMTP relay (dclamp101@gmail.com).
 
 **Screenshot Evidence:**
-- Insert Screenshot 1: ![screenshot](documentation/signin_code.png) The "Enter Sign-In Code" terminal interface.
-- Insert Screenshot 2: ![screenshot](documentation/tests/email_confirmationlogincode.png) The actual verification email in your Yahoo inbox.
-
+- 1: "Sign-In Code" terminal interface. ![screenshot](documentation/tests/signin_code.png)
+---
+- 2:  Email verification. ![screenshot](documentation/tests/email_confirmationlogincode.png) 
 ---
 
 ## 5. Business Logic & Data Privacy
@@ -246,9 +246,16 @@ These tests ensure that IRSQuant correctly isolates user data, aggregates financ
 | Data Ingestion| Set BLUEGAMMA_API_KEY to null/empty. | System should identify missing key and switch to local data. |	✅ PASS |
 | Local Fallback | Ingest 6k market records. | market_data_test.json parsed. |	~1.1s (Verified via PowerShell)	| ✅ PASS|
 | Portfolio Tagging | Outright Book ID | Added TRD-151 to two Outright trades.|Dashboard aggregates individual Outrights into a single portfolio row. |	✅ PASS |
-
 ---
 
+### 5.1 Tiered Access Validation
+
+| Feature |	User Tier | Expected Result | Actual Result |
+| --- | --- | --- | --- |
+| Dashboard Portfolio | Basic |	Trades hidden in Dashboard table. Upgrade prompt shown. | ✅ PASS |
+| Dashboard Portfolio |	Pro	 | Trades shown in Dashboard table. Upgrade crown visable. | ✅ PASS |
+| Trade Blotter | All Users | Trade Blotter remains accessible for raw data entry. | ✅ PASS |
+| Analytics | All Users | Analyser and graphs accessible for analytics | ✅ PASS |
 
 ## 6. Defensive Programming
 
