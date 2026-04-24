@@ -229,7 +229,7 @@ The application uses django-allauth to enforce secure terminal access. In produc
 
 **Screenshot Evidence:**
 - Insert Screenshot 1: ![screenshot](documentation/signin_code.png)The "Enter Sign-In Code" terminal interface.
-- Insert Screenshot 2: ![screenshot](documentation/tests/test_dataNA.png)The actual verification email in your Yahoo inbox.
+- Insert Screenshot 2: ![screenshot](documentation/tests/email_confirmationlogincode.png)The actual verification email in your Yahoo inbox.
 
 ---
 
