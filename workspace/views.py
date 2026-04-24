@@ -220,7 +220,7 @@ def dashboard(request):
 
     # 1. Grouping Logic
     for t in trades:
-        gid = t.group_id if t.group_id else f"OUTRIGHT-{t.trade_id}"
+        gid = t.group_id if t.group_id else f"SINGLE-{t.trade_id}"
         if gid not in strategies:
             strategies[gid] = {
                 "npv": 0.0,
