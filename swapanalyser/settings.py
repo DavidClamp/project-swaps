@@ -48,12 +48,12 @@ if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SECURE_SSL_REDIRECT = True
 
-    # 2. Secure Cookies 
+    # 2. Secure Cookies
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 
     # 3. HSTS (Strict Transport Security)
-    SECURE_HSTS_SECONDS = 31536000 
+    SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
 
@@ -172,9 +172,9 @@ ACCOUNT_UNIQUE_EMAIL = True
 # 4. Verification Logic
 
 if not DEBUG:
-    ACCOUNT_EMAIL_VERIFICATION = 'mandatory' 
+    ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
     ACCOUNT_EMAIL_REQUIRED = True
-    ACCOUNT_LOGIN_ON_SIGNUP = True 
+    ACCOUNT_LOGIN_ON_SIGNUP = True
     ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
     ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
     ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
@@ -187,7 +187,7 @@ if not DEBUG:
 # ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 
 # Disable the specific "Sign-in by Code" feature
-ACCOUNT_SIGNIN_BY_CODE_ENABLED = False 
+ACCOUNT_SIGNIN_BY_CODE_ENABLED = False
 
 
 # --- INTERNATIONALISATION ---
@@ -229,9 +229,9 @@ else:
     # Production: Use Gmail/SMTP with SSL
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_HOST = 'smtp.gmail.com'
-    EMAIL_PORT = 465           # Changed from 587
-    EMAIL_USE_SSL = True       
-    EMAIL_USE_TLS = False      
+    EMAIL_PORT = 465       # Changed from 587
+    EMAIL_USE_SSL = True
+    EMAIL_USE_TLS = False
     EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASS")
     DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER")

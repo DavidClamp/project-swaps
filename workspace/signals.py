@@ -12,7 +12,7 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:
         # This handles the "duplicate key" bug by checking if profile exists first
         Profile.objects.get_or_create(user=instance)
-  
+
     # Safely save the profile if it exists
     if hasattr(instance, 'profile'):
         instance.profile.save()

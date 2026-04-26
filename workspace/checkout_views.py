@@ -61,8 +61,6 @@ def stripe_webhook(request):
     # Handle the successful checkout event
     if event['type'] == 'checkout.session.completed':
         session = event['data']['object']
-        
-        # This is where the magic happens:
         customer_email = session.get('customer_email')
         stripe_customer_id = session.get('customer')
 
