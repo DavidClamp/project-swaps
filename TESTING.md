@@ -49,7 +49,7 @@ Because Django templates contain {% tags %} and {{ variables }}, validation was 
 | templates | [base.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/base.html) | ⚠️Minor   | ![screenshot](documentation/validation/w3cvalidation_base.png) | Minor warnings (template tags ignored by validator) |
 | templates | [footer.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/footer.html) | ⚠️Minor | ![screenshot](documentation/validation/w3cvalidation_footer.png) | Minor warnings| 
 |templates | [navbar.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/navbar.html) | ⚠️Minor | ![screenshot](documentation/validation/w3cvalidation_edittrade.png) | Minor warnings |
- templates | [navbar.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/navbar.html) | ⚠️Minor | ![screenshot](documentation/validation/w3cvalidation_navbar.png) | Minor Warnings |
+ templates | [navbar.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/footer.html) | ⚠️Minor | ![screenshot](documentation/validation/w3cvalidation_footer.png) | Minor Warnings |
 | workspace | [404.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/404.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_404.png) | Minor related warnings |
 | workspace | [500.html](https://github.com/DavidClamp/project-swaps/blob/main/templates/500.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_500.png) | Minor warnings |
 | workspace | [add_trade.html](https://github.com/DavidClamp/project-swaps/blob/main/workspace/templates/workspace/add_trade.html) | ⚠️ Minor | ![screenshot](documentation/validation/w3cvalidation_addtrade.png) | Minor warnings |
@@ -147,8 +147,8 @@ The deployed project was tested across the three major browsers to ensure consis
 | Term Structure | ![screenshot](documentation/responsiveness/desktop_term.png) | ![screenshot](documentation/browser/firefox_term.png) | ![screenshot](documentation/browser/edge_term.png) | Works as expected |
 | Rates History | ![screenshot](documentation/responsiveness/desktop_history.png) | ![screenshot](documentation/browser/firefox_rate.png) | ![screenshot](documentation/browser/edge_rate.png) | Works as expected |
 | Add Trade | ![screenshot](documentation/responsiveness/desktop_addtrade.png) | ![screenshot](documentation/browser/firefox_addtrade.png) | ![screenshot](documentation/browser/edge_addtrade.png) | Works as expected |
-| 404 | ![screenshot](documentation/responsiveness/desktop_404.png) | ![screenshot](documentation/responsiveness/desktop_500.png) | ![screenshot](documentation/responsiveness/desktop_404.png) | Works as expected |
-| 500 | ![screenshot](documentation/responsiveness/desktop_500.png) | ![screenshot](documentation/responsiveness/desktop_500.png) | ![screenshot](documentation/responsiveness/desktop_500.png) | Works as expected |
+| 404 | ![screenshot](documentation/responsiveness/desktop_404.png) | ![screenshot](documentation/browser/firefox_404.png) | ![screenshot](documentation/browser/firefox_404.png) | Works as expected |
+| 500 | ![screenshot](documentation/responsiveness/desktop_500.png) | ![screenshot](documentation/browser/firefox_500.png) | ![screenshot](documentation/browser/edge_500.png) | Works as expected |
 
 ---
 
@@ -198,13 +198,12 @@ This section verifies the correctness, safety, and resilience of the “BlueGamm
 This table verifies that the IRSQuant terminal rejects logically impossible financial data.
 
 
-| Test Case | Action| Expected Result | Actual Result | Status |
-| --- | --- | --- | --- | --- |
-| Negative Notional | Enter -1,000,000 in Notional field. |	Form validation error triggered. | "Ensure this value is greater than or equal to 0.01."	| ✅ PASS |
-| Negative Start Delay | Enter -1 in Start Delay field. |	Form validation error triggered | "Ensure this value is greater than or equal to 0".	| ✅ PASS |
-| Duplicate Trade id | Enter an existing Trade id. |  Database unique constraint prevents save. | "Trade with this Trade id already exists"	| ✅ PASS
-| Financial Formatting | Enter 10000000 in the Notional field | @property formats decimal for UI. | Output $10,000,000| ✅ PASS
-
+| Test Case | Action| Expected Result | Actual Result | Status | Screenshot |
+| --- | --- | --- | --- | --- | --- |
+| Negative Notional | Enter -1,000,000 in Notional field. |	Form validation error triggered. | "Ensure this value is greater than or equal to 0.01."	| ✅ PASS ||
+| Negative Start Delay | Enter -1 in Start Delay field. |	Form validation error triggered | "Ensure this value is greater than or equal to 0".	| ✅ PASS ||
+| Duplicate Trade id | Enter an existing Trade id. |  Database unique constraint prevents save. | "Trade with this Trade id already exists"	| ✅ PASS|  ![screenshot](documentation/tests/trade_exists.png) |
+| Financial Formatting | Enter 10000000 in the Notional field | @property formats decimal for UI. | Output $10,000,000| ✅ PASS ||
 
 ---
 
@@ -212,27 +211,17 @@ This table verifies that the IRSQuant terminal rejects logically impossible fina
 
 The application uses django-allauth to enforce secure terminal access. In production, this is paired with a mandatory email verification code to prevent unauthorised entry.
 
-| Feature |	Action | Expected Result | Status |
-| --- |--- |--- |--- |
+| Feature |	Action | Expected Result | Status | Screenshot |
+| --- |--- |--- |--- | --- |
 | SMTP Relay Security | Configured Gmail SMTP with 2-Step Verification & App Passwords. | Emails sent securely via an encrypted 16-digit token rather than a primary account password. | ✅ PASS |
-| Token-Based Auth |Enter Email for Login | System replaces static passwords with time-sensitive dynamic tokens (6-digit codes). | ✅ PASS |
-| MFA Workflow | Mandatory 6-digit sign-in code sent to user email on login attempt. | Gmail SMTP relay successfully delivered the 6-digit verification code using the secure 16-digit App Password token. | ✅ PASS |
-| Secure Authentication | Attempt to sign in with a new account | System triggers a verification email; user is blocked until code is entered. | ✅ PASS |
-| Email Delivery | Check inbox for dclamp@yahoo.com | Email arrives from dclamp101@gmail.com containing the 6-digit code. |	✅ PASS |
-| Code Validation | Enter incorrect/expired code |System rejects input and displays "Invalid code" warning. |	✅ PASS |
-| Profile Persistence |	Update User model (e.g., change email).	| create_or_update_user_profile signal ensures the linked Profile remains in sync. | ✅ PASS |
-| Data Integrity | Delete a User from the Django Admin. | models.CASCADE (if set) removes the Profile; orphaned profiles are prevented.	| ✅ PASS |
+| Token-Based Auth |Enter Email for Login | System replaces static passwords with time-sensitive dynamic tokens (6-digit codes). | ✅ PASS ||
+| MFA Workflow | Mandatory 6-digit sign-in code sent to user email on login attempt. | Gmail SMTP relay successfully delivered the 6-digit verification code using the secure 16-digit App Password token. | ✅ PASS ||
+| Secure Authentication | Attempt to sign in with a new account | System triggers a verification email; user is blocked until code is entered. | ✅ PASS | ![screenshot](documentation/tests/signin_code.png) |
+| Email Delivery | Check inbox for dclamp@yahoo.com | Email arrives from dclamp101@gmail.com containing the 6-digit code. |	✅ PASS | ![screenshot](documentation/tests/email_confirmationlogincode.png) |
+| Code Validation | Enter incorrect/expired code |System rejects input and displays "Invalid code" warning. |	✅ PASS ||
+| Profile Persistence |	Update User model (e.g., change email).	| create_or_update_user_profile signal ensures the linked Profile remains in sync. | ✅ PASS ||
+| Data Integrity | Delete a User from the Django Admin. | models.CASCADE (if set) removes the Profile; orphaned profiles are prevented.	| ✅ PASS ||
 
-* **Manual Test:** Email Delivery Success
-
-- Trigger: Sign-in attempt for dclamp@yahoo.com.
-- Result: Verified that the Django-Allauth system successfully dispatched a verification email via the Gmail SMTP relay (dclamp101@gmail.com).
-
-**Screenshot Evidence:**
-- 1: "Sign-In Code" terminal interface. ![screenshot](documentation/tests/signin_code.png)
----
-- 2:  Email verification. ![screenshot](documentation/tests/email_confirmationlogincode.png) 
----
 
 ## 5. Business Logic & Data Privacy
 
@@ -392,7 +381,7 @@ Found 5 test(s).
 Creating test database for alias 'default'...
 System check identified no issues (0 silenced).
 
-Ran 5 tests in 7.928s
+Ran 5 tests in 3.862s
 
 OK
 ```
@@ -414,22 +403,12 @@ python -m http.server
 
 Below are the results from the full coverage report.
 
-![screenshot](documentation/automation/html-coverage.png)
+![screenshot](documentation/tests/coverage_test.png)
 
 
 ## 10. Known Bugs, Issues & Fixes
 
-
-
 ### 10.1 Fixed Bugs
-
-[![GitHub issue custom search](https://img.shields.io/github/issues-search/DavidClamp/project-swaps?query=is%3Aissue%20is%3Aclosed%20label%3Abug&label=Fixed%20Bugs&color=green)](https://www.github.com/DavidClamp/project-swaps/issues?q=is%3Aissue+is%3Aclosed+label%3Abug)
-
-I've used [GitHub Issues](https://www.github.com/DavidClamp/project-swaps/issues) to track and manage bugs and issues during the development stages of my project.
-
-All previously closed/fixed bugs can be tracked [here](https://www.github.com/DavidClamp/project-swaps/issues?q=is%3Aissue+is%3Aclosed+label%3Abug).
-
-![screenshot](documentation/bugs/gh-issues-closed.png)
 
 | Issue | Resolution| Status |
 | --- | --- | --- |
@@ -438,17 +417,16 @@ All previously closed/fixed bugs can be tracked [here](https://www.github.com/Da
 | Heading Level Skip |	Validator flagged an h6 following an h1. Corrected hierarchy to use h2 with .h6 styling for accessibility compliance.|✅ FIXED|
 |API Cost Barrier	Real-time API access is restricted to paid enterprise tiers.| Implemented a Local Seed Data mechanism using a high-density JSON file to simulate real-world yield curves without recurring costs.| ✅ FIXED|
 | Integrity Error (duplicate key) on new user signup. | Refactored signals.py to use a single consolidated receiver with get_or_create logic to handle Allauth race conditions. | ✅ FIXED |
-| Favicon.ico 404 error in Heroku logs.	| Explicitly linked growth.png as shortcut icon in base.html. |	✅ FIXED |
+| Favicon.ico 404 error in Heroku logs.	| Explicitly linked growth.png as shortcut icon in base.html. |	✅ FIXED|
 | TemplateDoesNotExist during 500 errors. |	Moved error templates to the root templates/ directory to ensure global accessibility.|	✅ FIXED|
+|Dashboard Logic | Identified duplicate function definitions and missing .items() method in the template loop. | ✅ FIXED|
+| Webhook 404/403 |	Resolved production routing errors by correctly mapping the /stripe/webhook/ path and applying @csrf_exempt. | ✅ FIXED|
+| MFA Redirect Loop | Fixed a loop where users were blocked from the terminal despite having a valid code. | ✅ FIXED|
+
 --- 
 
 ### 10.2 Unfixed Bugs
 
-[![GitHub issue custom search](https://img.shields.io/github/issues-search/DavidClamp/project-swaps?query=is%3Aissue%2Bis%3Aopen%2Blabel%3Abug&label=Unfixed%20Bugs&color=red)](https://www.github.com/DavidClamp/project-swaps/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
-
-Any remaining open issues can be tracked [here](https://www.github.com/DavidClamp/project-swaps/issues?q=is%3Aissue+is%3Aopen+label%3Abug).
-
-![screenshot](documentation/bugs/gh-issues-open.png)
 
 ### 10.3  Known Issues
 
