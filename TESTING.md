@@ -215,12 +215,13 @@ The application uses django-allauth to enforce secure terminal access. In produc
 | Feature |	Action | Expected Result | Status |
 | --- |--- |--- |--- |
 | SMTP Relay Security | Configured Gmail SMTP with 2-Step Verification & App Passwords. | Emails sent securely via an encrypted 16-digit token rather than a primary account password. | ✅ PASS |
+| Token-Based Auth |Enter Email for Login | System replaces static passwords with time-sensitive dynamic tokens (6-digit codes). | ✅ PASS |
 | MFA Workflow | Mandatory 6-digit sign-in code sent to user email on login attempt. | Gmail SMTP relay successfully delivered the 6-digit verification code using the secure 16-digit App Password token. | ✅ PASS |
 | Secure Authentication | Attempt to sign in with a new account | System triggers a verification email; user is blocked until code is entered. | ✅ PASS |
 | Email Delivery | Check inbox for dclamp@yahoo.com | Email arrives from dclamp101@gmail.com containing the 6-digit code. |	✅ PASS |
 | Code Validation | Enter incorrect/expired code |System rejects input and displays "Invalid code" warning. |	✅ PASS |
-| Profile Persistence |	Update User model (e.g., change email).	| create_or_update_user_profile signal ensures the linked Profile remains in sync. | ✅ PASS
-| Data Integrity | Delete a User from the Django Admin. | models.CASCADE (if set) removes the Profile; orphaned profiles are prevented.	| ✅ PASS
+| Profile Persistence |	Update User model (e.g., change email).	| create_or_update_user_profile signal ensures the linked Profile remains in sync. | ✅ PASS |
+| Data Integrity | Delete a User from the Django Admin. | models.CASCADE (if set) removes the Profile; orphaned profiles are prevented.	| ✅ PASS |
 
 * **Manual Test:** Email Delivery Success
 
@@ -237,11 +238,12 @@ The application uses django-allauth to enforce secure terminal access. In produc
 
 These tests ensure that IRSQuant correctly isolates user data, aggregates financial metrics, and handles zero‑state scenarios safely.
 
-| Feature | Action | Expected Result | Status |
-| :--- | :--- | :--- | :--- |
-| Privacy Check | Logged in as User B| Should NOT show User A's trades. | ✅ PASS |
-| Aggregation | | Created 2 trades with same strategy. | Should group into one row. | ✅ PASS |
-| Zero State | New user with 0 trades | NPV should be $0, no errors. | ✅ PASS |
+| Feature | Action | Expected Result | Status | Screenshot |
+| --- | --- | --- | --- | --- |
+| Privacy Check | Logged in as User B| Should NOT show User A's trades. | ✅ PASS | 
+| Portfolio Tagging | Added Outright trades with same trade details.| Dashboard and Blotter records individual Outrights into a single portfolio row. | ✅ PASS |![screenshot](documentation/tests/duplicate_dashboard.png) |
+| Aggregation | Created 2 trades with same strategy. | Should group into one row in dashboard. | ✅ PASS | ![screenshot](documentation/tests/duplicate_blotter.png) |
+| Zero State | New user with 0 trades | No trades in Dashboard or Blotter. | ✅ PASS |![screenshot](documentation/responsiveness/desktop_blotter.png) |
 | Public Access | Viewed 'Latest SOFR Date' | Should be visible to all users. | ✅ PASS |
 | Data Ingestion| Set BLUEGAMMA_API_KEY to null/empty. | System should identify missing key and switch to local data. |	✅ PASS |
 | Local Fallback | Ingest 6k market records. | market_data_test.json parsed. |	~1.1s (Verified via PowerShell)	| ✅ PASS|
@@ -262,7 +264,6 @@ These tests ensure that IRSQuant correctly isolates user data, aggregates financ
 Defensive programming ensures that the application handles invalid input, unexpected user behaviour, and system errors safely.
 
 
-
 | Security Case	 | Action |	Actual Result |	Status |
 | --- | --- | --- | --- |
 | Invalid URL Handling | Navigated to /non-existent-link | Custom 404 template rendered with active navigation.| ✅ PASS|
@@ -271,6 +272,8 @@ Defensive programming ensures that the application handles invalid input, unexpe
 | Data Isolation (CRUD) | Attempted to Edit/Delete another user's Trade ID | Forbidden: Request rejected via user.trades filtering. | ✅ PASS|
 | Privileged Access	| Attempted /admin access with standard account	| Denied: Superuser credentials required for access.| ✅ PASS|
 | MFA Gatekeeping |	Attempted to bypass code screen via direct URL | Redirect Loop: Access denied until 6-digit code verified.|	✅ PASS|
+| Legacy Fallback |	"Forgot Password" link | Success: Triggered password reset email via SMTP relay. | ✅ PASS|
+| Token Priority | Sign-In Flow | Success: Verified system prioritises 6-digit MFA token over static credentials for live session access. |	✅ PASS|
 ---
 
 ## Section 6.1  Stripe Subscription & Webhook Integration
