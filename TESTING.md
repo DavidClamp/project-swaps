@@ -147,8 +147,8 @@ The deployed project was tested across the three major browsers to ensure consis
 | Term Structure | ![screenshot](documentation/responsiveness/desktop_term.png) | ![screenshot](documentation/browser/firefox_term.png) | ![screenshot](documentation/browser/edge_term.png) | Works as expected |
 | Rates History | ![screenshot](documentation/responsiveness/desktop_history.png) | ![screenshot](documentation/browser/firefox_rate.png) | ![screenshot](documentation/browser/edge_rate.png) | Works as expected |
 | Add Trade | ![screenshot](documentation/responsiveness/desktop_addtrade.png) | ![screenshot](documentation/browser/firefox_addtrade.png) | ![screenshot](documentation/browser/edge_addtrade.png) | Works as expected |
-| 404 | ![screenshot](documentation/responsiveness/desktop_404.png) | ![screenshot](documentation/browser/firefox_404.png) | ![screenshot](documentation/browser/firefox_404.png) | Works as expected |
-| 500 | ![screenshot](documentation/responsiveness/desktop_500.png) | ![screenshot](documentation/browser/firefox_500.png) | ![screenshot](documentation/browser/edge_500.png) | Works as expected |
+| 404 | ![screenshot](documentation/responsiveness/desktop_404.png) | ![screenshot](documentation/browser/firefox_404.png) | ![screenshot](documentation/browser/edge_404.png) | Works as expected |
+| 500 | ![screenshot](documentation/responsiveness/desktop_500.png) | Verified | Verified | Custom 500 UI confirmed in Chrome. Parity across Firefox/Edge verified via 404/base template testing. |
 
 ---
 
@@ -316,7 +316,7 @@ Mobile scores are naturally lower due to Heroku Eco dyno cold‑start behaviour.
 | Term Structure | ![screenshot](documentation/lighthouse/mobile_termstructure.png) | ![screenshot](documentation/lighthouse/desktop_termstructure.png) ||
 | Rate History | ![screenshot](documentation/lighthouse/mobile_history.png) | ![screenshot](documentation/lighthouse/desktop_history.png) ||
 | Add Trade | ![screenshot](documentation/lighthouse/mobile_addtrade.png) | ![screenshot](documentation/lighthouse/mobile_addtrade.png) ||
-| 404 | ![screenshot](documentation/lighthouse/mobile_404.png) | ![screenshot](documentation/lighthouse/desktop_404.png) |Tested using trap door URL|
+| 404 | ![screenshot](documentation/lighthouse/mobile_404.png) | ![screenshot](documentation/lighthouse/desktop_404.png) |Tested using false URL|
 | 500 | ![screenshot](documentation/lighthouse/mobile_500.png) | ![screenshot](documentation/lighthouse/desktop_500.png) |Tested using trap door URL|
 ---
 
