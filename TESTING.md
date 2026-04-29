@@ -173,7 +173,7 @@ This section verifies the correctness, safety, and resilience of the “BlueGamm
 *  **Status:** ✅ PASS
 ---
 
-**Conclusion:** By cleaning duplicates and optimizing the transfer, 98.5% of the resource weight was handled via server-side efficiency, allowing the browser to achieve DOMContentLoaded in 3.26s even with heavy financial datasets. ![screenshot](documentation/tests/test_datacleaning.png)
+**Conclusion:** By cleaning duplicates and optimising the transfer, 98.5% of the resource weight was handled via server-side efficiency, allowing the browser to achieve DOMContentLoaded in 3.26s even with heavy financial datasets. ![screenshot](documentation/tests/test_datacleaning.png)
 
 ### Scenario B: Front-End Stability Test
 *   **Test:** Spoken "null" value into Chart.js data array via Console.
