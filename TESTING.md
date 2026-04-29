@@ -262,6 +262,8 @@ Defensive programming ensures that the application handles invalid input, unexpe
 | Privileged Access	| Attempted /admin access with standard account	| Denied: Superuser credentials required for access.| ✅ PASS|
 | MFA Gatekeeping |	Attempted to bypass code screen via direct URL | Redirect Loop: Access denied until 6-digit code verified.|	✅ PASS|
 | Legacy Fallback |	"Forgot Password" link | Success: Triggered password reset email via SMTP relay. | ✅ PASS|
+|Notification Logic | Manual Receipt Resend | Success: Verified SMTP relay by manually triggering a receipt from the Stripe Dashboard to the user's verified email. | ✅ PASS|
+
 | Token Priority | Sign-In Flow | Success: Verified system prioritises 6-digit MFA token over static credentials for live session access. |	✅ PASS|
 ---
 
@@ -279,13 +281,13 @@ This section verifies the secure handshake between the IRSQuant terminal and the
 ---
 
 ### Visual Evidence 
-- Fig 5.1: Stripe Secure Checkout Portal
+- Fig 6.1: Stripe Secure Checkout Portal
 This proves your Public Key is active and the "USD-SOFR Professional" price is correctly fetched from the Stripe API.
 ![screenshot](documentation/tests/stripe_subscription.png): The Stripe-hosted payment page showing your app name and the correct price.
-- Fig 5.2: Production Webhook Logs (200 OK)
+- Fig 6.2: Production Webhook Logs (200 OK)
 Shows that Heroku server successfully processed the signed message from Stripe and upgraded the user's database record.
 ![screenshot](documentation/tests/stripe_eventhistory.png)
-- Fig 5.3: Pro-Tier Dashboard Access
+- Fig 6.3: Pro-Tier Dashboard Access
 Verifies that the "is_subscriber" flag has successfully triggered the UI changes on your site.
 ![screenshot](documentation/tests/stripe_invoicecompleted.png): Dashboard showing the "PRO" badge and the Active Strategies table.
 ---
@@ -332,8 +334,8 @@ Each implemented feature was tested against the original User Stories to ensure 
 | User | I want to register an account so that I can access platform features | Users can register via Django Allauth and gain access to authenticated areas | ![screenshot](documentation/responsiveness/desktop_signup.png) |
 | User | I want to securely log in and out so that my data is protected | Django Allauth provides secure session‑based authentication |![screenshot](documentation/responsiveness/desktop_signin.png) |
 | User | I want to upgrade to Pro so that I can access advanced features | Stripe subscription system enables secure payments and upgrades | ![screenshot](documentation/responsiveness/desktop_subscription.png) |
-| Pro User | I want a payment confirmation email so that I have a record | Automated confirmation email sent after successful Stripe transaction |![screenshot](documentation/responsiveness/desktop_nin.png) |
-| Pro User | I want a central dashboard so that I can quickly access key features | Dashboard displays analytics, navigation shortcuts, and account status | ![screenshot](documentation/responsiveness/desktop_dashboard.png) |
+| Pro User | I want an upgrade confirmation email so that I have a record | Automated confirmation email sent after successful Stripe transaction |![screenshot](documentation/tests/stripe_paymentconfirmed.png) |
+| Pro User | I want a payment confirmation email so that I have a record | Automated confirmation email sent after successful Stripe transaction |![screenshot](documentation/tests/stripe_paymentconfirmed.png) |
 | Pro User | I want to view yield curve charts so that I can analyse the swaps market | Analysis board displays current zero and par curves |![screenshot](documentation/responsiveness/desktop_analyser.png) |
 | User | I want to view implied forward curves to analyse future expectations | Interactive charts show implied 1‑year forward rate paths | ![screenshot](documentation/responsiveness/laptop_analyser.png) |
 | User | I want to view historical rate distributions | Histogram charts display historical rate behaviour | ![screenshot](documentation/responsiveness/desktop_history.png) |
